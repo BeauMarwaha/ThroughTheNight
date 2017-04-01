@@ -110,12 +110,14 @@ public class Player : Entity
         //set orbs direction
         //get the position of the mouse in local/screen position and convert it to world position
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos -= gameObject.transform.position;
         //use arctan to determine angle betweeen clock hand and mouse
         float mouseRot = Mathf.Atan2(mousePos.y, mousePos.x);
         //convert angle from rads to deg and add 180 to compensate for being backwards
         mouseRot = Mathf.Rad2Deg * mouseRot + 180f;
         //set the rotation angle as an Euler angle
-        orb.transform.rotation = Quaternion.Euler(0, 0, mouseRot);
+        orb.transform.rotation = Quaternion.Euler(0,0, mouseRot)  ;
+        
 
     }
 
