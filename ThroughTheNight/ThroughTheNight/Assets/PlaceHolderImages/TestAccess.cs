@@ -14,9 +14,9 @@ public class TestAccess : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.Minus))
         {
-            GameManager.GM.healthNum++;
+            GameManager.GM.healthNum--;
             GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
 
         }
