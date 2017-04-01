@@ -14,7 +14,7 @@ public class TankEnemy : Entity {
 		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
 		speed = 10f;
-		attack = 10;
+		attack = 1;
 		health = 50f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
@@ -24,7 +24,7 @@ public class TankEnemy : Entity {
 	protected override void Update () {
 		Death ();
 		Move ();
-		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+		//transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		//TakeDamage ();
 		if(timer > cooldown){
 			timer = 0;
@@ -79,6 +79,7 @@ public class TankEnemy : Entity {
 	protected override void Attack(){
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+        bullet.GetComponent<Projectile>().parent = this.gameObject;
 		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
 	}
 
