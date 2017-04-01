@@ -2,21 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class ChangeScene : MonoBehaviour {
 
+    //public Text health;
+    //public int healthNum;
 
+    
     void Awake()
     {
         DontDestroyOnLoad(this.transform.gameObject);
+        DontDestroyOnLoad(this);
     }
 	// Use this for initialization
 	void Start () {
-        SceneManager.LoadSceneAsync(0);
+        SceneManager.LoadScene(0);
+        //health = GameObject.Find("Health").GetComponent<Text>();
+        //health.text = "Health: " + healthNum;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            GameManager.GM.healthNum++;
+            GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
+        }
 	}
 }
