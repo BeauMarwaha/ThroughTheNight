@@ -22,7 +22,8 @@ public class SteeringForces : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    { 
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
