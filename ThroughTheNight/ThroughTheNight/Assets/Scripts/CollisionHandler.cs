@@ -18,8 +18,7 @@ public class CollisionHandler : MonoBehaviour {
     void Start()
     {
         //initialize attributes
-        player = GameObject.Find("Player");
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        
         pBullets = GameObject.FindGameObjectsWithTag("pBullet");
         eBullets = GameObject.FindGameObjectsWithTag("eBullet");
     }
@@ -27,6 +26,13 @@ public class CollisionHandler : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if(player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+
         //Check for collisions between the player and all enemies
         PlayerEnemyCollisionCheck();
 
@@ -35,6 +41,7 @@ public class CollisionHandler : MonoBehaviour {
 
         //Check for collisions between all enemies and all player bullets
         EnemyPBulletCollisionCheck();
+
     }
 
     /// <summary>

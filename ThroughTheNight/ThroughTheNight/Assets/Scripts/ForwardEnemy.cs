@@ -11,7 +11,7 @@ public class ForwardEnemy :  Entity {
 	protected override void Start () {
 		steering = GetComponent<SteeringForces> ();
 		speed = 50f;
-		attack = 5;
+		attack = 1;
 		health = 25f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
