@@ -56,7 +56,14 @@ public class GameManager : MonoBehaviour {
     /// <param name="health">Amount of health the player loses</param>
     public void ChangeHealth(int health)
     {
-        GameManager.GM.healthNum += health;
+        if(health == 0)//if input is zero set health to zero instead of changing it by zero
+        {
+            GameManager.GM.healthNum = health;
+        }
+        else
+        {
+            GameManager.GM.healthNum += health;
+        }
         GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
     }
 }

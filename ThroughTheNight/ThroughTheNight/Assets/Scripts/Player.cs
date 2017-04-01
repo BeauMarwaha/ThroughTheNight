@@ -61,6 +61,7 @@ public class Player : Entity
     //method to handle when the entity dies
     protected override void Death()
     {
+        GameManager.GM.ChangeHealth(0);//set health to zero if it was negative
         Debug.Log("You ded scrub");
     }
 
@@ -68,7 +69,7 @@ public class Player : Entity
     protected override void Damaged()
     {
         //decrease health
-        GameManager.GM.healthNum -= 5;
+        GameManager.GM.ChangeHealth(-5);
 
         //apply knockback
         transform.position = new Vector3(transform.position.x - knockback, transform.position.y, transform.position.z);
