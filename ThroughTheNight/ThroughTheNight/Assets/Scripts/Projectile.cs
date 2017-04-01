@@ -26,9 +26,9 @@ public class Projectile : MonoBehaviour
         LimitLife();
 	}
 
-    void Hit()
+    public void Hit()
     {
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     /// <summary>
