@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+/// <summary>
+/// Game Manager Singleton
+/// 
+/// Allows the access of variables at all times no matter the current scene
+/// 
+/// 
+/// </summary>
 public class GameManager : MonoBehaviour {
 
     public enum State { Day, Buy, Night } 
@@ -23,8 +31,10 @@ public class GameManager : MonoBehaviour {
 
     public Text[] textElements;
     public Font[] fonts;
-    public List<string> objectives = new List<string>();
-    
+
+    private List<string> objectives = new List<string>();
+    private List<string> currentObjectives;
+    private int objectivesTotal;
     void Awake()
     {
         CreateGameManager();
@@ -54,7 +64,7 @@ public class GameManager : MonoBehaviour {
         objectives.Add("Cook");
         objectives.Add("Clean");
         objectives.Add("Shower");
-
+        
         
         health = GameObject.Find("Health").GetComponent<Text>();
         health.text = "Health: " + healthNum;
@@ -69,8 +79,11 @@ public class GameManager : MonoBehaviour {
         {
             objective.text += "     " + objectives[i] + "\n";
         }
+        objectivesTotal = objectives.Count;
 
-        UpdateObjective("Cook");
+        currentObjectives = new List<string>(objectives);
+
+        RemoveObjective("Cook");
 
         //Starting at Day
         ChangeState(State.Day);
@@ -161,13 +174,22 @@ public class GameManager : MonoBehaviour {
         }
 
     }
-    void UpdateObjective(string obj)
+
+    /// <summary>
+    /// Removes a completed objective from the current list of objectives
+    /// </summary>
+    /// <param name="obj"></param>
+    void RemoveObjective(string obj)
     {
-        objectives.Remove(obj);
-        objective.text = "Objectives: \n";
-        for (int i = 0; i < objectives.Count; i++)
+        if (currentObjectives.Contains(obj))
         {
-            objective.text += "     " + objectives[i] + "\n";
+            currentObjectives.Remove(obj);
+            objective.text = "Objectives: \n";
+            for (int i = 0; i < currentObjectives.Count; i++)
+            {
+                objective.text += "     " + objectives[i] + "\n";
+            }
+            Debug.Log(objectives.Count);
         }
     }
 

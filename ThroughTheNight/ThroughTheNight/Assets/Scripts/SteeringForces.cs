@@ -84,6 +84,10 @@ public class SteeringForces : MonoBehaviour {
 		return steer = desired - velocity;
 	}
 
+	public Vector3 Arrival(Vector3 target, Vector3 velocity, float speed){
+		return SeekSpot (target, velocity, speed) * Vector3.Distance(target, transform.position)/5f ;
+	}
+
 	// flee the player
 	public Vector3 Flee(Vector3 velocity, float speed){
 		return steer = -1 * SeekPlayer (velocity, speed);

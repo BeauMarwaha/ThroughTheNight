@@ -16,7 +16,6 @@ public class Player : Entity
     {
         //instantiate timer to be higher than cooldown so that you can fire immediately
         timer = coolDown + 1;
-
         speed = 5;
         attack = 5;
         Spawn(Vector3.zero, Vector3.zero);
