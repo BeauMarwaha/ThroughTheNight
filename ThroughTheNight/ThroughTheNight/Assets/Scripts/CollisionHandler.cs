@@ -160,8 +160,9 @@ public class CollisionHandler : MonoBehaviour {
             {
                 //if colliding have the player take damage
                 player.GetComponent<Entity>().TakeDamage(enemies[0].GetComponent<Entity>().attack);
-                bullet.SetActive(false);
-                oldBullets.Add(bullet);
+                bullet.GetComponent<Projectile>().Hit();
+                //bullet.SetActive(false);
+                //oldBullets.Add(bullet);
             }
         }
 
