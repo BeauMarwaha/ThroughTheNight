@@ -162,11 +162,12 @@ public class CollisionHandler : MonoBehaviour {
                 //player.GetComponent<Entity>().TakeDamage(enemies[0].GetComponent<Entity>().attack);
                 //bullet.transform.position = new Vector3(4000, 4000);
                 
+                //get the dot product of the players right vector and the enemy
+
                 float dot = Vector3.Dot(player.transform.right, bullet.transform.position);
                 Debug.Log("Dot product: " + dot);
                 if (dot < 0)
                 {
-                    Debug.Log(bullet.GetComponent<Projectile>().parent.name);
                     //if colliding have the player take damage
                     player.GetComponent<Player>().TakeDamage(bullet.GetComponent<Projectile>().parent.GetComponent<Entity>().attack, false);
                 }
@@ -175,9 +176,12 @@ public class CollisionHandler : MonoBehaviour {
                     //if colliding have the player take damage
                     player.GetComponent<Player>().TakeDamage(bullet.GetComponent<Projectile>().parent.GetComponent<Entity>().attack, true);
                 }
+
                 bullet.GetComponent<Projectile>().Hit();
-                bullet.SetActive(false);
-                oldBullets.Add(bullet);
+                //return;
+                //bullet.GetComponent<Projectile>().Hit();
+                //bullet.SetActive(false);
+                //oldBullets.Add(bullet);
             }
         }
 
