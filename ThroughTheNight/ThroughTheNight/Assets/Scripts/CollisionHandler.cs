@@ -74,7 +74,7 @@ public class CollisionHandler : MonoBehaviour {
             if (enemies[i].activeSelf && AABBCollision(player, enemies[i]))
             {
                 //if colliding have the player take damage
-                player.TakeDamage(enemies[i].Attack);
+                player.GetComponent<Entity>().TakeDamage(enemies[i].GetComponent<Entity>().attack);
             }
         }
     }
@@ -99,7 +99,7 @@ public class CollisionHandler : MonoBehaviour {
                 //check for collision
                 if (enemies[i].activeSelf && AABBCollision(bullet, enemies[i]))
                 {
-                    enemies.TakeDamage(player.Attack);
+                    enemies[i].GetComponent<Entity>().TakeDamage(player.GetComponent<Entity>().attack);
                     bullet.SetActive(false);
                     oldBullets.Add(bullet);
                 }
@@ -130,7 +130,7 @@ public class CollisionHandler : MonoBehaviour {
             if (AABBCollision(player, bullet))
             {
                 //if colliding have the player take damage
-                player.TakeDamage(enemies[0].Attack);
+                player.GetComponent<Entity>().TakeDamage(enemies[0].GetComponent<Entity>().attack);
                 bullet.SetActive(false);
                 oldBullets.Add(bullet);
             }

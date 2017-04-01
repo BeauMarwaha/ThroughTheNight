@@ -10,7 +10,7 @@ public class FlyingEnemy : Entity {
 	protected override void Start () {
 		steering = GetComponent<SteeringForces> ();
 		speed = 100f;
-		attack = 10f;
+		attack = 10;
 		health = 50f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);

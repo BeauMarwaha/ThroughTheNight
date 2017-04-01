@@ -6,7 +6,7 @@ public abstract class Entity : MonoBehaviour
 {
     //fields
     protected float speed;
-    protected float attack;
+    public int attack;
     protected float health;
     protected Vector3 velocity;
     protected Vector3 direction;
