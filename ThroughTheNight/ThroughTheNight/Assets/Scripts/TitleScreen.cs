@@ -46,6 +46,7 @@ public class TitleScreen : MonoBehaviour {
     {
         SceneManager.LoadScene("Credits");
     }
+
     void LoadExtra()
     {
         if (catsby.enabled)
