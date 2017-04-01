@@ -8,8 +8,8 @@ public class Player : Entity
     public float knockback;
     public GameObject bulletPrefab;
     //fields for shooting cooldown
-    private int timer;
-    public int coolDown; //time between shots //25
+    private float timer;
+    public float coolDown; //time between shots //.5
 
     // Use this for initialization
     protected override void Start ()
@@ -47,7 +47,7 @@ public class Player : Entity
             timer = 0;
         }
         //increment timer
-        timer++;
+        timer+= Time.deltaTime;
     }
 
     //method to spawn entity into the game
@@ -80,14 +80,24 @@ public class Player : Entity
         Debug.Log("You ded scrub");
     }
 
-    //method to handle when the entity is attacked
-	public override void TakeDamage(int damageTaken)
+    //method to handle when the entity is attacked and no facing direction is specified
+    public override void TakeDamage(int damageTaken)
     {
         //decrease health
         GameManager.GM.ChangeHealth(-damageTaken);
 
         //apply knockback
-        transform.position = new Vector3(transform.position.x - knockback, transform.position.y, transform.position.z);
+        Knockback(true);
+    }
+
+    //method to handle when the entity is attacked
+    public void TakeDamage(int damageTaken, bool faceRight)
+    {
+        //decrease health
+        GameManager.GM.ChangeHealth(-damageTaken);
+
+        //apply knockback
+        Knockback(faceRight);
     }
 
     //method to handle when the entity attacks
@@ -108,5 +118,15 @@ public class Player : Entity
         //set the rotation angle as an Euler angle
         orb.transform.rotation = Quaternion.Euler(0, 0, mouseRot);
 
+    }
+
+    private void Knockback(bool faceRight)
+    {
+        if(faceRight)
+        {
+            transform.position = new Vector3(transform.position.x - knockback, transform.position.y, transform.position.z);
+            return;
+        }
+        transform.position = new Vector3(transform.position.x + knockback, transform.position.y, transform.position.z);
     }
 }

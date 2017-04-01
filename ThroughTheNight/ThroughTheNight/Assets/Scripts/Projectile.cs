@@ -22,10 +22,28 @@ public class Projectile : MonoBehaviour
     {
         //update the position of the bullets 
         transform.position = transform.position + velocity * Time.deltaTime;
+        //limit the lives of the bullets
+        LimitLife();
 	}
 
     void Hit()
     {
         Destroy(this);
+    }
+
+    /// <summary>
+    /// Ensures that once a bullet leaves the screen it is destroyed
+    /// </summary>
+    /// <param name="bullet"></param>
+    public void LimitLife()
+    {
+        //find projectiles position in the viewport as opposed to in the world
+        Camera cam = Camera.main;
+        Vector3 viewportPos = cam.WorldToViewportPoint(transform.position);
+        //destroy bullet if it is outside the viewport
+        if (viewportPos.x > 1 || viewportPos.x < 0 || viewportPos.y > 1 || viewportPos.y < 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
