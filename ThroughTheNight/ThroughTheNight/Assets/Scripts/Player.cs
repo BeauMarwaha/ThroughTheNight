@@ -10,6 +10,9 @@ public class Player : Entity
     //fields for shooting cooldown
     private float timer;
     public float coolDown; //time between shots //.5
+    private bool invincible;//whether or not the player is currently invincible
+    public float invinTime;//length of time that you are invincible after being hit
+    private float timerInvul;
 
     // Use this for initialization
     protected override void Start ()
@@ -19,7 +22,9 @@ public class Player : Entity
         speed = 5;
         attack = 5;
         Spawn(Vector3.zero, Vector3.zero);
-	}
+        timerInvul = 0;
+        invincible = false;
+    }
 	
 	// Update is called once per frame
 	protected override void Update ()
@@ -32,6 +37,20 @@ public class Player : Entity
         //use input to test being damaged
         if (Input.GetKeyDown(KeyCode.F))
 			TakeDamage(1);
+
+        if(invincible == true)
+        {
+            if (timerInvul > invinTime)
+            {
+                invincible = false;
+                timerInvul = 0;
+            }
+            else
+            {
+                timerInvul += Time.deltaTime;
+            }
+        }
+        
 
         //check for if the player's health is gone
         if (GameManager.GM.healthNum <= 0)
@@ -82,21 +101,36 @@ public class Player : Entity
     //method to handle when the entity is attacked and no facing direction is specified
     public override void TakeDamage(int damageTaken)
     {
+        if (invincible == true)
+        {
+            return;
+        }
         //decrease health
         GameManager.GM.ChangeHealth(-damageTaken);
 
         //apply knockback
         Knockback(true);
+
+        //apply invincibility
+        invincible = true;
+
     }
 
     //method to handle when the entity is attacked
     public void TakeDamage(int damageTaken, bool faceRight)
     {
+        if(invincible == true)
+        {
+            return;
+        }
         //decrease health
         GameManager.GM.ChangeHealth(-damageTaken);
 
         //apply knockback
         Knockback(faceRight);
+
+        //apply invincibility
+        invincible = true;
     }
 
     //method to handle when the entity attacks
