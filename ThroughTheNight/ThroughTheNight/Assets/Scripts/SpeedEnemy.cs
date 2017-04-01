@@ -6,15 +6,11 @@ public class SpeedEnemy : Entity {
 
 	// Use this for initialization
 	protected override void Start () {
-		speed;
-		attack;
-		health;
-		velocity;
-		direction;	
+
 	}
 
 	// Update is called once per frame
-	protected void Update () {
+	protected override void Update () {
 
 	}
 
