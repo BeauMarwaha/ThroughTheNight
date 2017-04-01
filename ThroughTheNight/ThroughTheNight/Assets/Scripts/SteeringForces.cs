@@ -23,9 +23,7 @@ public class SteeringForces : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		player = GameObject.Find ("Player");
-	}
-        player = GameObject.FindGameObjectWithTag("Player");
+	 player = GameObject.FindGameObjectWithTag("Player");
     }
 
 	// calculate distance to player

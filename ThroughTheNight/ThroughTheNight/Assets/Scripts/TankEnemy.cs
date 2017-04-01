@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TankEnemy : Entity {
 	private SteeringForces steering;
+	public CollisionHandler ch;
 	public GameObject orb;
 	private Vector3 force;
 	private float timer;
@@ -13,8 +14,9 @@ public class TankEnemy : Entity {
 	protected override void Start () {
 		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
+		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 10f;
-		attack = 10;
+		attack = 1;
 		health = 50f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
@@ -25,7 +27,7 @@ public class TankEnemy : Entity {
 		Death ();
 		Move ();
 		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-		//TakeDamage ();
+		TakeDamage (1f);
 		if(timer > cooldown){
 			timer = 0;
 			Attack ();
@@ -69,10 +71,14 @@ public class TankEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// TO-DO
 		// check for collision between player bullet and game object
-
-		// handle collison if so
+		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		if (pBullets.Length == 0) return;
+		for (int i = 0; i < pBullets.Length; i++) {
+			if (ch.AABBCollision (gameObject, pBullets [i])) {
+				health -= damageTaken;
+			}
+		}
 	}
 
 	//method to handle when the entity attacks
