@@ -6,11 +6,20 @@ public class Player : Entity
 {
     //fields
     public float knockback;
+    public GameObject bulletPrefab;
+    //total amount rotated
+    private float totalRotation;
 
-	// Use this for initialization
-	protected override void Start ()
+    //properties
+    public float TotalRot
     {
-        health = 100;
+        get { return totalRotation; }
+    }
+
+    // Use this for initialization
+    protected override void Start ()
+    {
+        //health = 100;
         speed = 5;
         attack = 5;
         Spawn(Vector3.zero, Vector3.zero);
@@ -85,7 +94,19 @@ public class Player : Entity
     protected override void Attack()
     {
         Debug.Log("pew");
+
         //shoot a projectile
+        GameObject orb = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0, transform.rotation.z)) as GameObject;
+
+        //set orbs direction
+        //get the position of the mouse in local/screen position and convert it to world position
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //use arctan to determine angle betweeen clock hand and mouse
+        float mouseRot = Mathf.Atan2(mousePos.y, mousePos.x);
+        //convert angle from rads to deg and add 180 to compensate for being backwards
+        mouseRot = Mathf.Rad2Deg * mouseRot + 180f;
+        //set the rotation angle as an Euler angle
+        orb.transform.rotation = Quaternion.Euler(0, 0, mouseRot);
 
     }
 }

@@ -12,14 +12,15 @@ public class Projectile : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        direction = parent.transform.right;//set the direction vector of the bullet to the parent shooter's right vector
-        //this is essentially its forward in 2D in this case
-        velocity = direction * speed;
+        //find velocity given direction and speed
+        velocity = -transform.right * speed;
+        velocity.z = 0;
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+        //update the position of the bullets 
         transform.position = transform.position + velocity * Time.deltaTime;
 	}
 
