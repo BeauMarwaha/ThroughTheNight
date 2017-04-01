@@ -1,9 +1,9 @@
 # Through The Night
 HeroJam 2017 Game
 
-Credits:
+# Credits:
 
-Programmers:
+# Programmers:
 
 Beau Marwaha
 
@@ -13,15 +13,11 @@ James Troup
 
 Katarina Weis
 
-
-
-Artist:
+# Artist:
 
 Catherine Nemechek
 
-
-
-Outside Credits:
+# Outside Credits:
 
 Song: I'm Not Dreaming (Instrumental Version)
 
