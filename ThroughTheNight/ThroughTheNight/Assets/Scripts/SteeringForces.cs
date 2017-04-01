@@ -12,7 +12,9 @@ public class SteeringForces : MonoBehaviour {
 	protected Vector3 position;
 	protected Vector3 desired;
 	protected Vector3 steer;
+	public Vector3 circleCenter;
 	public float distToPlayer;
+	protected float step;
 
 	// Use this for initialization
 	void Start () {
@@ -41,7 +43,7 @@ public class SteeringForces : MonoBehaviour {
 		position += velocity * Time.deltaTime;
 
 		// make sure the enemy is always facing the player
-		direction = -player.transform.right;
+		direction = -player.transform.forward;
 
 		// start fresh with new forces each frame
 		acceleration = Vector3.zero;
@@ -54,27 +56,44 @@ public class SteeringForces : MonoBehaviour {
 	}
 
 	// adds to the acceleration
-	public void ApplyForce(){
-		acceleration += steer;
+	public void ApplyForce(Vector3 force){
+		acceleration += force;
 	}
 
-
-	public void Seek(Vector3 velocity, float speed){
+	// seek the player
+	public Vector3 SeekPlayer(Vector3 velocity, float speed){
 		// find the vector pointing from the enemy to the player
 		desired = player.transform.position - position;
 
-		// scale the magnitute by speed to move relative to player type
+		// scale the magnitute by speed to move relative to enemy type
 		desired = desired.normalized * speed;
 
 		// find the steering force
-		steer = desired - velocity;
+		return steer = desired - velocity;
 	}
-	/*
-	public void Flee(Vector3 velocity, float speed){
-		steer = -1 * Seek (velocity, speed);
-	}*/
 
-	public void Wander(Vector3 velocity, float speed){
-		
+	// seek a spot 
+	public Vector3 SeekSpot(Vector3 target, Vector3 velocity, float speed){
+		// find the vector pointing from the enemy to the player
+		desired = target - position;
+
+		// scale the magnitute by speed to move relative to enemy type
+		desired = desired.normalized * speed;
+
+		// find the steering force
+		return steer = desired - velocity;
+	}
+
+	// flee the player
+	public Vector3 Flee(Vector3 velocity, float speed){
+		return steer = -1 * SeekPlayer (velocity, speed);
+	}
+
+	// move enemy in a circular motion
+	public Vector3 WanderCircle(Vector3 velocity, float speed){
+		circleCenter = velocity.normalized * 100f;
+		desired = new Vector3( -Mathf.Cos(Mathf.PI * step), Mathf.Sin (Mathf.PI * step), 0) * 50f + circleCenter;
+		step += .05f;
+		return steer = SeekSpot (desired, velocity, speed);
 	}
 }
