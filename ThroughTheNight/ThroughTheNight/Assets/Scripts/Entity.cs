@@ -6,7 +6,7 @@ public abstract class Entity : MonoBehaviour
 {
     //fields
     protected float speed;
-    protected float attack;
+    public int attack;
     protected float health;
     protected Vector3 velocity;
     protected Vector3 direction;
@@ -27,7 +27,7 @@ public abstract class Entity : MonoBehaviour
 	protected abstract void Death();
 	
     //method to handle when the entity is attacked
-	protected abstract void TakeDamage(int damageTaken);
+	public abstract void TakeDamage(int damageTaken);
 	
     //method to handle when the entity attacks
 	protected abstract void Attack();
