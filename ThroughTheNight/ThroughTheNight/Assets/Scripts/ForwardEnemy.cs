@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a Forward Enemy
+/// </summary>
 public class ForwardEnemy :  Entity {
 	public CollisionHandler ch;
 	private SteeringForces steering;

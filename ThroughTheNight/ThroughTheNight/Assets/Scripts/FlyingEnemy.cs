@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a Flying Enemy
+/// </summary>
 public class FlyingEnemy : Entity {
 	public GameObject orb;
 	public CollisionHandler ch;

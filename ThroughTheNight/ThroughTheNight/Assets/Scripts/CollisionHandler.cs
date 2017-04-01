@@ -18,7 +18,6 @@ public class CollisionHandler : MonoBehaviour {
     void Start()
     {
         //initialize attributes
-        
         pBullets = GameObject.FindGameObjectsWithTag("pBullet");
         eBullets = GameObject.FindGameObjectsWithTag("eBullet");
     }
@@ -26,9 +25,8 @@ public class CollisionHandler : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
+        //Update player and enemies refs
         player = GameObject.FindGameObjectWithTag("Player");
-        
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         //Check for collisions between the player and all enemies
@@ -42,17 +40,6 @@ public class CollisionHandler : MonoBehaviour {
 
         //check for collsions between enemy and player bullets
         PBulletEBulletCollisionCheck();
-
-        if(player != null)
-        {
-            SpriteInfo info1 = player.GetComponent<SpriteInfo>();
-            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMinY(), 0), new Vector3(info1.GetMaxX(), info1.GetMinY(), 0),Color.red);
-            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMinY(), 0), new Vector3(info1.GetMinX(), info1.GetMaxY(), 0), Color.red);
-            Debug.DrawLine(new Vector3(info1.GetMaxX(), info1.GetMinY(), 0), new Vector3(info1.GetMaxX(), info1.GetMaxY(), 0), Color.red);
-            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMaxY(), 0), new Vector3(info1.GetMaxX(), info1.GetMaxY(), 0), Color.red);
-        }
-        
-        //Debug.Log(info1.GetMinX() + " " + info1.GetMaxX() + " " + info1.GetMinY() + " " + info1.GetMaxY());
     }
 
     /// <summary>
@@ -66,16 +53,13 @@ public class CollisionHandler : MonoBehaviour {
         //get the sprtie info scripts from each game object which hold corrected bounds of the sprite renderers
         SpriteInfo info1 = obj1.GetComponent<SpriteInfo>();
         SpriteInfo info2 = obj2.GetComponent<SpriteInfo>();
-
-        //Debug.Log(info1.GetMinX() + " " + info1.GetMaxX() + " " + info1.GetMinY() + " " + info1.GetMaxY());
-
+        
         //check for AABB collision
         if (info1.GetMinX() < info2.GetMaxX() &&
             info1.GetMaxX() > info2.GetMinX() &&
             info1.GetMinY() < info2.GetMaxY() &&
             info1.GetMaxY() > info2.GetMinY())
         {
-            Debug.Log("Colliding");
             return true;
         }
 
@@ -178,7 +162,6 @@ public class CollisionHandler : MonoBehaviour {
             if (AABBCollision(player, bullet))
             {             
                 //get the dot product of the players right vector and the enemy
-
                 float dot = Vector3.Dot(player.transform.right, bullet.transform.position);
                 Debug.Log("Dot product: " + dot);
                 if (dot < 0)

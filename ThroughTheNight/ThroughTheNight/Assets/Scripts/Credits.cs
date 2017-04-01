@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
+/// <summary>
+/// Handles the credits menu in the game
+/// </summary>
 public class Credits : MonoBehaviour {
 
     public Button credits;
