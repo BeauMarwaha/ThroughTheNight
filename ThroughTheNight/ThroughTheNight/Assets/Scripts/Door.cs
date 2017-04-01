@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Author: Beau Marwaha
@@ -9,7 +10,7 @@ using UnityEngine;
 public class Door : MonoBehaviour {
 
     //Attributes
-    private string connectedRoom = "Empty";
+    public string connectedRoom = "Empty";
     private GameObject player;
     private CollisionHandler collisionHandler;
 
@@ -21,6 +22,10 @@ public class Door : MonoBehaviour {
     void Start () {
         player = GameObject.Find("Player");
         collisionHandler = GameObject.Find("GameManager").GetComponent<CollisionHandler>();
+
+        //Update info text
+        openText.GetComponent<TextMesh>().text += connectedRoom;
+        blockedText.GetComponent<TextMesh>().text += connectedRoom;
 
         //hide all info text to start
         openText.GetComponent<MeshRenderer>().enabled = false;
@@ -45,6 +50,8 @@ public class Door : MonoBehaviour {
                 //if there are no enemies left display bright door prompt
                 openText.GetComponent<MeshRenderer>().enabled = true;
                 blockedText.GetComponent<MeshRenderer>().enabled = false;
+
+                //Handle player entering the door
             }
             else
             {
@@ -58,6 +65,18 @@ public class Door : MonoBehaviour {
             //if no collision hide all info text
             openText.GetComponent<MeshRenderer>().enabled = false;
             blockedText.GetComponent<MeshRenderer>().enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// Handle player trying to enter the door
+    /// </summary>
+    private void EnterDoorCheck()
+    {
+        //Interacts with door key
+        if (Input.GetKey(KeyCode.E))
+        {
+            SceneManager.LoadScene(connectedRoom);
         }
     }
 }
