@@ -12,7 +12,7 @@ using UnityEngine.UI;
 /// </summary>
 public class GameManager : MonoBehaviour {
 
-    public enum State { Day, Buy, Night } 
+    public enum State { Day, Buy, Night, Message } 
 
     public static GameManager GM;
 
