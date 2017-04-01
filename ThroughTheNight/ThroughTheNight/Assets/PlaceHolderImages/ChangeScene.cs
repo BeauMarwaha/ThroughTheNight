@@ -17,16 +17,16 @@ public class ChangeScene : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         SceneManager.LoadScene(0);
-        //health = GameObject.Find("Health").GetComponent<Text>();
-        //health.text = "Health: " + healthNum;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Equals))
         {
-            GameManager.GM.healthNum++;
-            GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
+            //GameManager.GM.healthNum++;
+            //GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
+            GameManager.GM.ChangeHealth(1);
+           
         }
 	}
 }

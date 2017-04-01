@@ -49,4 +49,14 @@ public class GameManager : MonoBehaviour {
         timeNum -= Time.deltaTime;
         time.text = "Time: " + timeNum.ToString("F2");
     }
+
+    /// <summary>
+    /// Change the health of the player. Use negatives to decrease health
+    /// </summary>
+    /// <param name="health">Amount of health the player loses</param>
+    public void ChangeHealth(int health)
+    {
+        GameManager.GM.healthNum += health;
+        GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
+    }
 }
