@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class TankEnemy : Entity {
 	//public GameObject tankPrefab;
-	public SteeringForces forces;
+	public SteeringForces steering;
+	private Vector3 force;
 
 	// Use this for initialization
 	protected override void Start () {
-		forces = GetComponent<SteeringForces> ();
+		steering = GetComponent<SteeringForces> ();
 		speed = 10f;
 		attack = 10f;
 		health = 50f;
@@ -32,11 +33,12 @@ public class TankEnemy : Entity {
 
 	//method to move the entity
 	protected override void Move(){
-		if (forces.DistToPlayer() > 5f) {
-			forces.Seek (velocity, speed);
-			forces.ApplyForce ();
-			forces.UpdatePosition (velocity, direction);
-			forces.SetTransform (direction);
+		if (steering.DistToPlayer() > 5f) {
+			steering.SeekPlayer (velocity, speed);
+			force += Vector3.ClampMagnitude (force, 10f);
+			steering.ApplyForce (force);
+			steering.UpdatePosition (velocity, direction);
+			steering.SetTransform (direction);
 		}
 	}
 

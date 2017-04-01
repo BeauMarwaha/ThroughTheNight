@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class FlyingEnemy : Entity {
 
-	public SteeringForces forces;
+	public SteeringForces steering;
+	private Vector3 force;
 	
 	// Use this for initialization
 	protected override void Start () {
-		forces = GetComponent<SteeringForces> ();
+		steering = GetComponent<SteeringForces> ();
+		speed = 100f;
+		attack = 10f;
+		health = 50f;
+		direction = transform.forward;
+		velocity = new Vector3(0,0,0);
 	}
 
 	// Update is called once per frame
 	protected override void Update () {
-
+		Death ();
+		Move ();
+		Damaged ();
+		Attack ();
 	}
 
 	//method to spawn entity into the game
@@ -22,17 +31,31 @@ public class FlyingEnemy : Entity {
 
 	//method to move the entity
 	protected override void Move(){
-
+		force += steering.WanderCircle(velocity, speed) * 50f;
+		force = Vector3.ClampMagnitude (force, 200f);
+		steering.ApplyForce (force);
+		steering.UpdatePosition (velocity, direction);
+		steering.SetTransform (direction);
 	}
 
 	//method to handle when the entity dies
 	protected override void Death(){
+		// destroy the game object 
+		if (health <= 0) {
+			// TO-DO: increment player currency
 
+
+			// destroy enemy object
+			Destroy (gameObject);
+		}
 	}
 
 	//method to handle when the entity is attacked
 	protected override void Damaged(){
+		// TO-DO
+		// check for collision between player bullet and game object
 
+		// handle collison if so
 	}
 
 	//method to handle when the entity attacks
