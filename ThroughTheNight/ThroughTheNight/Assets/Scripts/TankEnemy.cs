@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TankEnemy : Entity {
-	public SteeringForces steering;
+	private SteeringForces steering;
 	public GameObject orb;
 	private Vector3 force;
 	private float period;
+	private float timer;
+	public int cooldown;
 
 	// Use this for initialization
 	protected override void Start () {
+		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
 		speed = 10f;
 		attack = 10;
@@ -23,10 +26,13 @@ public class TankEnemy : Entity {
 		Death ();
 		Move ();
 		//TakeDamage ();
+		if(timer > cooldown){
+			timer = 0;
+			Attack ();
+		}
+		timer += Time.deltaTime;
 
-		InvokeRepeating ("Attack", 1f, 1.5f);
 	}
-
 	public override void Spawn(Vector3 location, Vector3 rotation){
 	
 	}
@@ -74,8 +80,7 @@ public class TankEnemy : Entity {
 		//TO-DO
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
-		Debug.Log ("Attacking");
-		// move bullet in the x direction only
+		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
 	}
 
 	public float GetAttack(){
