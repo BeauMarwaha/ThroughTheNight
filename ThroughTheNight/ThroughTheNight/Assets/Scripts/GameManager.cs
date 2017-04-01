@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour {
     public Font[] fonts;
 
     private List<string> objectives = new List<string>();
-    private List<string> currentObjectives = new List<string>();
+    private List<string> currentObjectives;
     private int objectivesTotal;
     void Awake()
     {
@@ -80,7 +80,9 @@ public class GameManager : MonoBehaviour {
             objective.text += "     " + objectives[i] + "\n";
         }
         objectivesTotal = objectives.Count;
-        currentObjectives = objectives;
+
+        currentObjectives = new List<string>(objectives);
+
         RemoveObjective("Cook");
 
         //Starting at Day
