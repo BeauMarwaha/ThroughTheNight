@@ -25,6 +25,8 @@ public class SteeringForces : MonoBehaviour {
 	void Update () {
 		player = GameObject.Find ("Player");
 	}
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
 	// calculate distance to player
 	public float DistToPlayer(){
