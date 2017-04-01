@@ -114,6 +114,7 @@ public class Player : Entity
         //update location by adding velocity
         transform.position = transform.position + velocity;
 
+        //MoveCamera();
     }
 
     //method to handle when the entity dies
@@ -188,5 +189,20 @@ public class Player : Entity
             return;
         }
         transform.position = new Vector3(transform.position.x + knockback, transform.position.y, transform.position.z);
+    }
+
+    private void MoveCamera()
+    {
+        Vector3 location = transform.position;
+
+        Camera cam = Camera.main;
+
+        //Vector3 viewportPos = cam.WorldToViewportPoint(location);
+
+        location.x = Mathf.Clamp(location.x, -3.35f, 3.5f);
+
+        //location = cam.ViewportToWorldPoint(viewportPos);
+
+        Camera.main.transform.position = new Vector3(location.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
     }
 }
