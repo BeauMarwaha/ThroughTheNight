@@ -6,7 +6,6 @@ public class TankEnemy : Entity {
 	private SteeringForces steering;
 	public GameObject orb;
 	private Vector3 force;
-	private float period;
 	private float timer;
 	public int cooldown;
 
@@ -31,8 +30,8 @@ public class TankEnemy : Entity {
 			Attack ();
 		}
 		timer += Time.deltaTime;
-
 	}
+
 	public override void Spawn(Vector3 location, Vector3 rotation){
 	
 	}
@@ -46,7 +45,7 @@ public class TankEnemy : Entity {
 	//method to move the entity
 	protected override void Move(){
 		// move closer to the player up to a certain distance
-		if (steering.DistToPlayer() > 10f) {
+		if (steering.DistToPlayer() > 5f) {
 			steering.SeekPlayer (velocity, speed);
 			force += Vector3.ClampMagnitude (force, 10f);
 			steering.ApplyForce (force);
@@ -77,7 +76,6 @@ public class TankEnemy : Entity {
 
 	//method to handle when the entity attacks
 	protected override void Attack(){
-		//TO-DO
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
 		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
