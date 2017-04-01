@@ -21,6 +21,7 @@ public class ForwardEnemy :  Entity {
 	protected override void Update () {
 		Death ();
 		Move ();
+		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		//TakeDamage ();
 		Attack ();
 	}
@@ -37,14 +38,14 @@ public class ForwardEnemy :  Entity {
 
 	//method to move the entity
 	protected override void Move(){
-		if (Vector3.Dot (steering.player.transform.right, transform.right) > 0) {
-			force += steering.Arrival (steering.player.transform.position + transform.right, velocity, speed) * 300f;
+		if (Vector3.Dot (steering.player.transform.position, transform.position) > 0) {
+			force += steering.Arrival (steering.player.transform.position , velocity, speed) * 300f;
 		} else {
-			force += steering.Arrival (steering.player.transform.position + transform.right, velocity, speed) * 300f;
+			force += steering.Arrival (steering.player.transform.position, velocity, speed) * 300f;
 		}
 		//if (steering.player.activeInHierarchy == false) return;
-		Debug.Log (Vector3.Angle (steering.player.transform.right, transform.right) );
-		force = Vector3.ClampMagnitude (force, 10f);
+		Debug.Log (Vector3.Dot (steering.player.transform.right, transform.position) );
+		force = Vector3.ClampMagnitude (force, 100f);
 		steering.ApplyForce (force);
 		steering.UpdatePosition (velocity, direction);
 		steering.SetTransform (direction);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlyingEnemy : Entity {
 	public GameObject orb;
+	public CollisionHandler ch;
 	private SteeringForces steering;
 	private Vector3 force;
 	private float timer;
@@ -12,6 +13,7 @@ public class FlyingEnemy : Entity {
 	// Use this for initialization
 	protected override void Start () {
 		timer = cooldown + 1;
+		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		steering = GetComponent<SteeringForces> ();
 		speed = 100f;
 		attack = 10;
