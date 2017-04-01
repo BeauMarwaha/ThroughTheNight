@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ForwardEnemy :  Entity {
-	public SteeringForces steering;
+	private SteeringForces steering;
 	private Vector3 force;
 	public Vector3 dir;
 
@@ -11,7 +11,7 @@ public class ForwardEnemy :  Entity {
 	protected override void Start () {
 		steering = GetComponent<SteeringForces> ();
 		speed = 50f;
-		attack = 5;
+		attack = 1;
 		health = 25f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
@@ -37,8 +37,14 @@ public class ForwardEnemy :  Entity {
 
 	//method to move the entity
 	protected override void Move(){
-		force += steering.SeekPlayer (velocity, speed) * 1500f;
-		force = Vector3.ClampMagnitude (force, 950f);
+		if (Vector3.Dot (steering.player.transform.right, transform.right) > 0) {
+			force += steering.Arrival (steering.player.transform.position + transform.right, velocity, speed) * 300f;
+		} else {
+			force += steering.Arrival (steering.player.transform.position + transform.right, velocity, speed) * 300f;
+		}
+		//if (steering.player.activeInHierarchy == false) return;
+		Debug.Log (Vector3.Angle (steering.player.transform.right, transform.right) );
+		force = Vector3.ClampMagnitude (force, 10f);
 		steering.ApplyForce (force);
 		steering.UpdatePosition (velocity, direction);
 		steering.SetTransform (direction);
