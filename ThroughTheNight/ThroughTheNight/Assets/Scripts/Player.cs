@@ -88,7 +88,7 @@ public class Player : Entity
     }
 
     //method to handle when the entity is attacked
-	protected override void TakeDamage(int damageTaken)
+	public override void TakeDamage(int damageTaken)
     {
         //decrease health
         GameManager.GM.ChangeHealth(-damageTaken);

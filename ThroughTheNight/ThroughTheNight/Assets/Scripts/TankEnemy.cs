@@ -12,7 +12,7 @@ public class TankEnemy : Entity {
 	protected override void Start () {
 		steering = GetComponent<SteeringForces> ();
 		speed = 10f;
-		attack = 10f;
+		attack = 10;
 		health = 50f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
@@ -62,7 +62,7 @@ public class TankEnemy : Entity {
 	}
 
 	//method to handle when the entity is attacked
-	protected override void TakeDamage(int damageTaken){
+	public override void TakeDamage(int damageTaken){
 		// TO-DO
 		// check for collision between player bullet and game object
 
