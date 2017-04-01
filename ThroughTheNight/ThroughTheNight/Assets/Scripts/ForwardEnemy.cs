@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedEnemy : Entity {
+public class ForwardEnemy :  Entity {
 
 	// Use this for initialization
 	protected override void Start () {
