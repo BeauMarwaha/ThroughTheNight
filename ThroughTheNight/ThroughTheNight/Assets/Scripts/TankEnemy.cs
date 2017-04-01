@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TankEnemy : Entity {
+
+	// variables 
 	private SteeringForces steering;
 	public CollisionHandler ch;
 	public GameObject orb;
@@ -29,9 +31,6 @@ public class TankEnemy : Entity {
             Death();
             Move();
             TakeDamage(1);
-
-            //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-            //TakeDamage ();
             if (timer > cooldown)
             {
                 timer = 0;
@@ -40,16 +39,6 @@ public class TankEnemy : Entity {
             timer += Time.deltaTime;
         }
 		
-	}
-
-	public override void Spawn(Vector3 location, Vector3 rotation){
-	
-	}
-
-
-	//method to spawn entity into the game
-	public GameObject Spawn(GameObject prefab, Vector3 location, Vector3 rotation){
-		return (GameObject)Instantiate (prefab, location, Quaternion.Euler(rotation));
 	}
 
 	//method to move the entity
@@ -66,11 +55,8 @@ public class TankEnemy : Entity {
 
 	//method to handle when the entity dies
 	protected override void Death(){
-		// destroy the game object 
+		// destroy the enemy when their health runs out
 		if (health <= 0) {
-			// TO-DO: increment player currency
-
-
 			// destroy enemy object
 			Destroy (gameObject);
 		}
@@ -88,7 +74,7 @@ public class TankEnemy : Entity {
 		}
 	}
 
-	//method to handle when the entity attacks
+	//method to handle when the entity attacks using projectiles
 	protected override void Attack(){
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);

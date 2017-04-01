@@ -17,9 +17,6 @@ public abstract class Entity : MonoBehaviour
     // Update is called once per frame
 	protected abstract void Update();
 	
-    //method to spawn entity into the game
-	public abstract void Spawn(Vector3 location, Vector3 rotation);
-	
     //method to move the entity
 	protected abstract void Move();
 	
