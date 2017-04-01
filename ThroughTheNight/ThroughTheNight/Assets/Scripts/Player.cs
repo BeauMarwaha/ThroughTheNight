@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents the Player Object
+/// </summary>
 public class Player : Entity
 {
     //fields
@@ -39,56 +42,58 @@ public class Player : Entity
 	// Update is called once per frame
 	protected override void Update ()
     {
-        //if the player is in the facing left state swap its texture
-        if(pState == PlayerState.FacingLeft)
-        gameObject.GetComponent<SpriteRenderer>().flipX = true;
-        else
-            gameObject.GetComponent<SpriteRenderer>().flipX = false;
-
-        direction = Vector3.zero;//reset direction to zero
-        velocity = Vector3.zero;//reset velocity to zero
-
-        Move();
-
-        //use input to test being damaged
-        if (Input.GetKeyDown(KeyCode.F))
-			TakeDamage(1);
-
-        if(invincible == true)
+        if (GameManager.GM.currentState != State.Message)
         {
-            if (timerInvul > invinTime)
-            {
-                invincible = false;
-                timerInvul = 0;
-            }
+            //if the player is in the facing left state swap its texture
+            if (pState == PlayerState.FacingLeft)
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
             else
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
+
+            direction = Vector3.zero;//reset direction to zero
+            velocity = Vector3.zero;//reset velocity to zero
+
+            Move();
+
+            //use input to test being damaged
+            if (Input.GetKeyDown(KeyCode.F))
+                TakeDamage(1);
+
+            if (invincible == true)
             {
-                timerInvul += Time.deltaTime;
+                if (timerInvul > invinTime)
+                {
+                    invincible = false;
+                    timerInvul = 0;
+                }
+                else
+                {
+                    timerInvul += Time.deltaTime;
+                }
             }
-        }
-        
 
-        //check for if the player's health is gone
-        if (GameManager.GM.healthNum <= 0)
-        {
-            Death();
-        }
 
-        //if the player clicks, fire a projectile at where the mouse is currently
-        if(Input.GetMouseButtonDown(0) && timer > coolDown)
-        {
-            Attack();
-            timer = 0;
+            //check for if the player's health is gone
+            if (GameManager.GM.healthNum <= 0)
+            {
+                Death();
+            }
+
+            //if the player clicks, fire a projectile at where the mouse is currently
+            if (Input.GetMouseButtonDown(0) && timer > coolDown)
+            {
+                Attack();
+                timer = 0;
+            }
+            //increment timer
+            timer += Time.deltaTime;
         }
-        //increment timer
-        timer+= Time.deltaTime;
     }
 
     //method to move the entity
     protected override void Move()
     {
-        if(GameManager.GM.currentState != State.Message)
-        {
+        
             if (Input.GetKey(KeyCode.D))
             {
                 direction.x += 1;
@@ -117,7 +122,7 @@ public class Player : Entity
             transform.position = new Vector3(location.x, transform.position.y, transform.position.z);
 
             MoveCamera();
-        }
+        
         
     }
 
