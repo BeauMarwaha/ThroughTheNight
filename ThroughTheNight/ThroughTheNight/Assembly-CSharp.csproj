@@ -49,7 +49,8 @@
      <Compile Include="Assets\PlaceHolderImages\ChangeScene.cs" />
      <Compile Include="Assets\Scripts\Entity.cs" />
      <Compile Include="Assets\Scripts\FlyingEnemy.cs" />
-     <Compile Include="Assets\Scripts\SpeedEnemy.cs" />
+     <Compile Include="Assets\Scripts\ForwardEnemy.cs" />
+     <Compile Include="Assets\Scripts\SteeringForces.cs" />
      <Compile Include="Assets\Scripts\TankEnemy.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
