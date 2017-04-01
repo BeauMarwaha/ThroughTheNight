@@ -84,6 +84,33 @@ public class CollisionHandler : MonoBehaviour {
     }
 
     /// <summary>
+    /// Checks if two game objects are colliding using circle collision.
+    /// </summary>
+    /// <returns><c>true</c>, if collision was detected, <c>false</c> otherwise.</returns>
+    /// <param name="obj1">Obj1.</param>
+    /// <param name="obj2">Obj2.</param>
+    public bool CircleCollision(GameObject obj1, GameObject obj2)
+    {
+        //get the sprtie info scripts from each game object which hold corrected bounds of the sprite renderers
+        SpriteInfo info1 = obj1.GetComponent<SpriteInfo>();
+        SpriteInfo info2 = obj2.GetComponent<SpriteInfo>();
+
+        //distance between centers
+        Vector3 distance = info2.Center() - info1.Center();
+        float dist = distance.magnitude * distance.magnitude;
+
+        //check for AABB collision
+        if ((info1.GetRadiusBullet() + info2.GetRadiusBullet())* (info1.GetRadiusBullet() + info2.GetRadiusBullet()) > dist)
+        {
+            Debug.Log("Colliding");
+            return true;
+        }
+
+        //if they are not colliding return false
+        return false;
+    }
+
+    /// <summary>
     /// Check for AABB collisions between the player and all enemies
     /// </summary>
     private void PlayerEnemyCollisionCheck()
@@ -185,7 +212,7 @@ public class CollisionHandler : MonoBehaviour {
         {
             foreach(GameObject b in pBullets)
             {
-                if (AABBCollision(b, bullet))
+                if (CircleCollision(b, bullet))//AABBCollision(b, bullet))
                 {
                     //if the two bullets collide, destroy both of them
                     bullet.GetComponent<Projectile>().Hit();
@@ -195,4 +222,6 @@ public class CollisionHandler : MonoBehaviour {
             
         }
     }
+
+
 }
