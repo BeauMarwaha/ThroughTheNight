@@ -43,7 +43,7 @@ public class SteeringForces : MonoBehaviour {
 		position += velocity * Time.deltaTime;
 
 		// make sure the enemy is always facing the player
-		direction = -player.transform.forward;
+		direction = player.transform.forward;
 
 		// start fresh with new forces each frame
 		acceleration = Vector3.zero;
