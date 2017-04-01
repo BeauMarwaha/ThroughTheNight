@@ -33,6 +33,12 @@ public class Player : Entity
         {
             Death();
         }
+
+        //if the player clicks, fire a projectile at where the mouse is currently
+        if(Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }
     }
 
     //method to spawn entity into the game
@@ -78,6 +84,8 @@ public class Player : Entity
     //method to handle when the entity attacks
     protected override void Attack()
     {
+        Debug.Log("pew");
+        //shoot a projectile
 
     }
 }
