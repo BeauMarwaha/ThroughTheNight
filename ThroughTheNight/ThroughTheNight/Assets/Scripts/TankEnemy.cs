@@ -62,7 +62,7 @@ public class TankEnemy : Entity {
 	}
 
 	//method to handle when the entity is attacked
-	protected override void TakeDamage(int damageTaken){
+	public override void TakeDamage(int damageTaken){
 		// TO-DO
 		// check for collision between player bullet and game object
 

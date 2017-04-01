@@ -27,7 +27,7 @@ public abstract class Entity : MonoBehaviour
 	protected abstract void Death();
 	
     //method to handle when the entity is attacked
-	protected abstract void TakeDamage(int damageTaken);
+	public abstract void TakeDamage(int damageTaken);
 	
     //method to handle when the entity attacks
 	protected abstract void Attack();
