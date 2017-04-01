@@ -21,6 +21,12 @@ Catherine Nemechek
 
 Song: I'm Not Dreaming (Instrumental Version)
 
-Artitst:  Josh Woodward
+Artitst: Josh Woodward
 
 Retreived From: http://freemusicarchive.org/music/Josh_Woodward/Breadcrumbs/JoshWoodward-Breadcrumbs-NoVox-11-ImNotDreaming
+
+Song: The Waking Nightmare [feat. XXIXI]
+
+Artitst: Ars Sonor
+
+Retreived From: http://freemusicarchive.org/music/Ars_Sonor/Kroksj/02-The_Waking_Nightmare_feat_XXIXI
