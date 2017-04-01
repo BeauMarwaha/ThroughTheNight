@@ -8,7 +8,7 @@ public class Player : Entity
 	// Use this for initialization
 	protected override void Start ()
     {
-        health = 100;
+        //health = 100;
         speed = 5;
         attack = 5;
         Spawn(Vector3.zero, Vector3.zero);
@@ -20,7 +20,12 @@ public class Player : Entity
         direction = Vector3.zero;//reset direction to zero
 
         Move();
-	}
+
+        if (GameManager.GM.healthNum <= 0)
+        {
+            Death();
+        }
+    }
 
     //method to spawn entity into the game
     protected override void Spawn(Vector3 location, Vector3 rotation)
@@ -48,13 +53,17 @@ public class Player : Entity
     //method to handle when the entity dies
     protected override void Death()
     {
-
+        Debug.Log("You ded");
     }
 
     //method to handle when the entity is attacked
     protected override void Damaged()
     {
-        health -= 5;
+        //decrease health
+        GameManager.GM.healthNum -= 5;
+
+        //apply knockback
+        velocity += Vector3(-5, 0, 0);
     }
 
     //method to handle when the entity attacks
