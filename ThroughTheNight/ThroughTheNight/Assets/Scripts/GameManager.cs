@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
 
     public Image[] hearts;
 
-    public Text health;
+    //public Text health;
     public int healthNum;
 
     public Text time;
@@ -68,8 +68,8 @@ public class GameManager : MonoBehaviour {
         objectives.Add("Shower");
         
         
-        health = GameObject.Find("Health").GetComponent<Text>();
-        health.text = "Health: " + healthNum;
+        //health = GameObject.Find("Health").GetComponent<Text>();
+        //health.text = "Health: " + healthNum;
 
         time = GameObject.Find("Time").GetComponent<Text>();
         time.text = "Time: " + timeNum;
@@ -135,10 +135,12 @@ public class GameManager : MonoBehaviour {
         {
             GameManager.GM.healthNum += health;
         }
+
         if(healthNum > 16)
         {
             healthNum = 16;
         }
+
         for (int i = 0; i < hearts.Length; i++)
         {
             hearts[i].enabled = false;
@@ -147,7 +149,7 @@ public class GameManager : MonoBehaviour {
         {
             hearts[i].enabled = true;
         }
-        GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
+        //GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
     }
     
     /// <summary>

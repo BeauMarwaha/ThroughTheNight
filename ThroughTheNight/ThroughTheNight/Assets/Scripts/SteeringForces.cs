@@ -91,7 +91,7 @@ public class SteeringForces : MonoBehaviour {
 
 	// move enemy in a circular motion
 	public Vector3 WanderCircle(Vector3 velocity, float speed){
-		desired = new Vector3( Mathf.Cos(Mathf.PI * step), Mathf.Sin (Mathf.PI * step), 0) * 5f + velocity;
+		desired = new Vector3( Mathf.Cos(Mathf.PI * step)* Random.Range(0,5f), Mathf.Sin (Mathf.PI * step)* Random.Range(0,5f), 0) * 5f + velocity;
 		step += .01f;
 		return steer = SeekSpot (desired, velocity, speed);
 	}
