@@ -16,7 +16,7 @@ public class ChangeScene : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
 	}
 	
 	// Update is called once per frame
