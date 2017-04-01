@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour {
 
         RemoveObjective("Cook");
 
+
         //Starting at Day
         ChangeState(State.Day);
         
