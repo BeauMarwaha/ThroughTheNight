@@ -16,9 +16,9 @@ public class TestAccess : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Minus))
         {
-            GameManager.GM.healthNum--;
-            GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
-
+            //GameManager.GM.healthNum--;
+            //GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
+            GameManager.GM.ChangeHealth(-1);
         }
 	}
 }
