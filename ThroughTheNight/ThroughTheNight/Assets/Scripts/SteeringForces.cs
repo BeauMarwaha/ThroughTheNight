@@ -23,7 +23,7 @@ public class SteeringForces : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		player = GameObject.Find ("Player");
 	}
 
 	// calculate distance to player
@@ -85,7 +85,7 @@ public class SteeringForces : MonoBehaviour {
 	}
 
 	public Vector3 Arrival(Vector3 target, Vector3 velocity, float speed){
-		return SeekSpot (target, velocity, speed) * Vector3.Distance(target, transform.position)/5f ;
+		return SeekSpot (target, velocity, speed) * Vector3.Distance(target, transform.position)/10f ;
 	}
 
 	// flee the player
