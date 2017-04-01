@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+/// <summary>
+/// Loads the UI and doesn't allow it to be destroyed
+/// </summary>
 public class ChangeScene : MonoBehaviour {
 
     //public Text health;
