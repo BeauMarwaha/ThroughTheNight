@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TankEnemy : Entity {
-	//public GameObject tankPrefab;
 	public SteeringForces steering;
+	public GameObject orb;
 	private Vector3 force;
+	private float period;
 
 	// Use this for initialization
 	protected override void Start () {
@@ -15,25 +16,31 @@ public class TankEnemy : Entity {
 		health = 50f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
-		//Spawn (new Vector3(Random.Range(5,10),0,1),-direction);
 	}
 
 	// Update is called once per frame
 	protected override void Update () {
 		Death ();
 		Move ();
-		Damaged ();
-		Attack ();
+		//TakeDamage ();
+
+		InvokeRepeating ("Attack", 1f, 1.5f);
 	}
 
+	public override void Spawn(Vector3 location, Vector3 rotation){
+	
+	}
+
+
 	//method to spawn entity into the game
-	protected override void Spawn(Vector3 location, Vector3 rotation){
-		//GameObject obj = (GameObject)Instantiate (tankPrefab, location, Quaternion.Euler(rotation));
+	public GameObject Spawn(GameObject prefab, Vector3 location, Vector3 rotation){
+		return (GameObject)Instantiate (prefab, location, Quaternion.Euler(rotation));
 	}
 
 	//method to move the entity
 	protected override void Move(){
-		if (steering.DistToPlayer() > 5f) {
+		// move closer to the player up to a certain distance
+		if (steering.DistToPlayer() > 10f) {
 			steering.SeekPlayer (velocity, speed);
 			force += Vector3.ClampMagnitude (force, 10f);
 			steering.ApplyForce (force);
@@ -55,7 +62,7 @@ public class TankEnemy : Entity {
 	}
 
 	//method to handle when the entity is attacked
-	protected override void Damaged(){
+	protected override void TakeDamage(int damageTaken){
 		// TO-DO
 		// check for collision between player bullet and game object
 
@@ -66,7 +73,12 @@ public class TankEnemy : Entity {
 	protected override void Attack(){
 		//TO-DO
 		// create bullet
-
+		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+		Debug.Log ("Attacking");
 		// move bullet in the x direction only
+	}
+
+	public float GetAttack(){
+		return attack;
 	}
 }

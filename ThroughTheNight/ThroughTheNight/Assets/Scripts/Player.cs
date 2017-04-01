@@ -26,7 +26,7 @@ public class Player : Entity
 
         //use input to test being damaged
         if (Input.GetKeyDown(KeyCode.F))
-            Damaged();
+			TakeDamage(1);
 
         //check for if the player's health is gone
         if (GameManager.GM.healthNum <= 0)
@@ -42,7 +42,7 @@ public class Player : Entity
     }
 
     //method to spawn entity into the game
-    protected override void Spawn(Vector3 location, Vector3 rotation)
+    public override void Spawn(Vector3 location, Vector3 rotation)
     {
 
     }
@@ -72,7 +72,7 @@ public class Player : Entity
     }
 
     //method to handle when the entity is attacked
-    protected override void Damaged()
+	protected override void TakeDamage(int damageTaken)
     {
         //decrease health
         GameManager.GM.ChangeHealth(-5);

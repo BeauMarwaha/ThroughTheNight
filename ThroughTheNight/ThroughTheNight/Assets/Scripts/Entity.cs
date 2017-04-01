@@ -18,7 +18,7 @@ public abstract class Entity : MonoBehaviour
 	protected abstract void Update();
 	
     //method to spawn entity into the game
-	protected abstract void Spawn(Vector3 location, Vector3 rotation);
+	public abstract void Spawn(Vector3 location, Vector3 rotation);
 	
     //method to move the entity
 	protected abstract void Move();
@@ -27,7 +27,7 @@ public abstract class Entity : MonoBehaviour
 	protected abstract void Death();
 	
     //method to handle when the entity is attacked
-	protected abstract void Damaged();
+	protected abstract void TakeDamage(int damageTaken);
 	
     //method to handle when the entity attacks
 	protected abstract void Attack();

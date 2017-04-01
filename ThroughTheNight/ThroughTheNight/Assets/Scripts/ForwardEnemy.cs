@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ForwardEnemy :  Entity {
-
 	public SteeringForces steering;
 	private Vector3 force;
 	public Vector3 dir;
@@ -22,12 +21,18 @@ public class ForwardEnemy :  Entity {
 	protected override void Update () {
 		Death ();
 		Move ();
-		Damaged ();
+		//TakeDamage ();
 		Attack ();
 	}
 
+	public override void Spawn(Vector3 location, Vector3 rotation){
+
+	}
+
+
 	//method to spawn entity into the game
-	protected override void Spawn(Vector3 location, Vector3 rotation){
+	public GameObject Spawn(GameObject prefab, Vector3 location, Vector3 rotation){
+		return (GameObject)Instantiate (prefab, location, Quaternion.Euler(rotation));
 	}
 
 	//method to move the entity
@@ -52,7 +57,7 @@ public class ForwardEnemy :  Entity {
 	}
 
 	//method to handle when the entity is attacked
-	protected override void Damaged(){
+	protected override void TakeDamage(int damageTaken){
 		// TO-DO
 		// check for collision between player bullet and game object
 
@@ -62,5 +67,9 @@ public class ForwardEnemy :  Entity {
 	//method to handle when the entity attacks
 	protected override void Attack(){
 
+	}
+
+	public float GetAttack(){
+		return attack;
 	}
 }
