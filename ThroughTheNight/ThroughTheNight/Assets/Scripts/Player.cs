@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : Entity
 {
+    //fields
+    public float knockback;
 
 	// Use this for initialization
 	protected override void Start ()
@@ -18,9 +20,15 @@ public class Player : Entity
 	protected override void Update ()
     {
         direction = Vector3.zero;//reset direction to zero
+        velocity = Vector3.zero;//reset velocity to zero
 
         Move();
 
+        //use input to test being damaged
+        if (Input.GetKeyDown(KeyCode.F))
+            Damaged();
+
+        //check for if the player's health is gone
         if (GameManager.GM.healthNum <= 0)
         {
             Death();
@@ -43,7 +51,7 @@ public class Player : Entity
             direction.x -= 1;
 
         //calculate velocity from direction and speed times delta time so it is framerate independent
-        velocity = direction.normalized * speed * Time.deltaTime;
+        velocity += direction.normalized * speed * Time.deltaTime;
 
         //update location by adding velocity
         transform.position = transform.position + velocity;
@@ -53,7 +61,7 @@ public class Player : Entity
     //method to handle when the entity dies
     protected override void Death()
     {
-        Debug.Log("You ded");
+        Debug.Log("You ded scrub");
     }
 
     //method to handle when the entity is attacked
@@ -63,7 +71,7 @@ public class Player : Entity
         GameManager.GM.healthNum -= 5;
 
         //apply knockback
-        velocity += Vector3(-5, 0, 0);
+        transform.position = new Vector3(transform.position.x - knockback, transform.position.y, transform.position.z);
     }
 
     //method to handle when the entity attacks
