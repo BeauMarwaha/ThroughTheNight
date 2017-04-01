@@ -26,12 +26,10 @@ public class CollisionHandler : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if(player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
+        
+        player = GameObject.FindGameObjectWithTag("Player");
+        
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
 
         //Check for collisions between the player and all enemies
         PlayerEnemyCollisionCheck();
@@ -41,7 +39,16 @@ public class CollisionHandler : MonoBehaviour {
 
         //Check for collisions between all enemies and all player bullets
         EnemyPBulletCollisionCheck();
-
+        if(player != null)
+        {
+            SpriteInfo info1 = player.GetComponent<SpriteInfo>();
+            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMinY(), 0), new Vector3(info1.GetMaxX(), info1.GetMinY(), 0),Color.red);
+            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMinY(), 0), new Vector3(info1.GetMinX(), info1.GetMaxY(), 0), Color.red);
+            Debug.DrawLine(new Vector3(info1.GetMaxX(), info1.GetMinY(), 0), new Vector3(info1.GetMaxX(), info1.GetMaxY(), 0), Color.red);
+            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMaxY(), 0), new Vector3(info1.GetMaxX(), info1.GetMaxY(), 0), Color.red);
+        }
+        
+        //Debug.Log(info1.GetMinX() + " " + info1.GetMaxX() + " " + info1.GetMinY() + " " + info1.GetMaxY());
     }
 
     /// <summary>
@@ -56,12 +63,15 @@ public class CollisionHandler : MonoBehaviour {
         SpriteInfo info1 = obj1.GetComponent<SpriteInfo>();
         SpriteInfo info2 = obj2.GetComponent<SpriteInfo>();
 
+        //Debug.Log(info1.GetMinX() + " " + info1.GetMaxX() + " " + info1.GetMinY() + " " + info1.GetMaxY());
+
         //check for AABB collision
         if (info1.GetMinX() < info2.GetMaxX() &&
             info1.GetMaxX() > info2.GetMinX() &&
             info1.GetMinY() < info2.GetMaxY() &&
             info1.GetMaxY() > info2.GetMinY())
         {
+            Debug.Log("Colliding");
             return true;
         }
 
@@ -161,5 +171,6 @@ public class CollisionHandler : MonoBehaviour {
         {
             Destroy(oldBullets[i]);
         }
+        
     }
 }
