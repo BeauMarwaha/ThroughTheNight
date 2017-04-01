@@ -13,6 +13,15 @@ public class Player : Entity
     private bool invincible;//whether or not the player is currently invincible
     public float invinTime;//length of time that you are invincible after being hit
     private float timerInvul;
+    private PlayerState pState;
+
+    private enum PlayerState
+    {
+        MovingLeft,
+        MovingRight,
+        FacingLeft,
+        FacingRight
+    }
 
     // Use this for initialization
     protected override void Start ()
@@ -24,11 +33,19 @@ public class Player : Entity
         Spawn(Vector3.zero, Vector3.zero);
         timerInvul = 0;
         invincible = false;
+
+        pState = PlayerState.FacingRight;//default start state is facing the right
     }
 	
 	// Update is called once per frame
 	protected override void Update ()
     {
+        //if the player is in the facing left state swap its texture
+        if(pState == PlayerState.FacingLeft)
+        gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        else
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+
         direction = Vector3.zero;//reset direction to zero
         velocity = Vector3.zero;//reset velocity to zero
 
@@ -78,10 +95,18 @@ public class Player : Entity
     protected override void Move()
     {
         if (Input.GetKey(KeyCode.D))
+        {
             direction.x += 1;
+            pState = PlayerState.FacingRight;
+        }
+            
 
         if (Input.GetKey(KeyCode.A))
+        {
             direction.x -= 1;
+            pState = PlayerState.FacingLeft;
+        }
+            
 
         //calculate velocity from direction and speed times delta time so it is framerate independent
         velocity += direction.normalized * speed * Time.deltaTime;
