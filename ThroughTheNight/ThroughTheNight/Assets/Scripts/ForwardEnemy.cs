@@ -21,11 +21,14 @@ public class ForwardEnemy :  Entity {
 
 	// Update is called once per frame
 	protected override void Update () {
-		Death ();
-		Move ();
-		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-		TakeDamage (1);
-		Attack ();
+        if (GameManager.GM.currentState != State.Message)
+        {
+            Death();
+            Move();
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            TakeDamage(1);
+            Attack();
+        }
 	}
 
 	public override void Spawn(Vector3 location, Vector3 rotation){

@@ -20,10 +20,14 @@ public class Projectile : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        //update the position of the bullets 
-        transform.position = transform.position + velocity * Time.deltaTime;
-        //limit the lives of the bullets
-        LimitLife();
+        if(GameManager.GM.currentState != State.Message)
+        {
+            //update the position of the bullets 
+            transform.position = transform.position + velocity * Time.deltaTime;
+            //limit the lives of the bullets
+            LimitLife();
+        }
+        
 	}
 
     public void Hit()

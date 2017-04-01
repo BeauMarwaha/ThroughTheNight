@@ -75,15 +75,15 @@ public class Door : MonoBehaviour {
     private void EnterDoorCheck()
     {
         //Interacts with door key
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E) && GameManager.GM.currentState != State.Message)
         {
             if(gameObject.tag == "LeftDoor")
             {
-                player.transform.position = new Vector3(gameObject.transform.position.x + 15f , player.transform.position.y, player.transform.position.z);
+                player.transform.position = new Vector3(gameObject.transform.position.x + 16.5f , player.transform.position.y, player.transform.position.z);
             }
             else if(gameObject.tag == "RightDoor")
             {
-                player.transform.position = new Vector3(gameObject.transform.position.x - 15f, player.transform.position.y, player.transform.position.z);
+                player.transform.position = new Vector3(gameObject.transform.position.x - 16.5f, player.transform.position.y, player.transform.position.z);
 
             }
             SceneManager.LoadScene(connectedRoom);

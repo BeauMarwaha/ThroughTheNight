@@ -94,34 +94,38 @@ public class Player : Entity
     //method to move the entity
     protected override void Move()
     {
-        if (Input.GetKey(KeyCode.D))
+        if(GameManager.GM.currentState != State.Message)
         {
-            direction.x += 1;
-            pState = PlayerState.FacingRight;
+            if (Input.GetKey(KeyCode.D))
+            {
+                direction.x += 1;
+                pState = PlayerState.FacingRight;
+            }
+
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                direction.x -= 1;
+                pState = PlayerState.FacingLeft;
+            }
+
+            Vector3 location = transform.position;
+
+            //calculate velocity from direction and speed times delta time so it is framerate independent
+            velocity += direction.normalized * speed * Time.deltaTime;
+
+            //update location by adding velocity
+            location = transform.position + velocity;
+
+            //clamp the x value so that the player cannot leave the room/screen
+            location.x = Mathf.Clamp(location.x, -9f, 9f);
+
+            //upload new position
+            transform.position = new Vector3(location.x, transform.position.y, transform.position.z);
+
+            MoveCamera();
         }
-            
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            direction.x -= 1;
-            pState = PlayerState.FacingLeft;
-        }
-
-        Vector3 location = transform.position;
-
-        //calculate velocity from direction and speed times delta time so it is framerate independent
-        velocity += direction.normalized * speed * Time.deltaTime;
-
-        //update location by adding velocity
-        location = transform.position + velocity;
-
-        //clamp the x value so that the player cannot leave the room/screen
-        location.x = Mathf.Clamp(location.x, -9f, 9f);
-
-        //upload new position
-        transform.position = new Vector3(location.x, transform.position.y, transform.position.z);
-
-        MoveCamera();
+        
     }
 
     //method to handle when the entity dies
