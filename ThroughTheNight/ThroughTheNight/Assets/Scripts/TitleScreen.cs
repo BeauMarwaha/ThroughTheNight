@@ -38,7 +38,7 @@ public class TitleScreen : MonoBehaviour {
 
     void LoadCredits()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("Credits");
     }
     void LoadExtra()
     {
