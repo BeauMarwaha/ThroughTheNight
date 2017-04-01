@@ -12,7 +12,6 @@ public class SteeringForces : MonoBehaviour {
 	protected Vector3 position;
 	protected Vector3 desired;
 	protected Vector3 steer;
-	public Vector3 circleCenter;
 	public float distToPlayer;
 	protected float step;
 
@@ -22,6 +21,7 @@ public class SteeringForces : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+
 	void Update ()
     { 
         player = GameObject.FindGameObjectWithTag("Player");
@@ -89,16 +89,10 @@ public class SteeringForces : MonoBehaviour {
 		return SeekSpot (target, velocity, speed) * Vector3.Distance(target, transform.position)/10f ;
 	}
 
-	// flee the player
-	public Vector3 Flee(Vector3 velocity, float speed){
-		return steer = -1 * SeekPlayer (velocity, speed);
-	}
-
 	// move enemy in a circular motion
 	public Vector3 WanderCircle(Vector3 velocity, float speed){
-		circleCenter = velocity.normalized * 100f;
-		desired = new Vector3( -Mathf.Cos(Mathf.PI * step), Mathf.Sin (Mathf.PI * step), 0) * 50f + circleCenter;
-		step += .05f;
+		desired = new Vector3( Mathf.Cos(Mathf.PI * step), Mathf.Sin (Mathf.PI * step), 0) * 5f + velocity;
+		step += .01f;
 		return steer = SeekSpot (desired, velocity, speed);
 	}
 }

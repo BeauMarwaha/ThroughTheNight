@@ -16,8 +16,8 @@ public class FlyingEnemy : Entity {
 		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		steering = GetComponent<SteeringForces> ();
 		speed = 100f;
-		attack = 10;
-		health = 50f;
+		attack = 1;
+		health = 5f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}
@@ -26,7 +26,7 @@ public class FlyingEnemy : Entity {
 	protected override void Update () {
 		Death ();
 		Move ();
-		//TakeDamage ();
+		TakeDamage (1);
 		if(timer > cooldown){
 			timer = 0;
 			Attack ();
@@ -67,10 +67,14 @@ public class FlyingEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// TO-DO
 		// check for collision between player bullet and game object
-
-		// handle collison if so
+		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		if (pBullets.Length == 0) return;
+		for (int i = 0; i < pBullets.Length; i++) {
+			if (ch.AABBCollision (gameObject, pBullets [i])) {
+				health -= damageTaken;
+			}
+		}
 	}
 
 	//method to handle when the entity attacks

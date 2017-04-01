@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TankEnemy : Entity {
 	private SteeringForces steering;
+	public CollisionHandler ch;
 	public GameObject orb;
 	private Vector3 force;
 	private float timer;
@@ -13,9 +14,10 @@ public class TankEnemy : Entity {
 	protected override void Start () {
 		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
+		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 10f;
-		attack = 10;
-		health = 50f;
+		attack = 1;
+		health = 8f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}
@@ -24,7 +26,9 @@ public class TankEnemy : Entity {
 	protected override void Update () {
 		Death ();
 		Move ();
-		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+		TakeDamage (1);
+
+		//transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		//TakeDamage ();
 		if(timer > cooldown){
 			timer = 0;
@@ -69,16 +73,21 @@ public class TankEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// TO-DO
 		// check for collision between player bullet and game object
-
-		// handle collison if so
+		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		if (pBullets.Length == 0) return;
+		for (int i = 0; i < pBullets.Length; i++) {
+			if (ch.AABBCollision (gameObject, pBullets [i])) {
+				health -= damageTaken;
+			}
+		}
 	}
 
 	//method to handle when the entity attacks
 	protected override void Attack(){
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+        bullet.GetComponent<Projectile>().parent = this.gameObject;
 		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
 	}
 

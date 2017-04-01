@@ -52,6 +52,7 @@ public class Door : MonoBehaviour {
                 blockedText.GetComponent<MeshRenderer>().enabled = false;
 
                 //Handle player entering the door
+                EnterDoorCheck();
             }
             else
             {

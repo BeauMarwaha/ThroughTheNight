@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ForwardEnemy :  Entity {
+	public CollisionHandler ch;
 	private SteeringForces steering;
 	private Vector3 force;
 	public Vector3 dir;
@@ -10,9 +11,10 @@ public class ForwardEnemy :  Entity {
 	// Use this for initialization
 	protected override void Start () {
 		steering = GetComponent<SteeringForces> ();
+		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 50f;
 		attack = 1;
-		health = 25f;
+		health = 5f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}
@@ -22,7 +24,7 @@ public class ForwardEnemy :  Entity {
 		Death ();
 		Move ();
 		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-		//TakeDamage ();
+		TakeDamage (1);
 		Attack ();
 	}
 
@@ -65,10 +67,14 @@ public class ForwardEnemy :  Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// TO-DO
 		// check for collision between player bullet and game object
-
-		// handle collison if so
+		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		if (pBullets.Length == 0) return;
+		for (int i = 0; i < pBullets.Length; i++) {
+			if (ch.AABBCollision (gameObject, pBullets [i])) {
+				health -= damageTaken;
+			}
+		}
 	}
 
 	//method to handle when the entity attacks

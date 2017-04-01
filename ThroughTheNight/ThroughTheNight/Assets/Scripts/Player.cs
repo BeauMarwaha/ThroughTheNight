@@ -10,6 +10,9 @@ public class Player : Entity
     //fields for shooting cooldown
     private float timer;
     public float coolDown; //time between shots //.5
+    private bool invincible;//whether or not the player is currently invincible
+    public float invinTime;//length of time that you are invincible after being hit
+    private float timerInvul;
 
     // Use this for initialization
     protected override void Start ()
@@ -19,7 +22,9 @@ public class Player : Entity
         speed = 5;
         attack = 5;
         Spawn(Vector3.zero, Vector3.zero);
-	}
+        timerInvul = 0;
+        invincible = false;
+    }
 	
 	// Update is called once per frame
 	protected override void Update ()
@@ -32,6 +37,20 @@ public class Player : Entity
         //use input to test being damaged
         if (Input.GetKeyDown(KeyCode.F))
 			TakeDamage(1);
+
+        if(invincible == true)
+        {
+            if (timerInvul > invinTime)
+            {
+                invincible = false;
+                timerInvul = 0;
+            }
+            else
+            {
+                timerInvul += Time.deltaTime;
+            }
+        }
+        
 
         //check for if the player's health is gone
         if (GameManager.GM.healthNum <= 0)
@@ -82,21 +101,36 @@ public class Player : Entity
     //method to handle when the entity is attacked and no facing direction is specified
     public override void TakeDamage(int damageTaken)
     {
+        if (invincible == true)
+        {
+            return;
+        }
         //decrease health
         GameManager.GM.ChangeHealth(-damageTaken);
 
         //apply knockback
         Knockback(true);
+
+        //apply invincibility
+        invincible = true;
+
     }
 
     //method to handle when the entity is attacked
     public void TakeDamage(int damageTaken, bool faceRight)
     {
+        if(invincible == true)
+        {
+            return;
+        }
         //decrease health
         GameManager.GM.ChangeHealth(-damageTaken);
 
         //apply knockback
         Knockback(faceRight);
+
+        //apply invincibility
+        invincible = true;
     }
 
     //method to handle when the entity attacks
@@ -110,12 +144,14 @@ public class Player : Entity
         //set orbs direction
         //get the position of the mouse in local/screen position and convert it to world position
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos -= gameObject.transform.position;
         //use arctan to determine angle betweeen clock hand and mouse
         float mouseRot = Mathf.Atan2(mousePos.y, mousePos.x);
         //convert angle from rads to deg and add 180 to compensate for being backwards
         mouseRot = Mathf.Rad2Deg * mouseRot + 180f;
         //set the rotation angle as an Euler angle
-        orb.transform.rotation = Quaternion.Euler(0, 0, mouseRot);
+        orb.transform.rotation = Quaternion.Euler(0,0, mouseRot)  ;
+        
 
     }
 
