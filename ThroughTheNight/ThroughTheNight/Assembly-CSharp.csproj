@@ -49,6 +49,7 @@
      <Compile Include="Assets\PlaceHolderImages\ChangeScene.cs" />
      <Compile Include="Assets\PlaceHolderImages\TestAccess.cs" />
      <Compile Include="Assets\Scripts\CollisionHandler.cs" />
+     <Compile Include="Assets\Scripts\Credits.cs" />
      <Compile Include="Assets\Scripts\Door.cs" />
      <Compile Include="Assets\Scripts\Entity.cs" />
      <Compile Include="Assets\Scripts\FlyingEnemy.cs" />
@@ -59,6 +60,7 @@
      <Compile Include="Assets\Scripts\SpriteInfo.cs" />
      <Compile Include="Assets\Scripts\SteeringForces.cs" />
      <Compile Include="Assets\Scripts\TankEnemy.cs" />
+     <Compile Include="Assets\Scripts\TitleScreen.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

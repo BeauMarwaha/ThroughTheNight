@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+/// <summary>
+/// Loads the UI and doesn't allow it to be destroyed
+/// </summary>
 public class ChangeScene : MonoBehaviour {
 
     //public Text health;
@@ -16,7 +20,7 @@ public class ChangeScene : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
 	}
 	
 	// Update is called once per frame
