@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ForwardEnemy :  Entity {
-	public SteeringForces steering;
+	private SteeringForces steering;
 	private Vector3 force;
 	public Vector3 dir;
 

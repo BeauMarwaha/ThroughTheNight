@@ -73,8 +73,20 @@ public class CollisionHandler : MonoBehaviour {
             //check for collision
             if (enemies[i].activeSelf && AABBCollision(player, enemies[i]))
             {
-                //if colliding have the player take damage
-                player.GetComponent<Entity>().TakeDamage(enemies[i].GetComponent<Entity>().attack);
+                //get the dot product of the players right vector and the enemy
+                float dot = Vector3.Dot(player.transform.right, enemies[i].transform.position);
+                Debug.Log("Dot product: " + dot);
+                if(dot < 0)
+                {
+                    //if colliding have the player take damage
+                    player.GetComponent<Player>().TakeDamage(enemies[i].GetComponent<Entity>().attack, false);
+                }
+                else
+                {
+                    //if colliding have the player take damage
+                    player.GetComponent<Player>().TakeDamage(enemies[i].GetComponent<Entity>().attack, true);
+                }
+                
             }
         }
     }
