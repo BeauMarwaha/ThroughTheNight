@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager GM;
 
+    public Image[] hearts;
+
     public Text health;
     public int healthNum;
 
@@ -85,7 +87,14 @@ public class GameManager : MonoBehaviour {
 
         RemoveObjective("Cook");
 
-
+        for(int i = 0; i <hearts.Length; i++)
+        {
+            hearts[i].enabled = false;
+        }
+        for (int i = 0; i < healthNum; i++)
+        {
+            hearts[i].enabled = true;
+        }
         //Starting at Day
         ChangeState(State.Day);
         
@@ -125,6 +134,18 @@ public class GameManager : MonoBehaviour {
         else
         {
             GameManager.GM.healthNum += health;
+        }
+        if(healthNum > 16)
+        {
+            healthNum = 16;
+        }
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            hearts[i].enabled = false;
+        }
+        for (int i = 0; i < healthNum; i++)
+        {
+            hearts[i].enabled = true;
         }
         GameManager.GM.health.text = "Health: " + GameManager.GM.healthNum;
     }
