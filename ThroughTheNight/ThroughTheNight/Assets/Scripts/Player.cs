@@ -42,7 +42,9 @@ public class Player : Entity
     {
         //if the player is in the facing left state swap its texture
         if(pState == PlayerState.FacingLeft)
-        gameObject.GetComponent<SpriteRenderer>().flipY = true;
+        gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        else
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
 
         direction = Vector3.zero;//reset direction to zero
         velocity = Vector3.zero;//reset velocity to zero
