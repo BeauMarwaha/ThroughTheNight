@@ -7,19 +7,16 @@ public class Player : Entity
     //fields
     public float knockback;
     public GameObject bulletPrefab;
-    //total amount rotated
-    private float totalRotation;
-
-    //properties
-    public float TotalRot
-    {
-        get { return totalRotation; }
-    }
+    //fields for shooting cooldown
+    private int timer;
+    public int coolDown; //time between shots //25
 
     // Use this for initialization
     protected override void Start ()
     {
-        //health = 100;
+        //instantiate timer to be higher than cooldown so that you can fire immediately
+        timer = coolDown + 1;
+
         speed = 5;
         attack = 5;
         Spawn(Vector3.zero, Vector3.zero);
@@ -44,10 +41,13 @@ public class Player : Entity
         }
 
         //if the player clicks, fire a projectile at where the mouse is currently
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && timer > coolDown)
         {
             Attack();
+            timer = 0;
         }
+        //increment timer
+        timer++;
     }
 
     //method to spawn entity into the game
@@ -84,7 +84,7 @@ public class Player : Entity
 	public override void TakeDamage(int damageTaken)
     {
         //decrease health
-        GameManager.GM.ChangeHealth(-5);
+        GameManager.GM.ChangeHealth(-damageTaken);
 
         //apply knockback
         transform.position = new Vector3(transform.position.x - knockback, transform.position.y, transform.position.z);
