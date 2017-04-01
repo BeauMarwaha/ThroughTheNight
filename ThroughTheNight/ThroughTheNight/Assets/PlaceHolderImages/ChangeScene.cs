@@ -17,6 +17,8 @@ public class ChangeScene : MonoBehaviour {
     {
         DontDestroyOnLoad(this.transform.gameObject);
         DontDestroyOnLoad(this);
+        DontDestroyOnLoad(GameObject.Find("Player"));
+
     }
 	// Use this for initialization
 	void Start () {
