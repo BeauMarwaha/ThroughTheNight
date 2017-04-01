@@ -7,17 +7,9 @@ public class Player : Entity
     //fields
     public float knockback;
     public GameObject bulletPrefab;
-    //total amount rotated
-    private float totalRotation;
     //fields for shooting cooldown
     private int timer;
     public int coolDown; //time between shots //25
-
-    //properties
-    public float TotalRot
-    {
-        get { return totalRotation; }
-    }
 
     // Use this for initialization
     protected override void Start ()
@@ -52,6 +44,7 @@ public class Player : Entity
         if(Input.GetMouseButtonDown(0) && timer > coolDown)
         {
             Attack();
+            timer = 0;
         }
         //increment timer
         timer++;
