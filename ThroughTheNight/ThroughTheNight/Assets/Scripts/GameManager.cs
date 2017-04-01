@@ -13,7 +13,9 @@ using UnityEngine.UI;
 public enum State { Day, Buy, Night, Message }
 public class GameManager : MonoBehaviour {
 
-     
+    private List<string> messages = new List<string>();
+    private int currentMessage = 0;
+
 
     public static GameManager GM;
 
@@ -35,9 +37,16 @@ public class GameManager : MonoBehaviour {
     public Text[] textElements;
     public Font[] fonts;
 
+    //Currently Unused
     private List<string> objectives = new List<string>();
     private List<string> currentObjectives;
     private int objectivesTotal;
+
+    public Image background;
+    public Image largeCat;
+    public Text message;
+
+
     void Awake()
     {
         CreateGameManager();
@@ -62,6 +71,9 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        HideMessage();
+        PopulatesMessages();
+
         objective = GameObject.Find("Objectives").GetComponent<Text>();
         objectives = new List<string>();
         objectives.Add("Cook");
@@ -126,11 +138,11 @@ public class GameManager : MonoBehaviour {
             {
                 if (currentState == State.Night)
                 {
-                    ChangeState(State.Message);
+                    DisplayMessage();
                 }
                 else if (currentState == State.Message)
                 {
-                    ChangeState(State.Night);
+                    HideMessage();
                 }
             }
         }
@@ -138,7 +150,16 @@ public class GameManager : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                ChangeState(State.Night);
+                HideMessage();
+            }
+            if (Input.GetMouseButtonDown(0) && messages.Count -1 != currentMessage)
+            {
+                currentMessage++;
+                message.text = messages[currentMessage];
+            }
+            else if(Input.GetMouseButtonDown(0) && messages.Count - 1 == currentMessage)
+            {
+                HideMessage();
             }
         }
         
@@ -216,7 +237,7 @@ public class GameManager : MonoBehaviour {
                 }
             case State.Message:
                 {
-                    
+                    message.text = messages[currentMessage];
                     return;
                 }
         }
@@ -241,4 +262,28 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    void HideMessage()
+    {
+        background.enabled = false;
+        largeCat.enabled = false;
+        message.enabled = false;
+        ChangeState(State.Night);
+    }
+
+    void DisplayMessage()
+    {
+        ChangeState(State.Message);
+        background.enabled = true;
+        largeCat.enabled = true;
+        message.enabled = true;
+        
+    }
+
+    void PopulatesMessages()
+    {
+        messages.Add("Welcome to your dream *cough* nightmare *cough*. I recommend you don't try going back to sleep.");
+        messages.Add("I'm Harenae, the Inanis have invaded your dream. You see that number in the bottom left corner?");
+        messages.Add("It's how many still remain in your dream. If any are left by morning...");
+        messages.Add("You aren't waking up.");
+    }
 }
