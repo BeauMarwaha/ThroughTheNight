@@ -8,13 +8,18 @@ public class Player : Entity
 	// Use this for initialization
 	protected override void Start ()
     {
-		
+        health = 100;
+        speed = 5;
+        attack = 5;
+        Spawn(Vector3.zero, Vector3.zero);
 	}
 	
 	// Update is called once per frame
 	protected override void Update ()
     {
-		
+        direction = Vector3.zero;//reset direction to zero
+
+        Move();
 	}
 
     //method to spawn entity into the game
@@ -26,6 +31,17 @@ public class Player : Entity
     //method to move the entity
     protected override void Move()
     {
+        if (Input.GetKey(KeyCode.D))
+            direction.x += 1;
+
+        if (Input.GetKey(KeyCode.A))
+            direction.x -= 1;
+
+        //calculate velocity from direction and speed times delta time so it is framerate independent
+        velocity = direction.normalized * speed * Time.deltaTime;
+
+        //update location by adding velocity
+        transform.position = transform.position + velocity;
 
     }
 
@@ -38,7 +54,7 @@ public class Player : Entity
     //method to handle when the entity is attacked
     protected override void Damaged()
     {
-
+        health -= 5;
     }
 
     //method to handle when the entity attacks
