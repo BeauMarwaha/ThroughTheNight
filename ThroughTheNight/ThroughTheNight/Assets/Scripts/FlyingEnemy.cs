@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FlyingEnemy : Entity {
+
+	public SteeringForces forces;
 	
 	// Use this for initialization
 	protected override void Start () {
-
+		forces = GetComponent<SteeringForces> ();
 	}
 
 	// Update is called once per frame

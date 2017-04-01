@@ -24,6 +24,11 @@ public class SteeringForces : MonoBehaviour {
 		
 	}
 
+	// calculate distance to player
+	public float DistToPlayer(){
+		return distToPlayer =  Vector3.Distance(player.transform.position, gameObject.transform.position);
+	}
+
 	// update the position of the enemy
 	public void UpdatePosition(Vector3 velocity, Vector3 direction){
 		// grab the world positon from the transform 
@@ -36,13 +41,10 @@ public class SteeringForces : MonoBehaviour {
 		position += velocity * Time.deltaTime;
 
 		// make sure the enemy is always facing the player
-		direction = -player.transform.forward;
+		direction = -player.transform.right;
 
 		// start fresh with new forces each frame
 		acceleration = Vector3.zero;
-
-		// calculate distance to player
-		distToPlayer =  Vector3.Distance(player.transform.position, position);
 	}
 
 	// set the transform component to reflect the local position vector
@@ -66,5 +68,13 @@ public class SteeringForces : MonoBehaviour {
 
 		// find the steering force
 		steer = desired - velocity;
+	}
+	/*
+	public void Flee(Vector3 velocity, float speed){
+		steer = -1 * Seek (velocity, speed);
+	}*/
+
+	public void Wander(Vector3 velocity, float speed){
+		
 	}
 }

@@ -10,7 +10,7 @@ public class Player : Entity
 	// Use this for initialization
 	protected override void Start ()
     {
-        //health = 100;
+        health = 100;
         speed = 5;
         attack = 5;
         Spawn(Vector3.zero, Vector3.zero);
