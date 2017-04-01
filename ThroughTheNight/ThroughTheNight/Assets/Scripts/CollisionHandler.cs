@@ -18,8 +18,7 @@ public class CollisionHandler : MonoBehaviour {
     void Start()
     {
         //initialize attributes
-        player = GameObject.Find("Player");
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        
         pBullets = GameObject.FindGameObjectsWithTag("pBullet");
         eBullets = GameObject.FindGameObjectsWithTag("eBullet");
     }
@@ -27,6 +26,11 @@ public class CollisionHandler : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        
+        player = GameObject.FindGameObjectWithTag("Player");
+        
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
         //Check for collisions between the player and all enemies
         PlayerEnemyCollisionCheck();
 
@@ -35,6 +39,16 @@ public class CollisionHandler : MonoBehaviour {
 
         //Check for collisions between all enemies and all player bullets
         EnemyPBulletCollisionCheck();
+        if(player != null)
+        {
+            SpriteInfo info1 = player.GetComponent<SpriteInfo>();
+            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMinY(), 0), new Vector3(info1.GetMaxX(), info1.GetMinY(), 0),Color.red);
+            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMinY(), 0), new Vector3(info1.GetMinX(), info1.GetMaxY(), 0), Color.red);
+            Debug.DrawLine(new Vector3(info1.GetMaxX(), info1.GetMinY(), 0), new Vector3(info1.GetMaxX(), info1.GetMaxY(), 0), Color.red);
+            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMaxY(), 0), new Vector3(info1.GetMaxX(), info1.GetMaxY(), 0), Color.red);
+        }
+        
+        //Debug.Log(info1.GetMinX() + " " + info1.GetMaxX() + " " + info1.GetMinY() + " " + info1.GetMaxY());
     }
 
     /// <summary>
@@ -49,12 +63,15 @@ public class CollisionHandler : MonoBehaviour {
         SpriteInfo info1 = obj1.GetComponent<SpriteInfo>();
         SpriteInfo info2 = obj2.GetComponent<SpriteInfo>();
 
+        //Debug.Log(info1.GetMinX() + " " + info1.GetMaxX() + " " + info1.GetMinY() + " " + info1.GetMaxY());
+
         //check for AABB collision
         if (info1.GetMinX() < info2.GetMaxX() &&
             info1.GetMaxX() > info2.GetMinX() &&
             info1.GetMinY() < info2.GetMaxY() &&
             info1.GetMaxY() > info2.GetMinY())
         {
+            Debug.Log("Colliding");
             return true;
         }
 
@@ -73,8 +90,20 @@ public class CollisionHandler : MonoBehaviour {
             //check for collision
             if (enemies[i].activeSelf && AABBCollision(player, enemies[i]))
             {
-                //if colliding have the player take damage
-                player.GetComponent<Entity>().TakeDamage(enemies[i].GetComponent<Entity>().attack);
+                //get the dot product of the players right vector and the enemy
+                float dot = Vector3.Dot(player.transform.right, enemies[i].transform.position);
+                Debug.Log("Dot product: " + dot);
+                if(dot < 0)
+                {
+                    //if colliding have the player take damage
+                    player.GetComponent<Player>().TakeDamage(enemies[i].GetComponent<Entity>().attack, false);
+                }
+                else
+                {
+                    //if colliding have the player take damage
+                    player.GetComponent<Player>().TakeDamage(enemies[i].GetComponent<Entity>().attack, true);
+                }
+                
             }
         }
     }
@@ -131,8 +160,9 @@ public class CollisionHandler : MonoBehaviour {
             {
                 //if colliding have the player take damage
                 player.GetComponent<Entity>().TakeDamage(enemies[0].GetComponent<Entity>().attack);
-                bullet.SetActive(false);
-                oldBullets.Add(bullet);
+                bullet.GetComponent<Projectile>().Hit();
+                //bullet.SetActive(false);
+                //oldBullets.Add(bullet);
             }
         }
 
@@ -141,5 +171,6 @@ public class CollisionHandler : MonoBehaviour {
         {
             Destroy(oldBullets[i]);
         }
+        
     }
 }

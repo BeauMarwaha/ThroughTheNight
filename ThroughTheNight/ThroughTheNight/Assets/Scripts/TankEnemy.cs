@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TankEnemy : Entity {
-	public SteeringForces steering;
+	private SteeringForces steering;
 	public GameObject orb;
 	private Vector3 force;
-	private float period;
+	private float timer;
+	public int cooldown;
 
 	// Use this for initialization
 	protected override void Start () {
+		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
 		speed = 10f;
 		attack = 10;
@@ -22,9 +24,13 @@ public class TankEnemy : Entity {
 	protected override void Update () {
 		Death ();
 		Move ();
+		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		//TakeDamage ();
-
-		InvokeRepeating ("Attack", 1f, 1.5f);
+		if(timer > cooldown){
+			timer = 0;
+			Attack ();
+		}
+		timer += Time.deltaTime;
 	}
 
 	public override void Spawn(Vector3 location, Vector3 rotation){
@@ -40,7 +46,7 @@ public class TankEnemy : Entity {
 	//method to move the entity
 	protected override void Move(){
 		// move closer to the player up to a certain distance
-		if (steering.DistToPlayer() > 10f) {
+		if (steering.DistToPlayer() > 5f) {
 			steering.SeekPlayer (velocity, speed);
 			force += Vector3.ClampMagnitude (force, 10f);
 			steering.ApplyForce (force);
@@ -71,11 +77,9 @@ public class TankEnemy : Entity {
 
 	//method to handle when the entity attacks
 	protected override void Attack(){
-		//TO-DO
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
-		Debug.Log ("Attacking");
-		// move bullet in the x direction only
+		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
 	}
 
 	public float GetAttack(){

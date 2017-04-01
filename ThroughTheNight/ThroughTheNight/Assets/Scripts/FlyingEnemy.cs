@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FlyingEnemy : Entity {
-	public SteeringForces steering;
+	public GameObject orb;
+	public CollisionHandler ch;
+	private SteeringForces steering;
 	private Vector3 force;
-	
+	private float timer;
+	public int cooldown;
+
 	// Use this for initialization
 	protected override void Start () {
+		timer = cooldown + 1;
+		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		steering = GetComponent<SteeringForces> ();
 		speed = 100f;
 		attack = 10;
@@ -21,7 +27,11 @@ public class FlyingEnemy : Entity {
 		Death ();
 		Move ();
 		//TakeDamage ();
-		Attack ();
+		if(timer > cooldown){
+			timer = 0;
+			Attack ();
+		}
+		timer += Time.deltaTime;
 	}
 
 	public override void Spawn(Vector3 location, Vector3 rotation){
@@ -65,7 +75,9 @@ public class FlyingEnemy : Entity {
 
 	//method to handle when the entity attacks
 	protected override void Attack(){
-
+		// create bullet
+		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
 	}
 
 	public float GetAttack(){
