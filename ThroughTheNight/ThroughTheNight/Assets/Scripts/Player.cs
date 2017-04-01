@@ -106,13 +106,20 @@ public class Player : Entity
             direction.x -= 1;
             pState = PlayerState.FacingLeft;
         }
-            
+
+        Vector3 location = transform.position;
 
         //calculate velocity from direction and speed times delta time so it is framerate independent
         velocity += direction.normalized * speed * Time.deltaTime;
 
         //update location by adding velocity
-        transform.position = transform.position + velocity;
+        location = transform.position + velocity;
+
+        //clamp the x value so that the player cannot leave the room/screen
+        location.x = Mathf.Clamp(location.x, -9f, 9f);
+
+        //upload new position
+        transform.position = new Vector3(location.x, transform.position.y, transform.position.z);
 
         MoveCamera();
     }
@@ -193,6 +200,9 @@ public class Player : Entity
 
     private void MoveCamera()
     {
+        //maybe offset the location off from the player // player to the left
+        //need to know the aspect location
+
         Vector3 location = transform.position;
 
         Camera cam = Camera.main;
