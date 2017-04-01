@@ -12,23 +12,23 @@ public abstract class Entity : MonoBehaviour
     protected Vector3 direction;
 
     // Use this for initialization
-    abstract void Start();
+    protected abstract void Start();
 
     // Update is called once per frame
-    abstract void Update();
-
+	protected abstract void Update();
+	
     //method to spawn entity into the game
-    abstract void Spawn(Vector3 location, Vector3 rotation);
-
+	protected abstract void Spawn(Vector3 location, Vector3 rotation);
+	
     //method to move the entity
-    abstract void Move();
-
+	protected abstract void Move();
+	
     //method to handle when the entity dies
-    abstract void Death();
-
+	protected abstract void Death();
+	
     //method to handle when the entity is attacked
-    abstract void Damaged();
-
+	protected abstract void Damaged();
+	
     //method to handle when the entity attacks
-    abstract void Attack();
+	protected abstract void Attack();
 }
