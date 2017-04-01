@@ -14,7 +14,7 @@ public class TankEnemy : Entity {
 		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
 		speed = 10f;
-		attack = 10;
+		attack = 1;
 		health = 50f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
