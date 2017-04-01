@@ -20,10 +20,14 @@ public class Projectile : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        //update the position of the bullets 
-        transform.position = transform.position + velocity * Time.deltaTime;
-        //limit the lives of the bullets
-        LimitLife();
+        if(GameManager.GM.currentState != State.Message)
+        {
+            //update the position of the bullets 
+            transform.position = transform.position + velocity * Time.deltaTime;
+            //limit the lives of the bullets
+            LimitLife();
+        }
+        
 	}
 
     public void Hit()
@@ -41,7 +45,7 @@ public class Projectile : MonoBehaviour
         Camera cam = Camera.main;
         Vector3 viewportPos = cam.WorldToViewportPoint(transform.position);
         //destroy bullet if it is outside the viewport
-        if (viewportPos.x > 1 || viewportPos.x < 0 || viewportPos.y > 1 || viewportPos.y < 0)
+        if (viewportPos.x > 1 || viewportPos.x < 0 || viewportPos.y > 1.5 || viewportPos.y < -.5)
         {
             Destroy(gameObject);
         }

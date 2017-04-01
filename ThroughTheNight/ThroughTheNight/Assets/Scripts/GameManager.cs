@@ -10,9 +10,10 @@ using UnityEngine.UI;
 /// 
 /// 
 /// </summary>
+public enum State { Day, Buy, Night, Message }
 public class GameManager : MonoBehaviour {
 
-    public enum State { Day, Buy, Night, Message } 
+     
 
     public static GameManager GM;
 
@@ -96,29 +97,51 @@ public class GameManager : MonoBehaviour {
             hearts[i].enabled = true;
         }
         //Starting at Day
-        ChangeState(State.Day);
+        ChangeState(State.Night);
         
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if(currentState == State.Night)
+        if (currentState != State.Message)
         {
-            timeNum -= Time.deltaTime;
-            time.text = "Time: " + timeNum.ToString("F2");
-        }
-       
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            if(currentState == State.Night)
+            if (currentState == State.Night)
             {
-                ChangeState(State.Day);
-            }else if(currentState == State.Day)
+                timeNum -= Time.deltaTime;
+                time.text = "Time: " + timeNum.ToString("F2");
+            }
+
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                if (currentState == State.Night)
+                {
+                    ChangeState(State.Day);
+                }
+                else if (currentState == State.Day)
+                {
+                    ChangeState(State.Night);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (currentState == State.Night)
+                {
+                    ChangeState(State.Message);
+                }
+                else if (currentState == State.Message)
+                {
+                    ChangeState(State.Night);
+                }
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 ChangeState(State.Night);
             }
-            
         }
+        
     }
 
     /// <summary>
@@ -191,8 +214,9 @@ public class GameManager : MonoBehaviour {
                     remaining.text = remainNum.ToString();
                     return;
                 }
-            case State.Buy:
+            case State.Message:
                 {
+                    
                     return;
                 }
         }

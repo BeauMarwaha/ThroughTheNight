@@ -39,6 +39,10 @@ public class CollisionHandler : MonoBehaviour {
 
         //Check for collisions between all enemies and all player bullets
         EnemyPBulletCollisionCheck();
+
+        //check for collsions between enemy and player bullets
+        PBulletEBulletCollisionCheck();
+
         if(player != null)
         {
             SpriteInfo info1 = player.GetComponent<SpriteInfo>();
@@ -116,9 +120,6 @@ public class CollisionHandler : MonoBehaviour {
         //update bullet list
         pBullets = GameObject.FindGameObjectsWithTag("pBullet");
 
-        //create a list to put bullets to be removed in
-        List<GameObject> oldBullets = new List<GameObject>();
-
         //check all bullets
         foreach (GameObject bullet in pBullets)
         {
@@ -129,17 +130,11 @@ public class CollisionHandler : MonoBehaviour {
                 if (enemies[i].activeSelf && AABBCollision(bullet, enemies[i]))
                 {
                     enemies[i].GetComponent<Entity>().TakeDamage(player.GetComponent<Entity>().attack);
-                    bullet.SetActive(false);
-                    oldBullets.Add(bullet);
+                    bullet.GetComponent<Projectile>().Hit();
                 }
             }
         }
 
-        //remove old bullets from screen
-        for(int i = 0; i < oldBullets.Count; i++)
-        {
-            Destroy(oldBullets[i]);
-        }
     }
 
     /// <summary>
@@ -150,18 +145,11 @@ public class CollisionHandler : MonoBehaviour {
         //update bullet list
         eBullets = GameObject.FindGameObjectsWithTag("eBullet");
 
-        //create a list to put bullets to be removed in
-        List<GameObject> oldBullets = new List<GameObject>();
-
         //check all bullets
         foreach (GameObject bullet in eBullets)
         {
             if (AABBCollision(player, bullet))
-            {
-                //if colliding have the player take damage
-                //player.GetComponent<Entity>().TakeDamage(enemies[0].GetComponent<Entity>().attack);
-                //bullet.transform.position = new Vector3(4000, 4000);
-                
+            {             
                 //get the dot product of the players right vector and the enemy
 
                 float dot = Vector3.Dot(player.transform.right, bullet.transform.position);
@@ -178,18 +166,33 @@ public class CollisionHandler : MonoBehaviour {
                 }
 
                 bullet.GetComponent<Projectile>().Hit();
-                //return;
-                //bullet.GetComponent<Projectile>().Hit();
-                //bullet.SetActive(false);
-                //oldBullets.Add(bullet);
             }
         }
 
-        //remove old bullets from screen
-        for (int i = 0; i < oldBullets.Count; i++)
+    }
+
+
+    private void PBulletEBulletCollisionCheck()
+    {
+        //update player bullet list
+        pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+
+        //update enemy bullet list
+        eBullets = GameObject.FindGameObjectsWithTag("eBullet");
+
+        //check all bullets
+        foreach (GameObject bullet in eBullets)
         {
-            Destroy(oldBullets[i]);
+            foreach(GameObject b in pBullets)
+            {
+                if (AABBCollision(b, bullet))
+                {
+                    //if the two bullets collide, destroy both of them
+                    bullet.GetComponent<Projectile>().Hit();
+                    b.GetComponent<Projectile>().Hit();
+                }
+            }
+            
         }
-        
     }
 }
