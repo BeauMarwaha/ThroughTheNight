@@ -24,7 +24,7 @@ public class ForwardEnemy :  Entity {
 		Death ();
 		Move ();
 		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-		TakeDamage (1f);
+		TakeDamage (1);
 		Attack ();
 	}
 

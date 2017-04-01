@@ -26,7 +26,7 @@ public class FlyingEnemy : Entity {
 	protected override void Update () {
 		Death ();
 		Move ();
-		TakeDamage (1f);
+		TakeDamage (1);
 		if(timer > cooldown){
 			timer = 0;
 			Attack ();
