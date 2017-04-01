@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
+/// <summary>
+/// Title Screen button controls
+/// </summary>
 public class TitleScreen : MonoBehaviour {
 
     public Button play;
