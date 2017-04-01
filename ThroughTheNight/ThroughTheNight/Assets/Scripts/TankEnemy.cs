@@ -27,9 +27,6 @@ public class TankEnemy : Entity {
 		Death ();
 		Move ();
 		TakeDamage (1);
-
-		//transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-		//TakeDamage ();
 		if(timer > cooldown){
 			timer = 0;
 			Attack ();

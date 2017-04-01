@@ -7,6 +7,7 @@ public class ForwardEnemy :  Entity {
 	private SteeringForces steering;
 	private Vector3 force;
 	public Vector3 dir;
+	public bool facingLeft;
 
 	// Use this for initialization
 	protected override void Start () {
@@ -23,7 +24,8 @@ public class ForwardEnemy :  Entity {
 	protected override void Update () {
 		Death ();
 		Move ();
-		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+		Rotate ();
+		transform.position = new Vector3(transform.position.x, -3f, transform.position.z);
 		TakeDamage (1);
 		Attack ();
 	}
@@ -40,13 +42,15 @@ public class ForwardEnemy :  Entity {
 
 	//method to move the entity
 	protected override void Move(){
-		if (Vector3.Dot (steering.player.transform.position, transform.position) > 0) {
+		if (Vector3.Dot (steering.player.transform.position, transform.right) > 0) {
+			facingLeft = true;
 			force += steering.Arrival (steering.player.transform.position , velocity, speed) * 300f;
 		} else {
+			facingLeft = false;
 			force += steering.Arrival (steering.player.transform.position, velocity, speed) * 300f;
 		}
 		//if (steering.player.activeInHierarchy == false) return;
-		Debug.Log (Vector3.Dot (steering.player.transform.right, transform.position) );
+		Debug.Log (Vector3.Dot (steering.player.transform.position, transform.right) );
 		force = Vector3.ClampMagnitude (force, 100f);
 		steering.ApplyForce (force);
 		steering.UpdatePosition (velocity, direction);
@@ -84,5 +88,14 @@ public class ForwardEnemy :  Entity {
 
 	public float GetAttack(){
 		return attack;
+	}
+
+	public void Rotate(){
+		if (facingLeft == true) {
+			gameObject.GetComponent<SpriteRenderer> ().flipX = true;
+		} 
+		else {
+			gameObject.GetComponent<SpriteRenderer> ().flipX = false;
+		}
 	}
 }
