@@ -17,7 +17,7 @@ public class TankEnemy : Entity {
 		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 10f;
 		attack = 1;
-		health = 50f;
+		health = 8f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}

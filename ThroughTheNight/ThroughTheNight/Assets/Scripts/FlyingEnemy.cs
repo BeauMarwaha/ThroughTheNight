@@ -17,7 +17,7 @@ public class FlyingEnemy : Entity {
 		steering = GetComponent<SteeringForces> ();
 		speed = 100f;
 		attack = 1;
-		health = 50f;
+		health = 5f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}

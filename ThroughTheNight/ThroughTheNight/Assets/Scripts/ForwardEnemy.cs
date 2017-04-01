@@ -14,7 +14,7 @@ public class ForwardEnemy :  Entity {
 		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 50f;
 		attack = 1;
-		health = 25f;
+		health = 5f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}
