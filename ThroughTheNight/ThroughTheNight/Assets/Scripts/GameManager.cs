@@ -5,10 +5,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// Game Manager Singleton
-/// 
 /// Allows the access of variables at all times no matter the current scene
-/// 
-/// 
 /// </summary>
 public enum State { Day, Buy, Night, Message }
 public class GameManager : MonoBehaviour {

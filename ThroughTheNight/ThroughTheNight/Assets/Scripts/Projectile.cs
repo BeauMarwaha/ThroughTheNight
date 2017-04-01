@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a projectile object
+/// </summary>
 public class Projectile : MonoBehaviour
 {
     public float speed;
@@ -45,7 +48,7 @@ public class Projectile : MonoBehaviour
         Camera cam = Camera.main;
         Vector3 viewportPos = cam.WorldToViewportPoint(transform.position);
         //destroy bullet if it is outside the viewport
-        if (viewportPos.x > 1 || viewportPos.x < 0 || viewportPos.y > 1 || viewportPos.y < 0)
+        if (viewportPos.x > 1 || viewportPos.x < 0 || viewportPos.y > 1.5 || viewportPos.y < -.5)
         {
             Destroy(gameObject);
         }
