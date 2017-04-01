@@ -79,11 +79,11 @@ public class Door : MonoBehaviour {
         {
             if(gameObject.tag == "LeftDoor")
             {
-                player.transform.position = new Vector3(gameObject.transform.position.x - 1, player.transform.position.y, player.transform.position.z);
+                player.transform.position = new Vector3(gameObject.transform.position.x + 15f , player.transform.position.y, player.transform.position.z);
             }
             else if(gameObject.tag == "RightDoor")
             {
-                player.transform.position = new Vector3(gameObject.transform.position.x + 4, player.transform.position.y, player.transform.position.z);
+                player.transform.position = new Vector3(gameObject.transform.position.x - 15f, player.transform.position.y, player.transform.position.z);
 
             }
             SceneManager.LoadScene(connectedRoom);

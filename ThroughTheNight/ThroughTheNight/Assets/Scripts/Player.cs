@@ -114,7 +114,7 @@ public class Player : Entity
         //update location by adding velocity
         transform.position = transform.position + velocity;
 
-        //MoveCamera();
+        MoveCamera();
     }
 
     //method to handle when the entity dies
