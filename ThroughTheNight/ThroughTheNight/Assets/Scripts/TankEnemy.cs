@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a Tank Enemy
+/// </summary>
 public class TankEnemy : Entity {
 	private SteeringForces steering;
 	public CollisionHandler ch;

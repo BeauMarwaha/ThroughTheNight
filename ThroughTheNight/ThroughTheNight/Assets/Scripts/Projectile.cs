@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a projectile object
+/// </summary>
 public class Projectile : MonoBehaviour
 {
     public float speed;

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Title Screen button controls
+/// Handles the main menu in the game
 /// </summary>
 public class TitleScreen : MonoBehaviour {
 

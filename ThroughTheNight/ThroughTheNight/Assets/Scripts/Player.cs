@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents the Player Object
+/// </summary>
 public class Player : Entity
 {
     //fields
