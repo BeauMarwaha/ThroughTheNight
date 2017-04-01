@@ -24,6 +24,9 @@ public class TitleScreen : MonoBehaviour {
         extras.onClick.AddListener(LoadExtra);
 
         catsby.enabled = false;
+
+        //Keep menu audio manager between all menus
+        DontDestroyOnLoad(GameObject.Find("Audio Manager"));
     }
 	
 	// Update is called once per frame
@@ -34,6 +37,9 @@ public class TitleScreen : MonoBehaviour {
     void LoadGame()
     {
         SceneManager.LoadScene(1);
+
+        //Destroy menu audio manager when starting game
+        Destroy(GameObject.Find("Audio Manager"));
     }
 
     void LoadCredits()

@@ -24,14 +24,18 @@ public class FlyingEnemy : Entity {
 
 	// Update is called once per frame
 	protected override void Update () {
-		Death ();
-		Move ();
-		TakeDamage (1);
-		if(timer > cooldown){
-			timer = 0;
-			Attack ();
-		}
-		timer += Time.deltaTime;
+        if (GameManager.GM.currentState != State.Message)
+        {
+            Death();
+            Move();
+            TakeDamage(1);
+            if (timer > cooldown)
+            {
+                timer = 0;
+                Attack();
+            }
+            timer += Time.deltaTime;
+        }
 	}
 
 	public override void Spawn(Vector3 location, Vector3 rotation){
