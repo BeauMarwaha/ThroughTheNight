@@ -22,9 +22,16 @@ public class ForwardEnemy :  Entity {
 	// required to help determine which way the sprite will face
 	public bool facingLeft;
 
-	// Use this for initialization
-	protected override void Start () {
-		steering = GetComponent<SteeringForces> ();
+    //timer for flashing red when hit
+    private float redLong = .25f;
+    private float timerColor;
+    private bool red;
+
+    // Use this for initialization
+    protected override void Start () {
+        timerColor = 0;
+        red = false;
+        steering = GetComponent<SteeringForces> ();
 		speed = 50f;
 		attack = 1;
 		health = 10f;
@@ -41,8 +48,19 @@ public class ForwardEnemy :  Entity {
             Rotate();
             Attack();
         }
+        if (red)
+        {
+            if (timerColor > redLong)
+            {
+                timerColor = 0;
+                red = false;
+                gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                return;
+            }
+            timerColor += Time.deltaTime;
+        }
 
-	}
+    }
 
 	//method to move the entity using steering forces
 	protected override void Move(){
@@ -74,7 +92,11 @@ public class ForwardEnemy :  Entity {
 	public override void TakeDamage(int damageTaken){
 		//decrement health
 		health -= damageTaken;
-	}
+
+        //flash red
+        red = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+    }
 
 	//method to handle when the entity attacks using projectiles
 	// attacking by this enemy is handled in the CollisionHandler as this enemy doesn't use projectiles

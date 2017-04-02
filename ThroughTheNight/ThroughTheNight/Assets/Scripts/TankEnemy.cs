@@ -19,8 +19,15 @@ public class TankEnemy : Entity {
 	private float timer;
 	public int cooldown;
 
+    //timer for flashing red when hit
+    private float redLong = .25f;
+    private float timerColor;
+    private bool red;
+
 	// Use this for initialization
 	protected override void Start () {
+        timerColor = 0;
+        red = false;
 		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
 		speed = 0;
@@ -43,7 +50,17 @@ public class TankEnemy : Entity {
             }
             timer += Time.deltaTime;
         }
-		
+		if(red)
+        {
+            if(timerColor > redLong)
+            {
+                timerColor = 0;
+                red = false;
+                gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                return;
+            }
+            timerColor += Time.deltaTime;
+        }
 	}
 
 	//method to move the entity
@@ -65,7 +82,11 @@ public class TankEnemy : Entity {
 	public override void TakeDamage(int damageTaken){
 		//decrement health
 		health -= damageTaken;
-	}
+
+        //flash red
+        red = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+    }
 
 	//method to handle when the entity attacks using projectiles
 	protected override void Attack(){

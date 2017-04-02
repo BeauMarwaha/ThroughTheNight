@@ -24,8 +24,13 @@ public class BossEnemy : Entity {
 	// required to help determine which way the sprite will face
 	public bool facingLeft;
 
-	// enum that will handle the current attack mode of the enemy
-	private EnemyMode em;
+    //timer for flashing red when hit
+    private float redLong = .25f;
+    private float timerColor;
+    private bool red;
+
+    // enum that will handle the current attack mode of the enemy
+    private EnemyMode em;
 	public enum EnemyMode
 	{
 		Tank,
@@ -34,7 +39,9 @@ public class BossEnemy : Entity {
 
 	// Use this for initialization
 	protected override void Start () {
-		em = EnemyMode.Tank;
+        timerColor = 0;
+        red = false;
+        em = EnemyMode.Tank;
 		projectileTimer = projectileCooldown + 1;
 		switchTimer = 0;
 		steering = GetComponent<SteeringForces> ();
@@ -63,7 +70,18 @@ public class BossEnemy : Entity {
 			}
 
 		}
-	}
+        if (red)
+        {
+            if (timerColor > redLong)
+            {
+                timerColor = 0;
+                red = false;
+                gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                return;
+            }
+            timerColor += Time.deltaTime;
+        }
+    }
 
 	//method to move the entity
 	protected override void Move(){
@@ -104,7 +122,11 @@ public class BossEnemy : Entity {
 	public override void TakeDamage(int damageTaken){
 		//decrement health
 		health -= damageTaken;
-	}
+
+        //flash red
+        red = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+    }
 
     /// <summary>
     /// method to handle when the boss attacks using three projectiles
