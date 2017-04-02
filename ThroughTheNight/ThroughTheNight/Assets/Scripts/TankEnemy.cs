@@ -53,8 +53,9 @@ public class TankEnemy : Entity {
 	protected override void Death(){
 		// destroy the enemy when their health runs out
 		if (health <= 0) {
-			// destroy enemy object
-			Destroy (gameObject);
+            // destroy enemy object
+            GameManager.GM.DefeatEnemy();
+            Destroy (gameObject);
 		}
 	}
 

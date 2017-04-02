@@ -77,6 +77,7 @@ public class Door : MonoBehaviour {
         //Interacts with door key
         if (Input.GetKey(KeyCode.E) && GameManager.GM.currentState != State.Message)
         {
+            GameManager.GM.roomNames.Add(SceneManager.GetActiveScene().name);
             if(gameObject.tag == "LeftDoor")
             {
                 player.transform.position = new Vector3(gameObject.transform.position.x + 16.5f , player.transform.position.y, player.transform.position.z);
@@ -86,7 +87,11 @@ public class Door : MonoBehaviour {
                 player.transform.position = new Vector3(gameObject.transform.position.x - 16.5f, player.transform.position.y, player.transform.position.z);
 
             }
+            
             SceneManager.LoadScene(connectedRoom);
+            
+            //GameManager.GM.ClearRoom();
+            
         }
     }
 }
