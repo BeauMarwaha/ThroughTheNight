@@ -16,13 +16,18 @@ public class GameManager : MonoBehaviour {
     private int currentMessage = 0;
     private string winMessage = "You cleared all of the Inanis, I suppose you are suitable to be my replacement.";
     private string lossMessage = "If that's what you call trying I guess it's a good thing you are never waking up.";
-    private string secretMessage = "I told you to NOT try to go back to sleep.";
+    private string secretMessage = "I told you to NOT go back to sleep.";
+
+    public AudioClip[] audioClips;
+    private AudioSource aSource;
 
     bool win;
     bool displayed = false;
     public List<string> roomNames = new List<string>();
 
     public static GameManager GM;
+    
+
 
     public Image[] hearts;
 
@@ -55,6 +60,7 @@ public class GameManager : MonoBehaviour {
     void Awake()
     {
         CreateGameManager();
+        aSource = GameObject.Find("Canvas").GetComponent<AudioSource>();
     }
 
 
@@ -80,6 +86,9 @@ public class GameManager : MonoBehaviour {
         HideMessage();
         PopulatesMessages();
         DisplayMessage();
+
+        
+
         objective = GameObject.Find("Objectives").GetComponent<Text>();
         objectives = new List<string>();
         objectives.Add("Cook");
@@ -142,17 +151,17 @@ public class GameManager : MonoBehaviour {
                     ChangeState(State.Night);
                 }
             }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (currentState == State.Night)
-                {
-                    DisplayMessage();
-                }
-                else if (currentState == State.Message)
-                {
-                    HideMessage();
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    if (currentState == State.Night)
+            //    {
+            //        DisplayMessage();
+            //    }
+            //    else if (currentState == State.Message)
+            //    {
+            //        HideMessage();
+            //    }
+            //}
             if(healthNum == 0 ||timeNum == 0 )
             {
 
@@ -181,6 +190,7 @@ public class GameManager : MonoBehaviour {
             {
                 currentMessage++;
                 message.text = messages[currentMessage];
+                aSource.PlayOneShot(audioClips[currentMessage]);
             }
             else if(Input.GetMouseButtonDown(0) && messages.Count - 1 == 3)
             {
@@ -195,6 +205,7 @@ public class GameManager : MonoBehaviour {
                 displayed = true;
                 message.text = secretMessage;
                 largeCat.sprite = secretImage.sprite;
+                aSource.PlayOneShot(audioClips[6]);
             }
             else if(Input.GetMouseButtonDown(0))
             {
@@ -214,10 +225,12 @@ public class GameManager : MonoBehaviour {
                 if (win)
                 {
                     message.text = winMessage;
+                    aSource.PlayOneShot(audioClips[4]);
                 }
                 else
                 {
                     message.text = lossMessage;
+                    aSource.PlayOneShot(audioClips[5]);
                 }
             }else
             {
@@ -320,6 +333,7 @@ public class GameManager : MonoBehaviour {
             case State.Message:
                 {
                     message.text = messages[currentMessage];
+                    aSource.PlayOneShot(audioClips[0]);
                     return;
                 }
         }
