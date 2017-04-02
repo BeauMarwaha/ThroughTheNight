@@ -20,7 +20,7 @@ public class ForwardEnemy :  Entity {
 		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 50f;
 		attack = 1;
-		health = 5f;
+		health = 10f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}
@@ -42,13 +42,13 @@ public class ForwardEnemy :  Entity {
 	protected override void Move(){
 		if (Vector3.Dot (steering.player.transform.position, transform.right) > 0) {
 			facingLeft = true;
-			force += steering.Arrival (steering.player.transform.position , velocity, speed) * 300f;
+			force += steering.Arrival (steering.player.transform.position , velocity, speed) * 700f;
 		} else {
 			facingLeft = false;
-			force += steering.Arrival (steering.player.transform.position, velocity, speed) * 300f;
+			force += steering.Arrival (steering.player.transform.position, velocity, speed) * 700f;
 		}
 		Debug.Log (Vector3.Dot (steering.player.transform.position, transform.right) );
-		force = Vector3.ClampMagnitude (force, 100f);
+		force = Vector3.ClampMagnitude (force, 500f);
 		steering.ApplyForce (force);
 		steering.UpdatePosition (velocity, direction);
 		steering.SetTransform (direction);
@@ -58,9 +58,6 @@ public class ForwardEnemy :  Entity {
 	protected override void Death(){
 		// destroy the game object 
 		if (health <= 0) {
-            // TO-DO: increment player currency
-
-
             // destroy enemy object
             GameManager.GM.DefeatEnemy();
 			Destroy (gameObject);
