@@ -173,6 +173,5 @@ public class BossEnemy : Entity {
 
 		// increment the timer for switching
 		switchTimer += Time.deltaTime;
-
 	}
 }
