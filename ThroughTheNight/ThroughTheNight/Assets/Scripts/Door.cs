@@ -46,10 +46,17 @@ public class Door : MonoBehaviour {
         {
             //check to see if there are any enemies left in the game
             if (GameObject.FindGameObjectWithTag("Enemy") == null)
-            {
+			{
                 //if there are no enemies left display bright door prompt
                 openText.GetComponent<MeshRenderer>().enabled = true;
                 blockedText.GetComponent<MeshRenderer>().enabled = false;
+
+				if (GameManager.GM.remainNum != 1 && gameObject.name =="Foyer Door") {
+					Debug.Log ("Enemies Remaning");
+					openText.GetComponent<MeshRenderer>().enabled = false;
+					blockedText.GetComponent<MeshRenderer>().enabled = true;
+
+				}
 
                 //Handle player entering the door
                 EnterDoorCheck();
@@ -78,6 +85,9 @@ public class Door : MonoBehaviour {
         if (Input.GetKey(KeyCode.E) && GameManager.GM.currentState != State.Message)
         {
             GameManager.GM.roomNames.Add(SceneManager.GetActiveScene().name);
+			if (GameManager.GM.remainNum != 1 && gameObject.name =="Foyer Door") {
+				return;
+			}
             if(gameObject.tag == "LeftDoor")
             {
                 player.transform.position = new Vector3(gameObject.transform.position.x + 16.5f , player.transform.position.y, player.transform.position.z);

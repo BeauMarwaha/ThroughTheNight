@@ -82,6 +82,9 @@ public class BossEnemy : Entity {
 	protected override void Death(){
 		// destroy the enemy when their health runs out
 		if (health <= 0) {
+			// call defeat to decrement the remaining numbers of enemies and win the game
+			GameManager.GM.DefeatEnemy();
+
 			// destroy enemy object
 			Destroy (gameObject);
 		}
