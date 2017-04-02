@@ -127,8 +127,9 @@ public class BossEnemy : Entity {
 
 	//method to handle when the entity attacks using projectiles
 	protected override void Attack(){
-		// create 3 bullets
-		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+        GameManager.GM.aSource.PlayOneShot(GameManager.GM.audioClips[8]);
+        // create 3 bullets
+        GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
         GameObject bullet1 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y*1.5f, transform.position.z), Quaternion.identity);
         GameObject bullet2 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y * .5f, transform.position.z), Quaternion.identity);
 
