@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour {
             //        HideMessage();
             //    }
             //}
-            if(healthNum == 0 ||timeNum == 0 )
+            if(healthNum == 0 || timeNum <= 0 )
             {
 
                 //Move to end screen
