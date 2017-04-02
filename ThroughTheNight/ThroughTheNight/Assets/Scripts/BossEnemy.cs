@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Author: Dezmon Gilbert, Katarina Weis
+/// Author: Dezmon Gilbert & Kat Weis
 /// Represents a Boss enemy.
 /// </summary>
 public class BossEnemy : Entity {
@@ -11,10 +11,6 @@ public class BossEnemy : Entity {
 	// required for steering forces
 	private SteeringForces steering;
 	private Vector3 force; 
-
-	// required for player bullet collision detection
-	public CollisionHandler ch;
-	private GameObject[] pBullets;
 
 	// prefab required to create bullets
 	public GameObject orb;
@@ -42,7 +38,6 @@ public class BossEnemy : Entity {
 		projectileTimer = projectileCooldown + 1;
 		switchTimer = 0;
 		steering = GetComponent<SteeringForces> ();
-		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 50f;
 		attack = 1;
 		health = 65f;
@@ -108,26 +103,18 @@ public class BossEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// get an array of all bullets on the screen at a time
-		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
-
-		// check if the array is empty
-		if (pBullets.Length == 0) return;
-
-		// loop through the player bullet array
-		for (int i = 0; i < pBullets.Length; i++) {
-			// check for collision between player bullet and game object
-			if (ch.AABBCollision (gameObject, pBullets [i])) {
-
-				//decrement health
-				health -= damageTaken;
-			}
-		}
+		//decrement health
+		health -= damageTaken;
 	}
 
-	//method to handle when the entity attacks using projectiles
-	protected override void Attack(){
+    /// <summary>
+    /// method to handle when the boss attacks using three projectiles
+    /// </summary>
+    protected override void Attack()
+    {
+        //plays sound for shooting
         GameManager.GM.aSource.PlayOneShot(GameManager.GM.audioClips[8]);
+
         // create 3 bullets
         GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
         GameObject bullet1 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y*1.5f, transform.position.z), Quaternion.identity);

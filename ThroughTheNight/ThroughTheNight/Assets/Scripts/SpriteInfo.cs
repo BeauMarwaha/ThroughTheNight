@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Author: Beau Marwaha
+/// Author: Beau Marwaha & Kat Weis
 /// Contatins methods that retrieve sprite info
 /// </summary>
 public class SpriteInfo : MonoBehaviour {
@@ -43,7 +43,7 @@ public class SpriteInfo : MonoBehaviour {
         return this.GetComponent<SpriteRenderer>().bounds.extents.x;
     }
 
-    //gets the x radius of the player and creature sprites
+    //gets the three-dimensional point at the center of the sprite
     public Vector3 Center()
     {
         return this.GetComponent<SpriteRenderer>().bounds.center;

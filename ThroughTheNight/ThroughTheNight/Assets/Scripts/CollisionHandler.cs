@@ -170,21 +170,23 @@ public class CollisionHandler : MonoBehaviour {
         foreach (GameObject bullet in eBullets)
         {
             if (AABBCollision(player, bullet))
-            {             
-                //get the dot product of the players right vector and the enemy
-                float dot = Vector3.Dot(player.transform.right, bullet.transform.position);
-                //Debug.Log("Dot product: " + dot);
-                if (dot < 0)
+            {
+                if (bullet.GetComponent<Projectile>().parent != null)
                 {
-                    //if colliding have the player take damage
-                    player.GetComponent<Player>().TakeDamage(bullet.GetComponent<Projectile>().parent.GetComponent<Entity>().attack, false);
+                    //get the dot product of the players right vector and the enemy
+                    float dot = Vector3.Dot(player.transform.right, bullet.transform.position);
+                    //Debug.Log("Dot product: " + dot);
+                    if (dot < 0)
+                    {
+                        //if colliding have the player take damage
+                        player.GetComponent<Player>().TakeDamage(bullet.GetComponent<Projectile>().parent.GetComponent<Entity>().attack, false);
+                    }
+                    else
+                    {
+                        //if colliding have the player take damage
+                        player.GetComponent<Player>().TakeDamage(bullet.GetComponent<Projectile>().parent.GetComponent<Entity>().attack, true);
+                    }
                 }
-                else
-                {
-                    //if colliding have the player take damage
-                    player.GetComponent<Player>().TakeDamage(bullet.GetComponent<Projectile>().parent.GetComponent<Entity>().attack, true);
-                }
-
                 bullet.GetComponent<Projectile>().Hit();
             }
         }
