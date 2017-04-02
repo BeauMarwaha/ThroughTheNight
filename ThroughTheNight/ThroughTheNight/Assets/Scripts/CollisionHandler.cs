@@ -20,6 +20,7 @@ public class CollisionHandler : MonoBehaviour {
         //initialize attributes
         pBullets = GameObject.FindGameObjectsWithTag("pBullet");
         eBullets = GameObject.FindGameObjectsWithTag("eBullet");
+        hearts = GameObject.FindGameObjectsWithTag("Heart");
     }
 
     // Update is called once per frame
@@ -206,5 +207,22 @@ public class CollisionHandler : MonoBehaviour {
         }
     }
 
+    private void HeartPlayerCollisionCheck()
+    {
+        //update bullet list
+        hearts = GameObject.FindGameObjectsWithTag("Heart");
+
+        //check all bullets
+        foreach (GameObject h in hearts)
+        {
+            if (AABBCollision(player, h))
+            {
+                //if colliding have the player take damage
+                player.GetComponent<Player>().Restore();
+
+                Destroy(h);
+            }
+        }
+    }
 
 }
