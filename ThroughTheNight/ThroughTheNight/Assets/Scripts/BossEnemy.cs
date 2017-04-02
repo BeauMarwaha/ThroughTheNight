@@ -52,7 +52,7 @@ public class BossEnemy : Entity {
 	
 	// Update is called once per frame
 	protected override void Update () {
-		if (GameManager.GM.currentState != State.Message)
+		if (GameManager.GM.currentState != State.Message && GameManager.GM.currentState != State.Over && GameManager.GM.currentState != State.Secret)
 		{
 			Death();
 			SwitchModes ();
