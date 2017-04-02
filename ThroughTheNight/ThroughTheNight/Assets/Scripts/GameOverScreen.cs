@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Author(s): Beau Marwaha
+/// Handles end game screens
+/// </summary>
 public class GameOverScreen : MonoBehaviour {
 
     //attributes
