@@ -178,6 +178,9 @@ public class Player : Entity
         //shoot a projectile
         GameObject orb = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0, transform.rotation.z)) as GameObject;
 
+        //play shot sound
+        GameManager.GM.aSource.PlayOneShot(GameManager.GM.audioClips[6]);
+
         //set orbs direction
         //get the position of the mouse in local/screen position and convert it to world position
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
