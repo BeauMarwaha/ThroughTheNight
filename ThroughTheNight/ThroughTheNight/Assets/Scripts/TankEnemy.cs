@@ -20,9 +20,9 @@ public class TankEnemy : Entity {
 		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
 		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
-		speed = 10f;
+		speed = 0;
 		attack = 1;
-		health = 8f;
+		health = 20f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}

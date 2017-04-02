@@ -22,7 +22,7 @@ public class FlyingEnemy : Entity {
 		steering = GetComponent<SteeringForces> ();
 		speed = 100f;
 		attack = 1;
-		health = 5f;
+		health = 10f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}
@@ -56,9 +56,6 @@ public class FlyingEnemy : Entity {
 	protected override void Death(){
 		// destroy the game object 
 		if (health <= 0) {
-            // TO-DO: increment player currency
-
-
             // destroy enemy object
             GameManager.GM.DefeatEnemy();
             Destroy (gameObject);
