@@ -133,10 +133,21 @@ public class BossEnemy : Entity {
         //plays sound for shooting
         GameManager.GM.aSource.PlayOneShot(GameManager.GM.audioClips[8]);
 
+        float x;
+        //check if facing left is true
+        if(facingLeft)
+        {
+            x = transform.position.x + 5;
+        }
+        else
+        {
+            x = transform.position.x - 5;
+        }
+
         // create 3 bullets
-        GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
-        GameObject bullet1 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y*1.5f, transform.position.z), Quaternion.identity);
-        GameObject bullet2 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y * .5f, transform.position.z), Quaternion.identity);
+        GameObject bullet = (GameObject)Instantiate(orb, new Vector3(x, transform.position.y, transform.position.z), Quaternion.identity);
+        GameObject bullet1 = (GameObject)Instantiate(orb, new Vector3(x, transform.position.y*1.5f, transform.position.z), Quaternion.identity);
+        GameObject bullet2 = (GameObject)Instantiate(orb, new Vector3(x, transform.position.y * .5f, transform.position.z), Quaternion.identity);
 
         //set the parent of the bullets to this enemy
         bullet.GetComponent<Projectile>().parent = this.gameObject;
