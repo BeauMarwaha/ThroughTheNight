@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class TitleScreen : MonoBehaviour {
 
     public Button play;
+    public Button rules;
     public Button credits;
     public Button extras;
 
@@ -20,6 +21,7 @@ public class TitleScreen : MonoBehaviour {
 	void Start ()
     {
 		play.onClick.AddListener(LoadGame);
+        rules.onClick.AddListener(LoadRules);
         credits.onClick.AddListener(LoadCredits);
         extras.onClick.AddListener(LoadExtra);
 
@@ -40,6 +42,11 @@ public class TitleScreen : MonoBehaviour {
 
         //Destroy menu audio manager when starting game
         Destroy(GameObject.Find("Audio Manager"));
+    }
+
+    void LoadRules()
+    {
+        SceneManager.LoadScene("Rules");
     }
 
     void LoadCredits()
