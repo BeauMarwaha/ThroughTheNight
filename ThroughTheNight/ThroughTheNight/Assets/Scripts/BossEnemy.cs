@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Author: Dezmon Gilbert
+/// Represents a Boss enemy.
+/// </summary>
 public class BossEnemy : Entity {
 
 	// variables
