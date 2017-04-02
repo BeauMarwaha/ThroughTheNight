@@ -68,7 +68,10 @@ public class TankEnemy : Entity {
 	}
 
 	//method to handle when the entity is attacked
-	public override void TakeDamage(int damageTaken){
+	public override void TakeDamage(int damageTaken)
+    {
+
+
 		// get an array of all bullets on the screen at a time
 		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
 
