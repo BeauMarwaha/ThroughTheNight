@@ -75,7 +75,7 @@ public class CollisionHandler : MonoBehaviour {
             info1.GetMinY() < info2.GetMaxY() &&
             info1.GetMaxY() > info2.GetMinY())
         {
-            Debug.Log("Colliding");
+            //Debug.Log("Colliding");
             return true;
         }
 
@@ -96,7 +96,7 @@ public class CollisionHandler : MonoBehaviour {
             {
                 //get the dot product of the players right vector and the enemy
                 float dot = Vector3.Dot(player.transform.right, enemies[i].transform.position);
-                Debug.Log("Dot product: " + dot);
+                //Debug.Log("Dot product: " + dot);
                 if(dot < 0)
                 {
                     //if colliding have the player take damage
@@ -153,7 +153,7 @@ public class CollisionHandler : MonoBehaviour {
                 //get the dot product of the players right vector and the enemy
 
                 float dot = Vector3.Dot(player.transform.right, bullet.transform.position);
-                Debug.Log("Dot product: " + dot);
+                //Debug.Log("Dot product: " + dot);
                 if (dot < 0)
                 {
                     //if colliding have the player take damage

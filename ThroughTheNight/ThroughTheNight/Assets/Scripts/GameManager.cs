@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 /// <summary>
 /// Game Manager Singleton
 /// Allows the access of variables at all times no matter the current scene
@@ -10,9 +10,11 @@ using UnityEngine.UI;
 public enum State { Day, Buy, Night, Message }
 public class GameManager : MonoBehaviour {
 
+
     private List<string> messages = new List<string>();
     private int currentMessage = 0;
 
+    public List<string> roomNames = new List<string>();
 
     public static GameManager GM;
 
@@ -68,6 +70,7 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
         HideMessage();
         PopulatesMessages();
 
@@ -114,6 +117,7 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         if (currentState != State.Message)
         {
+            ClearRoom();
             if (currentState == State.Night)
             {
                 timeNum -= Time.deltaTime;
@@ -228,7 +232,7 @@ public class GameManager : MonoBehaviour {
                     {
                         textElements[i].GetComponent<Text>().font = fonts[0];                        
                     }
-                    Camera.main.backgroundColor = new Color(125, 0, 0);
+                    Camera.main.backgroundColor = new Color(0, 0, 0);
                     remaining.text = remainNum.ToString();
                     return;
                 }
@@ -255,7 +259,7 @@ public class GameManager : MonoBehaviour {
             {
                 objective.text += "     " + objectives[i] + "\n";
             }
-            Debug.Log(objectives.Count);
+           
         }
     }
 
@@ -282,5 +286,32 @@ public class GameManager : MonoBehaviour {
         messages.Add("I'm Harenae, the Inanis have invaded your dream. You see that number in the bottom left corner?");
         messages.Add("It's how many still remain in your dream. If any are left by morning...");
         messages.Add("You aren't waking up.");
+    }
+
+    public void ClearRoom()
+    {
+        //Debug.Log(roomNames.Count);
+        //for (int i = 0; i < roomNames.Count; i++)
+        //{
+        //Debug.Log(roomNames[i]);
+        //}
+
+        Debug.Log(SceneManager.GetActiveScene().name);
+        //int j = 0;
+        //while (j < 1000000000)
+        //{
+        //    j++;
+        //}
+        
+        if (roomNames.Contains(SceneManager.GetActiveScene().name))
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+            for (int i = 0; i < enemies.Length;i++)
+            {
+                Destroy(enemies[i]);
+            }
+        }
+        
     }
 }
