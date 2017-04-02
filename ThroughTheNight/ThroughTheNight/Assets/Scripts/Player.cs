@@ -179,7 +179,7 @@ public class Player : Entity
     //method to handle when the entity attacks
     protected override void Attack()
     {
-        Debug.Log("pew");
+        //Debug.Log("pew");
 
         //shoot a projectile
         GameObject orb = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0, transform.rotation.z)) as GameObject;
