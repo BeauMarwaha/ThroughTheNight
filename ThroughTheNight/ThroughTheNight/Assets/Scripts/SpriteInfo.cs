@@ -30,4 +30,22 @@ public class SpriteInfo : MonoBehaviour {
     {
         return this.GetComponent<SpriteRenderer>().bounds.max.y;
     }
+
+    //gets the radius of the bullet sprite objects
+    public float GetRadiusBullet()
+    {
+        return this.GetComponent<SpriteRenderer>().bounds.extents.y* .75f;
+    }
+
+    //gets the x radius of the player and creature sprites
+    public float GetRadius()
+    {
+        return this.GetComponent<SpriteRenderer>().bounds.extents.x;
+    }
+
+    //gets the x radius of the player and creature sprites
+    public Vector3 Center()
+    {
+        return this.GetComponent<SpriteRenderer>().bounds.center;
+    }
 }
