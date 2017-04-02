@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Represents the Player Object
@@ -130,7 +131,14 @@ public class Player : Entity
     protected override void Death()
     {
         GameManager.GM.ChangeHealth(0);//set health to zero if it was negative
-        Debug.Log("You ded scrub");
+
+        //Destroy Player, UI, and GameManager
+        Destroy(GameObject.Find("Player"));
+        Destroy(GameObject.Find("Canvas"));
+        Destroy(GameObject.Find("GameManager"));
+
+        //Move to end screen
+        SceneManager.LoadScene(11);
     }
 
     //method to handle when the entity is attacked and no facing direction is specified

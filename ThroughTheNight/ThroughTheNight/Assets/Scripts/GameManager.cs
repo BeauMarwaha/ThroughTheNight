@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 /// <summary>
 /// Game Manager Singleton
 /// Allows the access of variables at all times no matter the current scene
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour {
         //health.text = "Health: " + healthNum;
 
         time = GameObject.Find("Time").GetComponent<Text>();
-        time.text = "Time: " + timeNum;
+        time.text = "Time: " + timeNum.ToString("F2");
 
         remaining = GameObject.Find("Remaining").GetComponent<Text>();
         remaining.text = remainNum.ToString();
@@ -122,6 +123,18 @@ public class GameManager : MonoBehaviour {
             {
                 timeNum -= Time.deltaTime;
                 time.text = "Time: " + timeNum.ToString("F2");
+
+                //if time runs out end the game
+                if(timeNum <= 0)
+                {
+                    //Destroy Player, UI, and GameManager
+                    Destroy(GameObject.Find("Player"));
+                    Destroy(GameObject.Find("Canvas"));
+                    Destroy(GameObject.Find("GameManager"));
+
+                    //Move to end screen
+                    SceneManager.LoadScene(11);
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.L))
@@ -204,6 +217,18 @@ public class GameManager : MonoBehaviour {
     {
         remainNum--;
         remaining.text = remainNum.ToString();
+
+        //if enemy count runs out the player wins
+        if (timeNum <= 0)
+        {
+            //Destroy Player, UI, and GameManager
+            Destroy(GameObject.Find("Player"));
+            Destroy(GameObject.Find("Canvas"));
+            Destroy(GameObject.Find("GameManager"));
+
+            //Move to win screen
+            SceneManager.LoadScene(12);
+        }
     }
 
 
