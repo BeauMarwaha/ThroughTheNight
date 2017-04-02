@@ -333,7 +333,10 @@ public class GameManager : MonoBehaviour {
             case State.Message:
                 {
                     message.text = messages[currentMessage];
-                    aSource.PlayOneShot(audioClips[0]);
+                    if(currentMessage == 0)
+                    {
+                        aSource.PlayOneShot(audioClips[0]);
+                    }             
                     return;
                 }
         }
