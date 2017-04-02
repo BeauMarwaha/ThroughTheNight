@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Author: Dezmon Gilbert, Katarina Weis
+/// Author: Dezmon Gilbert & Kat Weis
 /// Represents a Boss enemy.
 /// </summary>
 public class BossEnemy : Entity {
@@ -107,9 +107,14 @@ public class BossEnemy : Entity {
 		health -= damageTaken;
 	}
 
-	//method to handle when the entity attacks using projectiles
-	protected override void Attack(){
+    /// <summary>
+    /// method to handle when the boss attacks using three projectiles
+    /// </summary>
+    protected override void Attack()
+    {
+        //plays sound for shooting
         GameManager.GM.aSource.PlayOneShot(GameManager.GM.audioClips[8]);
+
         // create 3 bullets
         GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
         GameObject bullet1 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y*1.5f, transform.position.z), Quaternion.identity);

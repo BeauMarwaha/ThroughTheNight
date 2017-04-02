@@ -65,6 +65,25 @@ public class TankEnemy : Entity {
 	public override void TakeDamage(int damageTaken){
 		//decrement health
 		health -= damageTaken;
+	public override void TakeDamage(int damageTaken)
+    {
+
+
+		// get an array of all bullets on the screen at a time
+		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+
+		// check if the array is empty
+		if (pBullets.Length == 0) return;
+
+		// loop through the player bullet array
+		for (int i = 0; i < pBullets.Length; i++) {
+			// check for collision between player bullet and game object
+			if (ch.AABBCollision (gameObject, pBullets [i])) {
+
+				//decrement health
+				health -= damageTaken;
+			}
+		}
 	}
 
 	//method to handle when the entity attacks using projectiles
