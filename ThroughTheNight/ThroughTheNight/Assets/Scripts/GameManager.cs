@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour {
         remaining.text = remainNum.ToString();
 
         //if enemy count runs out the player wins
-        if (timeNum <= 0)
+        if (remainNum <= 0)
         {
             //Destroy Player, UI, and GameManager
             Destroy(GameObject.Find("Player"));
