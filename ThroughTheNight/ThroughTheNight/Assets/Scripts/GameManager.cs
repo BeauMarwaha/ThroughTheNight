@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
     private int currentMessage = 0;
     private string winMessage = "You cleared all of the Inanis, I suppose you are suitable to be my replacement.";
     private string lossMessage = "If that's what you call trying I guess it's a good thing you are never waking up.";
-    private string secretMessage = "I told you to not go back to sleep.";
+    private string secretMessage = "I told you to NOT try to go back to sleep.";
 
     bool win;
     bool displayed = false;
