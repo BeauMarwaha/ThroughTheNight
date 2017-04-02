@@ -101,11 +101,21 @@ public class BossEnemy : Entity {
 
 	//method to handle when the entity attacks using projectiles
 	protected override void Attack(){
-		// create bullet
+		// create 3 bullets
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
-		bullet.GetComponent<Projectile>().parent = this.gameObject;
-		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
-	}
+        GameObject bullet1 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y*1.5f, transform.position.z), Quaternion.identity);
+        GameObject bullet2 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y * .5f, transform.position.z), Quaternion.identity);
+
+        //set the parent of the bullets to this enemy
+        bullet.GetComponent<Projectile>().parent = this.gameObject;
+        bullet1.GetComponent<Projectile>().parent = this.gameObject;
+        bullet2.GetComponent<Projectile>().parent = this.gameObject;
+
+        //set the right vector of the bullet so that it moves correctly
+        bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
+        bullet1.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
+        bullet2.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
+    }
 
 	protected void Rotate(){
 		if (facingLeft == true) {
