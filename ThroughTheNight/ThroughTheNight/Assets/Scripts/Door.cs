@@ -18,8 +18,13 @@ public class Door : MonoBehaviour {
     public GameObject openText;
     public GameObject blockedText;
 
+	// sound variable to play sound effects
+	public AudioClip se;
+	private AudioSource source;
+
     // Use this for initialization
     void Start () {
+		source = GameObject.Find("Canvas").GetComponent<AudioSource>();
         player = GameObject.Find("Player");
         collisionHandler = GameObject.Find("GameManager").GetComponent<CollisionHandler>();
 
@@ -85,9 +90,11 @@ public class Door : MonoBehaviour {
         if (Input.GetKey(KeyCode.E) && GameManager.GM.currentState != State.Message)
         {
             GameManager.GM.roomNames.Add(SceneManager.GetActiveScene().name);
-			if (GameManager.GM.remainNum != 1 && gameObject.name =="Foyer Door") {
+			if (GameManager.GM.remainNum != 1 && gameObject.name == "Foyer Door") {
 				return;
 			}
+
+			source.PlayOneShot (se);
             if(gameObject.tag == "LeftDoor")
             {
                 player.transform.position = new Vector3(gameObject.transform.position.x + 16.5f , player.transform.position.y, player.transform.position.z);

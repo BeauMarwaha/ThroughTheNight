@@ -32,7 +32,7 @@ public class Player : Entity
     {
         //instantiate timer to be higher than cooldown so that you can fire immediately
         timer = coolDown + 1;
-        speed = 5;
+        speed = 11f;
         attack = 5;
         timerInvul = 0;
         invincible = false;

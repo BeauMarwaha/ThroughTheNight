@@ -31,7 +31,7 @@ public class BossEnemy : Entity {
 		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 50f;
 		attack = 1;
-		health = 50f;
+		health = 65f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}

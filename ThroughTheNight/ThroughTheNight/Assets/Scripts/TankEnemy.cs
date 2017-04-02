@@ -22,7 +22,7 @@ public class TankEnemy : Entity {
 		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 0;
 		attack = 1;
-		health = 20f;
+		health = 15f;
 		direction = transform.forward;
 		velocity = new Vector3(0,0,0);
 	}
