@@ -26,7 +26,7 @@ public class BossEnemy : Entity {
 	protected override void Start () {
 		em = EnemyMode.Tank;
 		projectileTimer = projectileCooldown + 1;
-		switchTimer = switchCooldown + 1;
+		switchTimer = 0;
 		steering = GetComponent<SteeringForces> ();
 		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 50f;
@@ -60,14 +60,7 @@ public class BossEnemy : Entity {
 	//method to move the entity
 	protected override void Move(){
 		if (em == EnemyMode.Tank) {
-			// move closer to the player up to a certain distance
-			if (steering.DistToPlayer() > 5f) {
-				steering.SeekPlayer (velocity, speed);
-				force += Vector3.ClampMagnitude (force, 10f);
-				steering.ApplyForce (force);
-				steering.UpdatePosition (velocity, direction);
-				steering.SetTransform (direction);
-			}
+			
 		}
 
 		if (em == EnemyMode.Forward) {
@@ -139,6 +132,8 @@ public class BossEnemy : Entity {
 			projectileTimer = 0;
 			em = EnemyMode.Forward;
 		}
+
+		// increment the timer for switching
 		switchTimer += Time.deltaTime;
 
 	}

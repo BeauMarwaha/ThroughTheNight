@@ -45,15 +45,8 @@ public class TankEnemy : Entity {
 	}
 
 	//method to move the entity
+	// tanks don't need to move as they will block the path of the player
 	protected override void Move(){
-		// move closer to the player up to a certain distance
-		if (steering.DistToPlayer() > 5f) {
-			steering.SeekPlayer (velocity, speed);
-			force += Vector3.ClampMagnitude (force, 10f);
-			steering.ApplyForce (force);
-			steering.UpdatePosition (velocity, direction);
-			steering.SetTransform (direction);
-		}
 	}
 
 	//method to handle when the entity dies
