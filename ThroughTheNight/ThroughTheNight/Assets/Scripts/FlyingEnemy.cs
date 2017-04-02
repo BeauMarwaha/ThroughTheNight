@@ -8,11 +8,18 @@ using UnityEngine;
 /// </summary>
 public class FlyingEnemy : Entity {
 
-	// variables
-	public GameObject orb;
-	public CollisionHandler ch;
+	// required for steering forces
 	private SteeringForces steering;
-	private Vector3 force;
+	private Vector3 force; 
+
+	// required for player bullet collision detection
+	public CollisionHandler ch;
+	private GameObject[] pBullets;
+
+	// prefab required to create bullets
+	public GameObject orb;
+
+	// required for attack timing
 	private float timer;
 	public int cooldown;
 
@@ -44,7 +51,7 @@ public class FlyingEnemy : Entity {
         }
 	}
 
-	//method to move the entity
+	//method to move the entity using steering forces
 	protected override void Move(){
 		force += steering.WanderCircle(velocity, speed) * 50f;
 		force = Vector3.ClampMagnitude (force, 200f);
@@ -66,7 +73,7 @@ public class FlyingEnemy : Entity {
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
 		// check for collision between player bullet and game object
-		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
 		if (pBullets.Length == 0) return;
 		for (int i = 0; i < pBullets.Length; i++) {
 			if (ch.AABBCollision (gameObject, pBullets [i])) {
@@ -79,6 +86,11 @@ public class FlyingEnemy : Entity {
 	protected override void Attack(){
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+
+		// set the parent of the game object in the script
+		bullet.GetComponent<Projectile>().parent = this.gameObject;
+
+		// shoot the bullet toward the player
 		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
 	}
 }

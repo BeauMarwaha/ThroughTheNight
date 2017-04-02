@@ -8,11 +8,22 @@ using UnityEngine;
 /// </summary>
 public class ForwardEnemy :  Entity {
 
-	// variables
-	public CollisionHandler ch;
+	// required for steering forces
 	private SteeringForces steering;
-	private Vector3 force;
-	public Vector3 dir;
+	private Vector3 force; 
+
+	// required for player bullet collision detection
+	public CollisionHandler ch;
+	private GameObject[] pBullets;
+
+	// prefab required to create bullets
+	public GameObject orb;
+
+	// required for attack timing
+	private float timer;
+	public int cooldown;
+
+	// required to help determine which way the sprite will face
 	public bool facingLeft;
 
 	// Use this for initialization
@@ -39,8 +50,9 @@ public class ForwardEnemy :  Entity {
 
 	}
 
-	//method to move the entity
+	//method to move the entity using steering forces
 	protected override void Move(){
+		// determine which side of the player the sprite is currently at by checking the dot product
 		if (Vector3.Dot (steering.player.transform.position, transform.right) > 0) {
 			facingLeft = true;
 			force += steering.Arrival (steering.player.transform.position , velocity, speed) * 700f;
@@ -66,11 +78,18 @@ public class ForwardEnemy :  Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// check for collision between player bullet and game object
-		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		// get an array of all bullets on the screen at a time
+		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+
+		// check if the array is empty
 		if (pBullets.Length == 0) return;
+
+		// loop through the player bullet array
 		for (int i = 0; i < pBullets.Length; i++) {
+			// check for collision between player bullet and game object
 			if (ch.AABBCollision (gameObject, pBullets [i])) {
+
+				//decrement health
 				health -= damageTaken;
 			}
 		}
@@ -80,7 +99,7 @@ public class ForwardEnemy :  Entity {
 	// attacking by this enemy is handled in the CollisionHandler as this enemy doesn't use projectiles
 	protected override void Attack(){}
 
-
+	// will rotate the sprite to face the player
 	protected void Rotate(){
 		if (facingLeft == true) {
 			gameObject.GetComponent<SpriteRenderer> ().flipX = true;
