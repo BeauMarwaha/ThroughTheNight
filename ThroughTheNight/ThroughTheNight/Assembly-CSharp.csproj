@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\FlyingEnemy.cs" />
      <Compile Include="Assets\Scripts\ForwardEnemy.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GameOverScreen.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Projectile.cs" />
      <Compile Include="Assets\Scripts\SpriteInfo.cs" />
