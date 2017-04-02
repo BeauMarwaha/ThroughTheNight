@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Author: Dezmon Gilbert
+/// Author: Dezmon Gilbert, Katarina Weis
 /// Represents a Boss enemy.
 /// </summary>
 public class BossEnemy : Entity {
