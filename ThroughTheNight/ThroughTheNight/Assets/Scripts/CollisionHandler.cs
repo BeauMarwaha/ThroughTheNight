@@ -47,6 +47,8 @@ public class CollisionHandler : MonoBehaviour {
 
         //check for collisions between player and hearts
         HeartPlayerCollisionCheck();
+
+        SecretPlayerCollisionCheck();
     }
 
     /// <summary>
@@ -245,7 +247,7 @@ public class CollisionHandler : MonoBehaviour {
         if (AABBCollision(player, secret) && Input.GetKeyDown(KeyCode.E))
         {
             //if colliding and user pressed E activate secret
-            
+            GameManager.GM.currentState = State.Secret;
         }
     }
 

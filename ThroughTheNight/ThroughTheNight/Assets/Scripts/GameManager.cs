@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 /// Game Manager Singleton
 /// Allows the access of variables at all times no matter the current scene
 /// </summary>
-public enum State { Day, Buy, Night, Message, Over }
+public enum State { Day, Buy, Night, Message, Over, Secret }
 public class GameManager : MonoBehaviour {
 
 
@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
     private int currentMessage = 0;
     private string winMessage = "You cleared all of the Inanis, I suppose you are suitable to be my replacement.";
     private string lossMessage = "If that's what you call trying I guess it's a good thing you are never waking up.";
+    private string secretMessage = "I told you to not go back to sleep.";
+
     bool win;
     bool displayed = false;
     public List<string> roomNames = new List<string>();
@@ -48,7 +50,7 @@ public class GameManager : MonoBehaviour {
     public Image background;
     public Image largeCat;
     public Text message;
-
+    public Image secretImage;
 
     void Awake()
     {
@@ -119,7 +121,8 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (currentState != State.Message && currentState != State.Over)
+        
+        if (currentState != State.Message && currentState != State.Over && currentState != State.Secret)
         {
             ClearRoom();
             if (currentState == State.Night)
@@ -183,11 +186,30 @@ public class GameManager : MonoBehaviour {
             {
                 HideMessage();
             }
-        }else if(currentState == State.Over)
+        }else if (currentState == State.Secret)
         {
             if (!displayed)
             {
                 DisplayMessage();
+                currentState = State.Secret;
+                displayed = true;
+                message.text = secretMessage;
+                largeCat.sprite = secretImage.sprite;
+            }
+            else if(Input.GetMouseButtonDown(0))
+            {
+                Destroy(GameObject.Find("Player"));
+                Destroy(GameObject.Find("Canvas"));
+                Destroy(GameObject.Find("GameManager"));
+                SceneManager.LoadScene(11);
+            }
+        }
+        else if(currentState == State.Over)
+        {
+            if (!displayed)
+            {
+                DisplayMessage();
+                
                 displayed = true;
                 if (win)
                 {
