@@ -53,7 +53,6 @@ public class BossEnemy : Entity {
 			SwitchModes ();
 			Move();
 			Rotate ();
-			TakeDamage(1);
 			if (em == EnemyMode.Tank) {
 				if (projectileTimer > projectileCooldown)
 				{
