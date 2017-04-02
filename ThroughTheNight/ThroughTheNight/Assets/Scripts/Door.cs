@@ -18,7 +18,7 @@ public class Door : MonoBehaviour {
     public GameObject openText;
     public GameObject blockedText;
 
-	// sound variable to play sound effects
+	// Audio related objects to play sound effects
 	public AudioClip se;
 	private AudioSource source;
 
@@ -56,11 +56,10 @@ public class Door : MonoBehaviour {
                 openText.GetComponent<MeshRenderer>().enabled = true;
                 blockedText.GetComponent<MeshRenderer>().enabled = false;
 
+				// if any enemies are left in any rooms other than the final, display blocked text
 				if (GameManager.GM.remainNum != 1 && gameObject.name =="Foyer Door") {
-					Debug.Log ("Enemies Remaning");
 					openText.GetComponent<MeshRenderer>().enabled = false;
 					blockedText.GetComponent<MeshRenderer>().enabled = true;
-
 				}
 
                 //Handle player entering the door
@@ -89,12 +88,17 @@ public class Door : MonoBehaviour {
         //Interacts with door key
         if (Input.GetKey(KeyCode.E) && GameManager.GM.currentState != State.Message)
         {
+			// prevents player from entering the final door if other enemies are alive
             GameManager.GM.roomNames.Add(SceneManager.GetActiveScene().name);
+
+			// prevents player from entering the final door if other enemies are alive
 			if (GameManager.GM.remainNum != 1 && gameObject.name == "Foyer Door") {
 				return;
 			}
 
+			// play the sound effect when the player "closes" the door
 			source.PlayOneShot (se);
+
             if(gameObject.tag == "LeftDoor")
             {
                 player.transform.position = new Vector3(gameObject.transform.position.x + 16.5f , player.transform.position.y, player.transform.position.z);

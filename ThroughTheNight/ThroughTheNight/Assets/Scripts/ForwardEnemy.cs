@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// Author: Dezmon Gilbert
 /// Represents a Forward Enemy
 /// </summary>
 public class ForwardEnemy :  Entity {
@@ -79,9 +80,6 @@ public class ForwardEnemy :  Entity {
 	// attacking by this enemy is handled in the CollisionHandler as this enemy doesn't use projectiles
 	protected override void Attack(){}
 
-	public float GetAttack(){
-		return attack;
-	}
 
 	protected void Rotate(){
 		if (facingLeft == true) {
