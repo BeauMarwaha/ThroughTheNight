@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
     private string secretMessage = "I told you to NOT go back to sleep.";
 
     public AudioClip[] audioClips;
-    private AudioSource aSource;
+    public AudioSource aSource;
 
     bool win;
     bool displayed = false;
