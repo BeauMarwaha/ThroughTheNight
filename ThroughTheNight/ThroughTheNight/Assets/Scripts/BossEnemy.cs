@@ -8,18 +8,28 @@ using UnityEngine;
 /// </summary>
 public class BossEnemy : Entity {
 
-	// variables
+	// required for steering forces
 	private SteeringForces steering;
+	private Vector3 force; 
+
+	// required for player bullet collision detection
 	public CollisionHandler ch;
+	private GameObject[] pBullets;
+
+	// prefab required to create bullets
 	public GameObject orb;
-	private Vector3 force;
+
+	// required to keep track of attack timing and enemy type switching
 	private float projectileTimer;
 	private float switchTimer;
 	public int projectileCooldown;
 	public int switchCooldown;
-	public bool facingLeft;
-	private EnemyMode em;
 
+	// required to help determine which way the sprite will face
+	public bool facingLeft;
+
+	// enum that will handle the current attack mode of the enemy
+	private EnemyMode em;
 	public enum EnemyMode
 	{
 		Tank,
@@ -63,10 +73,12 @@ public class BossEnemy : Entity {
 
 	//method to move the entity
 	protected override void Move(){
+		// the boss in tank mode does not move
 		if (em == EnemyMode.Tank) {
 			
 		}
 
+		// the boss will have the same movement as a forward enemy
 		if (em == EnemyMode.Forward) {
 			if (Vector3.Dot (steering.player.transform.position, transform.right) > 0) {
 				facingLeft = true;
@@ -75,7 +87,7 @@ public class BossEnemy : Entity {
 				facingLeft = false;
 				force += steering.Arrival (steering.player.transform.position, velocity, speed) * 300f;
 			}
-			force = Vector3.ClampMagnitude (force, 100f);
+			force = Vector3.ClampMagnitude (force, 300f);
 			steering.ApplyForce (force);
 			steering.UpdatePosition (velocity, direction);
 			steering.SetTransform (direction);
@@ -96,11 +108,18 @@ public class BossEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// check for collision between player bullet and game object
-		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		// get an array of all bullets on the screen at a time
+		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+
+		// check if the array is empty
 		if (pBullets.Length == 0) return;
+
+		// loop through the player bullet array
 		for (int i = 0; i < pBullets.Length; i++) {
+			// check for collision between player bullet and game object
 			if (ch.AABBCollision (gameObject, pBullets [i])) {
+
+				//decrement health
 				health -= damageTaken;
 			}
 		}
@@ -109,9 +128,13 @@ public class BossEnemy : Entity {
     /// <summary>
     /// method to handle when the boss attacks using three projectiles
     /// </summary>
-    protected override void Attack(){
-		// create 3 bullets
-		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+    protected override void Attack()
+    {
+        //plays sound for shooting
+        GameManager.GM.aSource.PlayOneShot(GameManager.GM.audioClips[8]);
+
+        // create 3 bullets
+        GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
         GameObject bullet1 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y*1.5f, transform.position.z), Quaternion.identity);
         GameObject bullet2 = (GameObject)Instantiate(orb, new Vector3(transform.position.x, transform.position.y * .5f, transform.position.z), Quaternion.identity);
 
@@ -126,6 +149,7 @@ public class BossEnemy : Entity {
         bullet2.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
     }
 
+	// will rotate the sprite to face the player
 	protected void Rotate(){
 		if (facingLeft == true) {
 			gameObject.GetComponent<SpriteRenderer> ().flipX = true;
@@ -154,6 +178,5 @@ public class BossEnemy : Entity {
 
 		// increment the timer for switching
 		switchTimer += Time.deltaTime;
-
 	}
 }

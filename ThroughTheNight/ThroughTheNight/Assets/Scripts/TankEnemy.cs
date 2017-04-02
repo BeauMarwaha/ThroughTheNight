@@ -88,8 +88,11 @@ public class TankEnemy : Entity {
 
 	//method to handle when the entity attacks using projectiles
 	protected override void Attack(){
-		// create bullet
-		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+        //play shot sound
+        GameManager.GM.aSource.PlayOneShot(GameManager.GM.audioClips[8]);
+
+        // create bullet
+        GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
 
 		// set the parent of the game object in the script
         bullet.GetComponent<Projectile>().parent = this.gameObject;

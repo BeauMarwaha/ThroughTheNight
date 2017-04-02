@@ -51,7 +51,7 @@ public class FlyingEnemy : Entity {
         }
 	}
 
-	//method to move the entity
+	//method to move the entity using steering forces
 	protected override void Move(){
 		force += steering.WanderCircle(velocity, speed) * 50f;
 		force = Vector3.ClampMagnitude (force, 200f);
@@ -84,8 +84,16 @@ public class FlyingEnemy : Entity {
 
 	//method to handle when the entity attacks using projectiles 
 	protected override void Attack(){
+        //play shot sound
+        GameManager.GM.aSource.PlayOneShot(GameManager.GM.audioClips[8]);
+        
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
+
+		// set the parent of the game object in the script
+		bullet.GetComponent<Projectile>().parent = this.gameObject;
+
+		// shoot the bullet toward the player
 		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
 	}
 }
