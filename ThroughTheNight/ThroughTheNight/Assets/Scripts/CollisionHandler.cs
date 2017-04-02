@@ -244,10 +244,13 @@ public class CollisionHandler : MonoBehaviour {
     /// </summary>
     private void SecretPlayerCollisionCheck()
     {
-        if (AABBCollision(player, secret) && Input.GetKeyDown(KeyCode.E))
+        if(secret != null)
         {
-            //if colliding and user pressed E activate secret
-            GameManager.GM.currentState = State.Secret;
+            if (AABBCollision(player, secret) && Input.GetKeyDown(KeyCode.E))
+            {
+                //if colliding and user pressed E activate secret
+                GameManager.GM.currentState = State.Secret;
+            }
         }
     }
 
