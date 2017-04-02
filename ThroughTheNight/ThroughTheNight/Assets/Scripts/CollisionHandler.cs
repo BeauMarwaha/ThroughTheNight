@@ -13,6 +13,7 @@ public class CollisionHandler : MonoBehaviour {
     private GameObject[] enemies;
     private GameObject[] pBullets; //player bullets
     private GameObject[] eBullets; //enemy bullets
+    private GameObject[] hearts; //little restorative hearts
 
     // Use this for initialization
     void Start()
@@ -41,6 +42,9 @@ public class CollisionHandler : MonoBehaviour {
 
         //check for collsions between enemy and player bullets
         PBulletEBulletCollisionCheck();
+
+        //check for collisions between player and hearts
+        HeartPlayerCollisionCheck();
     }
 
     /// <summary>
