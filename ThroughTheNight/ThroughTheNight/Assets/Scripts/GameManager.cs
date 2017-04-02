@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 public enum State { Day, Buy, Night, Message, Over, Secret }
 public class GameManager : MonoBehaviour {
 
+    private float timer;
 
     private List<string> messages = new List<string>();
     private int currentMessage = 0;
@@ -176,6 +177,7 @@ public class GameManager : MonoBehaviour {
                 //Move to end screen
                 win = true;
                 ChangeState(State.Over);
+                
                 //DisplayMessage();
             }
             
@@ -188,7 +190,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetMouseButtonDown(0) && messages.Count -1 != currentMessage)
             {
-				aSource.Stop ();
+                aSource.Stop();
                 currentMessage++;
                 message.text = messages[currentMessage];
                 aSource.PlayOneShot(audioClips[currentMessage]);
@@ -221,7 +223,7 @@ public class GameManager : MonoBehaviour {
             if (!displayed)
             {
                 DisplayMessage();
-                
+                ChangeState(State.Over);
                 displayed = true;
                 if (win)
                 {
@@ -235,6 +237,9 @@ public class GameManager : MonoBehaviour {
                 }
             }else
             {
+                timer += Time.deltaTime;
+                if(timer > 2f && Input.GetMouseButtonDown(0))
+                {
                     if (win)
                     {
                         //HideMessage();
@@ -251,6 +256,8 @@ public class GameManager : MonoBehaviour {
                         Destroy(GameObject.Find("GameManager"));
                         SceneManager.LoadScene(11);
                     }
+                }
+                    
             }                
                     
             
