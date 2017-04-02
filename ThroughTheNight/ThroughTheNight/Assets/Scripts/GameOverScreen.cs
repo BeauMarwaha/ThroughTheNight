@@ -33,6 +33,7 @@ public class GameOverScreen : MonoBehaviour {
         //Destroy menu audio manager when starting game
         Destroy(GameObject.Find("Audio Manager"));
 
+        //Restart game
         SceneManager.LoadScene(1);
     }
 }
