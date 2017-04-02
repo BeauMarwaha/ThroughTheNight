@@ -197,6 +197,7 @@ public class GameManager : MonoBehaviour {
             }
             else if(Input.GetMouseButtonDown(0) && messages.Count - 1 == 3)
             {
+                aSource.Stop();
                 HideMessage();
             }
         }else if (currentState == State.Secret)
