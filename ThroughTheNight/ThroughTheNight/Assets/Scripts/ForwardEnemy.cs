@@ -47,7 +47,6 @@ public class ForwardEnemy :  Entity {
 			facingLeft = false;
 			force += steering.Arrival (steering.player.transform.position, velocity, speed) * 700f;
 		}
-		Debug.Log (Vector3.Dot (steering.player.transform.position, transform.right) );
 		force = Vector3.ClampMagnitude (force, 500f);
 		steering.ApplyForce (force);
 		steering.UpdatePosition (velocity, direction);
