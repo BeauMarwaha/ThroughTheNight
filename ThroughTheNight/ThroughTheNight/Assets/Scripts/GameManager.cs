@@ -8,13 +8,16 @@ using UnityEngine.SceneManagement;
 /// Game Manager Singleton
 /// Allows the access of variables at all times no matter the current scene
 /// </summary>
-public enum State { Day, Buy, Night, Message }
+public enum State { Day, Buy, Night, Message, Over }
 public class GameManager : MonoBehaviour {
 
 
     private List<string> messages = new List<string>();
     private int currentMessage = 0;
-
+    private string winMessage = "You cleared all of the Inanis, I suppose you are suitable to be my replacement.";
+    private string lossMessage = "If that's what you call trying I guess it's a good thing you are never waking up.";
+    bool win;
+    bool displayed = false;
     public List<string> roomNames = new List<string>();
 
     public static GameManager GM;
@@ -74,7 +77,7 @@ public class GameManager : MonoBehaviour {
 
         HideMessage();
         PopulatesMessages();
-
+        DisplayMessage();
         objective = GameObject.Find("Objectives").GetComponent<Text>();
         objectives = new List<string>();
         objectives.Add("Cook");
@@ -110,31 +113,19 @@ public class GameManager : MonoBehaviour {
             hearts[i].enabled = true;
         }
         //Starting at Day
-        ChangeState(State.Night);
+        ChangeState(State.Message);
         
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (currentState != State.Message)
+        if (currentState != State.Message && currentState != State.Over)
         {
             ClearRoom();
             if (currentState == State.Night)
             {
                 timeNum -= Time.deltaTime;
                 time.text = "Time: " + timeNum.ToString("F2");
-
-                //if time runs out end the game
-                if(timeNum <= 0)
-                {
-                    //Destroy Player, UI, and GameManager
-                    Destroy(GameObject.Find("Player"));
-                    Destroy(GameObject.Find("Canvas"));
-                    Destroy(GameObject.Find("GameManager"));
-
-                    //Move to end screen
-                    SceneManager.LoadScene(11);
-                }
             }
 
             if (Input.GetKeyDown(KeyCode.L))
@@ -159,8 +150,25 @@ public class GameManager : MonoBehaviour {
                     HideMessage();
                 }
             }
+            if(healthNum == 0 ||timeNum == 0 )
+            {
+
+                //Move to end screen
+                win = false;
+                ChangeState(State.Over);
+                //DisplayMessage();
+            }
+            if (remainNum == 0)
+            {
+
+                //Move to end screen
+                win = true;
+                ChangeState(State.Over);
+                //DisplayMessage();
+            }
+            
         }
-        else
+        else if(currentState == State.Message)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -171,10 +179,45 @@ public class GameManager : MonoBehaviour {
                 currentMessage++;
                 message.text = messages[currentMessage];
             }
-            else if(Input.GetMouseButtonDown(0) && messages.Count - 1 == currentMessage)
+            else if(Input.GetMouseButtonDown(0) && messages.Count - 1 == 3)
             {
                 HideMessage();
             }
+        }else if(currentState == State.Over)
+        {
+            if (!displayed)
+            {
+                DisplayMessage();
+                displayed = true;
+                if (win)
+                {
+                    message.text = winMessage;
+                }
+                else
+                {
+                    message.text = lossMessage;
+                }
+            }else
+            {
+                    if (win)
+                    {
+                        //HideMessage();
+                        Destroy(GameObject.Find("Player"));
+                        Destroy(GameObject.Find("Canvas"));
+                        Destroy(GameObject.Find("GameManager"));
+                        SceneManager.LoadScene(12);
+                    }
+                    else
+                    {
+                        //HideMessage();
+                        Destroy(GameObject.Find("Player"));
+                        Destroy(GameObject.Find("Canvas"));
+                        Destroy(GameObject.Find("GameManager"));
+                        SceneManager.LoadScene(11);
+                    }
+            }                
+                    
+            
         }
         
     }
@@ -219,16 +262,7 @@ public class GameManager : MonoBehaviour {
         remaining.text = remainNum.ToString();
 
         //if enemy count runs out the player wins
-        if (remainNum <= 0)
-        {
-            //Destroy Player, UI, and GameManager
-            Destroy(GameObject.Find("Player"));
-            Destroy(GameObject.Find("Canvas"));
-            Destroy(GameObject.Find("GameManager"));
-
-            //Move to win screen
-            SceneManager.LoadScene(12);
-        }
+        
     }
 
 
@@ -311,22 +345,13 @@ public class GameManager : MonoBehaviour {
         messages.Add("I'm Harenae, the Inanis have invaded your dream. You see that number in the bottom left corner?");
         messages.Add("It's how many still remain in your dream. If any are left by morning...");
         messages.Add("You aren't waking up.");
+        
+        
     }
 
     public void ClearRoom()
     {
-        //Debug.Log(roomNames.Count);
-        //for (int i = 0; i < roomNames.Count; i++)
-        //{
-        //Debug.Log(roomNames[i]);
-        //}
-
-        Debug.Log(SceneManager.GetActiveScene().name);
-        //int j = 0;
-        //while (j < 1000000000)
-        //{
-        //    j++;
-        //}
+        //Debug.Log(SceneManager.GetActiveScene().name);
         
         if (roomNames.Contains(SceneManager.GetActiveScene().name))
         {
