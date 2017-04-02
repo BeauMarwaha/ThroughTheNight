@@ -58,10 +58,11 @@ public class ForwardEnemy :  Entity {
 	protected override void Death(){
 		// destroy the game object 
 		if (health <= 0) {
-			// TO-DO: increment player currency
+            // TO-DO: increment player currency
 
 
-			// destroy enemy object
+            // destroy enemy object
+            GameManager.GM.DefeatEnemy();
 			Destroy (gameObject);
 		}
 	}

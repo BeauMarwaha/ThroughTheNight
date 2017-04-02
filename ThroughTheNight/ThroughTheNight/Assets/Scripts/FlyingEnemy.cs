@@ -56,11 +56,12 @@ public class FlyingEnemy : Entity {
 	protected override void Death(){
 		// destroy the game object 
 		if (health <= 0) {
-			// TO-DO: increment player currency
+            // TO-DO: increment player currency
 
 
-			// destroy enemy object
-			Destroy (gameObject);
+            // destroy enemy object
+            GameManager.GM.DefeatEnemy();
+            Destroy (gameObject);
 		}
 	}
 
