@@ -6,6 +6,8 @@ using UnityEngine;
 /// Represents a Flying Enemy
 /// </summary>
 public class FlyingEnemy : Entity {
+
+	// variables
 	public GameObject orb;
 	public CollisionHandler ch;
 	private SteeringForces steering;
@@ -41,16 +43,6 @@ public class FlyingEnemy : Entity {
         }
 	}
 
-	public override void Spawn(Vector3 location, Vector3 rotation){
-
-	}
-
-
-	//method to spawn entity into the game
-	public GameObject Spawn(GameObject prefab, Vector3 location, Vector3 rotation){
-		return (GameObject)Instantiate (prefab, location, Quaternion.Euler(rotation));
-	}
-
 	//method to move the entity
 	protected override void Move(){
 		force += steering.WanderCircle(velocity, speed) * 50f;
@@ -84,7 +76,7 @@ public class FlyingEnemy : Entity {
 		}
 	}
 
-	//method to handle when the entity attacks
+	//method to handle when the entity attacks using projectiles 
 	protected override void Attack(){
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);

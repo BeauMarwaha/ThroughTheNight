@@ -33,7 +33,6 @@ public class Player : Entity
         timer = coolDown + 1;
         speed = 5;
         attack = 5;
-        Spawn(Vector3.zero, Vector3.zero);
         timerInvul = 0;
         invincible = false;
 
@@ -89,12 +88,6 @@ public class Player : Entity
             //increment timer
             timer += Time.deltaTime;
         }
-    }
-
-    //method to spawn entity into the game
-    public override void Spawn(Vector3 location, Vector3 rotation)
-    {
-
     }
 
     //method to move the entity

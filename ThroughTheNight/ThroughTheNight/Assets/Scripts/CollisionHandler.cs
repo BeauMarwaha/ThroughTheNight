@@ -18,7 +18,6 @@ public class CollisionHandler : MonoBehaviour {
     void Start()
     {
         //initialize attributes
-        
         pBullets = GameObject.FindGameObjectsWithTag("pBullet");
         eBullets = GameObject.FindGameObjectsWithTag("eBullet");
     }
@@ -26,9 +25,8 @@ public class CollisionHandler : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
+        //Update player and enemies refs
         player = GameObject.FindGameObjectWithTag("Player");
-        
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         //Check for collisions between the player and all enemies
@@ -42,17 +40,6 @@ public class CollisionHandler : MonoBehaviour {
 
         //check for collsions between enemy and player bullets
         PBulletEBulletCollisionCheck();
-
-        if(player != null)
-        {
-            SpriteInfo info1 = player.GetComponent<SpriteInfo>();
-            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMinY(), 0), new Vector3(info1.GetMaxX(), info1.GetMinY(), 0),Color.red);
-            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMinY(), 0), new Vector3(info1.GetMinX(), info1.GetMaxY(), 0), Color.red);
-            Debug.DrawLine(new Vector3(info1.GetMaxX(), info1.GetMinY(), 0), new Vector3(info1.GetMaxX(), info1.GetMaxY(), 0), Color.red);
-            Debug.DrawLine(new Vector3(info1.GetMinX(), info1.GetMaxY(), 0), new Vector3(info1.GetMaxX(), info1.GetMaxY(), 0), Color.red);
-        }
-        
-        //Debug.Log(info1.GetMinX() + " " + info1.GetMaxX() + " " + info1.GetMinY() + " " + info1.GetMaxY());
     }
 
     /// <summary>
@@ -66,14 +53,39 @@ public class CollisionHandler : MonoBehaviour {
         //get the sprtie info scripts from each game object which hold corrected bounds of the sprite renderers
         SpriteInfo info1 = obj1.GetComponent<SpriteInfo>();
         SpriteInfo info2 = obj2.GetComponent<SpriteInfo>();
-
-        //Debug.Log(info1.GetMinX() + " " + info1.GetMaxX() + " " + info1.GetMinY() + " " + info1.GetMaxY());
-
+        
         //check for AABB collision
         if (info1.GetMinX() < info2.GetMaxX() &&
             info1.GetMaxX() > info2.GetMinX() &&
             info1.GetMinY() < info2.GetMaxY() &&
             info1.GetMaxY() > info2.GetMinY())
+        {
+            //Debug.Log("Colliding");
+            return true;
+        }
+
+        //if they are not colliding return false
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if two game objects are colliding using circle collision.
+    /// </summary>
+    /// <returns><c>true</c>, if collision was detected, <c>false</c> otherwise.</returns>
+    /// <param name="obj1">Obj1.</param>
+    /// <param name="obj2">Obj2.</param>
+    public bool CircleCollision(GameObject obj1, GameObject obj2)
+    {
+        //get the sprtie info scripts from each game object which hold corrected bounds of the sprite renderers
+        SpriteInfo info1 = obj1.GetComponent<SpriteInfo>();
+        SpriteInfo info2 = obj2.GetComponent<SpriteInfo>();
+
+        //distance between centers
+        Vector3 distance = info2.Center() - info1.Center();
+        float dist = distance.magnitude * distance.magnitude;
+
+        //check for AABB collision
+        if ((info1.GetRadiusBullet() + info2.GetRadiusBullet())* (info1.GetRadiusBullet() + info2.GetRadiusBullet()) > dist)
         {
             //Debug.Log("Colliding");
             return true;
@@ -151,7 +163,6 @@ public class CollisionHandler : MonoBehaviour {
             if (AABBCollision(player, bullet))
             {             
                 //get the dot product of the players right vector and the enemy
-
                 float dot = Vector3.Dot(player.transform.right, bullet.transform.position);
                 //Debug.Log("Dot product: " + dot);
                 if (dot < 0)
@@ -185,7 +196,7 @@ public class CollisionHandler : MonoBehaviour {
         {
             foreach(GameObject b in pBullets)
             {
-                if (AABBCollision(b, bullet))
+                if (CircleCollision(b, bullet))//AABBCollision(b, bullet))
                 {
                     //if the two bullets collide, destroy both of them
                     bullet.GetComponent<Projectile>().Hit();
@@ -195,4 +206,6 @@ public class CollisionHandler : MonoBehaviour {
             
         }
     }
+
+
 }
