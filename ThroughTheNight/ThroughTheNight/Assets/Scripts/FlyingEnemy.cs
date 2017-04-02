@@ -8,11 +8,18 @@ using UnityEngine;
 /// </summary>
 public class FlyingEnemy : Entity {
 
-	// variables
-	public GameObject orb;
-	public CollisionHandler ch;
+	// required for steering forces
 	private SteeringForces steering;
-	private Vector3 force;
+	private Vector3 force; 
+
+	// required for player bullet collision detection
+	public CollisionHandler ch;
+	private GameObject[] pBullets;
+
+	// prefab required to create bullets
+	public GameObject orb;
+
+	// required for attack timing
 	private float timer;
 	public int cooldown;
 
@@ -66,7 +73,7 @@ public class FlyingEnemy : Entity {
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
 		// check for collision between player bullet and game object
-		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
 		if (pBullets.Length == 0) return;
 		for (int i = 0; i < pBullets.Length; i++) {
 			if (ch.AABBCollision (gameObject, pBullets [i])) {
