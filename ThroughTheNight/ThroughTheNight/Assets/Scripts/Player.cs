@@ -192,6 +192,7 @@ public class Player : Entity
 
     }
 
+    //applies a pushback on the player depending on which direction they were attacked from
     private void Knockback(bool faceRight)
     {
         if(faceRight)
@@ -202,6 +203,7 @@ public class Player : Entity
         transform.position = new Vector3(transform.position.x + knockback, transform.position.y, transform.position.z);
     }
 
+    //moves the camera with the play but within the room
     private void MoveCamera()
     {
         //maybe offset the location off from the player // player to the left
@@ -218,5 +220,12 @@ public class Player : Entity
         //location = cam.ViewportToWorldPoint(viewportPos);
 
         Camera.main.transform.position = new Vector3(location.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
+    }
+
+    //restore some health to the player
+    public void Restore()
+    {
+        //increase health
+        GameManager.GM.ChangeHealth(2);
     }
 }
