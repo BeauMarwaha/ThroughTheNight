@@ -12,10 +12,6 @@ public class TankEnemy : Entity {
 	private SteeringForces steering;
 	private Vector3 force; 
 
-	// required for player bullet collision detection
-	public CollisionHandler ch;
-	private GameObject[] pBullets;
-
 	// prefab required to create bullets
 	public GameObject orb;
 
@@ -27,7 +23,6 @@ public class TankEnemy : Entity {
 	protected override void Start () {
 		timer = cooldown + 1;
 		steering = GetComponent<SteeringForces> ();
-		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 0;
 		attack = 1;
 		health = 15f;
@@ -41,7 +36,6 @@ public class TankEnemy : Entity {
         {
             Death();
             Move();
-            TakeDamage(1);
             if (timer > cooldown)
             {
                 timer = 0;
@@ -69,21 +63,8 @@ public class TankEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// get an array of all bullets on the screen at a time
-		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
-
-		// check if the array is empty
-		if (pBullets.Length == 0) return;
-
-		// loop through the player bullet array
-		for (int i = 0; i < pBullets.Length; i++) {
-			// check for collision between player bullet and game object
-			if (ch.AABBCollision (gameObject, pBullets [i])) {
-
-				//decrement health
-				health -= damageTaken;
-			}
-		}
+		//decrement health
+		health -= damageTaken;
 	}
 
 	//method to handle when the entity attacks using projectiles

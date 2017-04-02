@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Parent Class for the different characters in the game
+/// Author: Kat Weis
+/// Parent Class for the different characters in the game--abstract
 /// </summary>
 public abstract class Entity : MonoBehaviour
 {

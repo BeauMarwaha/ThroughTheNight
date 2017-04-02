@@ -12,10 +12,6 @@ public class FlyingEnemy : Entity {
 	private SteeringForces steering;
 	private Vector3 force; 
 
-	// required for player bullet collision detection
-	public CollisionHandler ch;
-	private GameObject[] pBullets;
-
 	// prefab required to create bullets
 	public GameObject orb;
 
@@ -26,7 +22,6 @@ public class FlyingEnemy : Entity {
 	// Use this for initialization
 	protected override void Start () {
 		timer = cooldown + 1;
-		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		steering = GetComponent<SteeringForces> ();
 		speed = 100f;
 		attack = 1;
@@ -41,7 +36,6 @@ public class FlyingEnemy : Entity {
         {
             Death();
             Move();
-            TakeDamage(1);
             if (timer > cooldown)
             {
                 timer = 0;
@@ -72,14 +66,8 @@ public class FlyingEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// check for collision between player bullet and game object
-		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
-		if (pBullets.Length == 0) return;
-		for (int i = 0; i < pBullets.Length; i++) {
-			if (ch.AABBCollision (gameObject, pBullets [i])) {
-				health -= damageTaken;
-			}
-		}
+		//decrement health
+		health -= damageTaken;
 	}
 
 	//method to handle when the entity attacks using projectiles 

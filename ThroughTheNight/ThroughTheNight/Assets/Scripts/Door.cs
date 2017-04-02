@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Author: Beau Marwaha
+/// Author: Beau Marwaha, Dezmon Gilbert
 /// Represents a Door Object
 /// </summary>
 public class Door : MonoBehaviour {

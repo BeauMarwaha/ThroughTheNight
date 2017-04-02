@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
+/// Author: Kat Weis
 /// Represents the Player Object
 /// </summary>
 public class Player : Entity
@@ -14,9 +15,11 @@ public class Player : Entity
     //fields for shooting cooldown
     private float timer;
     public float coolDown; //time between shots //.5
+    //fields for invincibility frames
     private bool invincible;//whether or not the player is currently invincible
     public float invinTime;//length of time that you are invincible after being hit
     private float timerInvul;
+    //player state enum for animations and correct orientation
     private PlayerState pState;
     private Animator animate;
     private enum PlayerState
@@ -33,8 +36,10 @@ public class Player : Entity
         animate = this.GetComponent<Animator>();
         //instantiate timer to be higher than cooldown so that you can fire immediately
         timer = coolDown + 1;
+        //set player attributes
         speed = 11f;
         attack = 5;
+        //setup for invincibility frames
         timerInvul = 0;
         invincible = false;
 
@@ -57,18 +62,16 @@ public class Player : Entity
 
             Move();
 
-            //use input to test being damaged
-            if (Input.GetKeyDown(KeyCode.F))
-                TakeDamage(1);
-
+            //check if currently invincible
             if (invincible == true)
             {
+                //if the player has been invincible for longer than they should be turn it off
                 if (timerInvul > invinTime)
                 {
                     invincible = false;
                     timerInvul = 0;
                 }
-                else
+                else//otherwise increment the timer
                 {
                     timerInvul += Time.deltaTime;
                 }
@@ -92,11 +95,11 @@ public class Player : Entity
         }
     }
 
-    //method to move the entity
+    /// <summary>
+    /// method to move the player
+    /// </summary>
     protected override void Move()
     {
-
-
         if (Input.GetKey(KeyCode.D))
         {
             direction.x += 1;
@@ -119,34 +122,36 @@ public class Player : Entity
 
         Vector3 location = transform.position;
 
-            //calculate velocity from direction and speed times delta time so it is framerate independent
-            velocity += direction.normalized * speed * Time.deltaTime;
+        //calculate velocity from direction and speed times delta time so it is framerate independent
+        velocity += direction.normalized * speed * Time.deltaTime;
 
-            //update location by adding velocity
-            location = transform.position + velocity;
+        //update location by adding velocity
+        location = transform.position + velocity;
 
-            //clamp the x value so that the player cannot leave the room/screen
-            location.x = Mathf.Clamp(location.x, -9f, 9f);
+        //clamp the x value so that the player cannot leave the room/screen
+        location.x = Mathf.Clamp(location.x, -9f, 9f);
 
-            //upload new position
-            transform.position = new Vector3(location.x, transform.position.y, transform.position.z);
+        //upload new position
+        transform.position = new Vector3(location.x, transform.position.y, transform.position.z);
 
-            MoveCamera();
-        
-        
+        //move the camera with the player
+        MoveCamera();
     }
 
-    //method to handle when the entity dies
+    /// <summary>
+    /// Method to handle when the player dies
+    /// </summary>
     protected override void Death()
     {
         GameManager.GM.ChangeHealth(0);//set health to zero if it was negative
-
-        
     }
 
-    //method to handle when the entity is attacked and no facing direction is specified
+    /// <summary>
+    /// method to handle when the player is attacked and no facing direction is specified
+    /// </summary>
     public override void TakeDamage(int damageTaken)
     {
+        //don't apply if in invincibility frames
         if (invincible == true)
         {
             return;
@@ -162,10 +167,13 @@ public class Player : Entity
 
     }
 
-    //method to handle when the entity is attacked
+    /// <summary>
+    /// method to handle when the player is attacked
+    /// </summary>
     public void TakeDamage(int damageTaken, bool faceRight)
     {
-        if(invincible == true)
+        //don't apply if in invincibility frames
+        if (invincible == true)
         {
             return;
         }
@@ -179,11 +187,11 @@ public class Player : Entity
         invincible = true;
     }
 
-    //method to handle when the entity attacks
+    /// <summary>
+    /// method to handle when the player attacks
+    /// </summary>
     protected override void Attack()
     {
-        //Debug.Log("pew");
-
         //shoot a projectile
         GameObject orb = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0, transform.rotation.z)) as GameObject;
 
@@ -199,19 +207,22 @@ public class Player : Entity
         //convert angle from rads to deg and add 180 to compensate for being backwards
         mouseRot = Mathf.Rad2Deg * mouseRot + 180f;
         //set the rotation angle as an Euler angle
-        orb.transform.rotation = Quaternion.Euler(0,0, mouseRot)  ;
-        
+        orb.transform.rotation = Quaternion.Euler(0,0, mouseRot)  ; 
 
     }
 
-    //applies a pushback on the player depending on which direction they were attacked from
+    /// <summary>
+    /// applies a pushback on the player depending on which direction they were attacked from
+    /// </summary>
+    /// <param name="faceRight">direction</param>
     private void Knockback(bool faceRight)
     {
-        if(faceRight)
+        if(faceRight)//knockback left
         {
             transform.position = new Vector3(transform.position.x - knockback, transform.position.y, transform.position.z);
             return;
         }
+        //else knockback right
         transform.position = new Vector3(transform.position.x + knockback, transform.position.y, transform.position.z);
     }
 
@@ -219,22 +230,22 @@ public class Player : Entity
     private void MoveCamera()
     {
         //maybe offset the location off from the player // player to the left
-        //need to know the aspect location
 
         Vector3 location = transform.position;
 
+        //get camera
         Camera cam = Camera.main;
 
-        //Vector3 viewportPos = cam.WorldToViewportPoint(location);
-
+        //clamp x location to in room
         location.x = Mathf.Clamp(location.x, -3.35f, 3.5f);
 
-        //location = cam.ViewportToWorldPoint(viewportPos);
-
+        //set the cameras transform
         Camera.main.transform.position = new Vector3(location.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
     }
 
-    //restore some health to the player
+    /// <summary>
+    /// restore some health to the player
+    /// </summary>
     public void Restore()
     {
         //increase health
