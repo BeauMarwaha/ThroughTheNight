@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// Author: Dezmon Gilbert
 /// Represents a Tank Enemy
 /// </summary>
 public class TankEnemy : Entity {
 
-	// variables 
+	// required for steering forces
 	private SteeringForces steering;
+	private Vector3 force; 
+
+	// required for player bullet collision detection
 	public CollisionHandler ch;
+	private GameObject[] pBullets;
+
+	// prefab required to create bullets
 	public GameObject orb;
-	private Vector3 force;
+
+	// required for attack timing
 	private float timer;
 	public int cooldown;
 
@@ -61,11 +69,18 @@ public class TankEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// check for collision between player bullet and game object
-		GameObject[] pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+		// get an array of all bullets on the screen at a time
+		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
+
+		// check if the array is empty
 		if (pBullets.Length == 0) return;
+
+		// loop through the player bullet array
 		for (int i = 0; i < pBullets.Length; i++) {
+			// check for collision between player bullet and game object
 			if (ch.AABBCollision (gameObject, pBullets [i])) {
+
+				//decrement health
 				health -= damageTaken;
 			}
 		}
@@ -75,11 +90,11 @@ public class TankEnemy : Entity {
 	protected override void Attack(){
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
-        bullet.GetComponent<Projectile>().parent = this.gameObject;
-		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
-	}
 
-	public float GetAttack(){
-		return attack;
+		// set the parent of the game object in the script
+        bullet.GetComponent<Projectile>().parent = this.gameObject;
+
+		// shoot the bullet toward the player
+		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
 	}
 }
