@@ -18,7 +18,7 @@ public class Player : Entity
     public float invinTime;//length of time that you are invincible after being hit
     private float timerInvul;
     private PlayerState pState;
-
+    private Animator animate;
     private enum PlayerState
     {
         MovingLeft,
@@ -30,6 +30,7 @@ public class Player : Entity
     // Use this for initialization
     protected override void Start ()
     {
+        animate = this.GetComponent<Animator>();
         //instantiate timer to be higher than cooldown so that you can fire immediately
         timer = coolDown + 1;
         speed = 11f;
@@ -46,7 +47,7 @@ public class Player : Entity
         if (GameManager.GM.currentState != State.Message && GameManager.GM.currentState != State.Over && GameManager.GM.currentState != State.Secret)
         {
             //if the player is in the facing left state swap its texture
-            if (pState == PlayerState.FacingLeft)
+            if (pState == PlayerState.FacingLeft || pState == PlayerState.MovingLeft)
                 gameObject.GetComponent<SpriteRenderer>().flipX = true;
             else
                 gameObject.GetComponent<SpriteRenderer>().flipX = false;
@@ -94,21 +95,29 @@ public class Player : Entity
     //method to move the entity
     protected override void Move()
     {
-        
-            if (Input.GetKey(KeyCode.D))
-            {
-                direction.x += 1;
-                pState = PlayerState.FacingRight;
-            }
 
 
-            if (Input.GetKey(KeyCode.A))
-            {
-                direction.x -= 1;
-                pState = PlayerState.FacingLeft;
-            }
+        if (Input.GetKey(KeyCode.D))
+        {
+            direction.x += 1;
+            pState = PlayerState.MovingRight;
+            animate.SetBool("Moving", true);
+        }else if (Input.GetKey(KeyCode.A))
+        {
+            direction.x -= 1;
+            pState = PlayerState.MovingLeft;
+            animate.SetBool("Moving", true);
+        }else if (Input.GetKeyUp(KeyCode.D))
+        {
+            pState = PlayerState.FacingRight;
+            animate.SetBool("Moving", false);
+        }else if (Input.GetKeyUp(KeyCode.A))
+        {
+            pState = PlayerState.FacingLeft;
+            animate.SetBool("Moving", false);
+        }
 
-            Vector3 location = transform.position;
+        Vector3 location = transform.position;
 
             //calculate velocity from direction and speed times delta time so it is framerate independent
             velocity += direction.normalized * speed * Time.deltaTime;
