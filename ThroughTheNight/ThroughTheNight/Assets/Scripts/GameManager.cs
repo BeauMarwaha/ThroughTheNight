@@ -188,6 +188,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Input.GetMouseButtonDown(0) && messages.Count -1 != currentMessage)
             {
+				aSource.Stop ();
                 currentMessage++;
                 message.text = messages[currentMessage];
                 aSource.PlayOneShot(audioClips[currentMessage]);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// Author: Dezmon Gilbert
 /// Represents a Flying Enemy
 /// </summary>
 public class FlyingEnemy : Entity {
@@ -79,9 +80,5 @@ public class FlyingEnemy : Entity {
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
 		bullet.transform.right = -1 * (steering.player.transform.position - transform.position).normalized;
-	}
-
-	public float GetAttack(){
-		return attack;
 	}
 }

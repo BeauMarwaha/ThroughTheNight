@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Author: Dezmon Gilbert
+/// Helps to calculate steering forces for enemies.
+/// </summary>
 public class SteeringForces : MonoBehaviour {
 
 	// needed for referencing the player location
