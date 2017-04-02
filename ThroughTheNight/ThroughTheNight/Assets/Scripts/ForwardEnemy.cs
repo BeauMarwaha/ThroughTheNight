@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a Forward Enemy
+/// </summary>
 public class ForwardEnemy :  Entity {
+
+	// variables
 	public CollisionHandler ch;
 	private SteeringForces steering;
 	private Vector3 force;
@@ -22,26 +27,15 @@ public class ForwardEnemy :  Entity {
 
 	// Update is called once per frame
 	protected override void Update () {
-        if (GameManager.GM.currentState != State.Message)
+        if (GameManager.GM.currentState != State.Message && GameManager.GM.currentState != State.Over && GameManager.GM.currentState != State.Secret)
         {
             Death();
             Move();
             Rotate();
-            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
             TakeDamage(1);
             Attack();
         }
 
-	}
-
-	public override void Spawn(Vector3 location, Vector3 rotation){
-
-	}
-
-
-	//method to spawn entity into the game
-	public GameObject Spawn(GameObject prefab, Vector3 location, Vector3 rotation){
-		return (GameObject)Instantiate (prefab, location, Quaternion.Euler(rotation));
 	}
 
 	//method to move the entity
@@ -53,7 +47,6 @@ public class ForwardEnemy :  Entity {
 			facingLeft = false;
 			force += steering.Arrival (steering.player.transform.position, velocity, speed) * 300f;
 		}
-		//if (steering.player.activeInHierarchy == false) return;
 		Debug.Log (Vector3.Dot (steering.player.transform.position, transform.right) );
 		force = Vector3.ClampMagnitude (force, 100f);
 		steering.ApplyForce (force);
@@ -65,10 +58,11 @@ public class ForwardEnemy :  Entity {
 	protected override void Death(){
 		// destroy the game object 
 		if (health <= 0) {
-			// TO-DO: increment player currency
+            // TO-DO: increment player currency
 
 
-			// destroy enemy object
+            // destroy enemy object
+            GameManager.GM.DefeatEnemy();
 			Destroy (gameObject);
 		}
 	}
@@ -85,16 +79,15 @@ public class ForwardEnemy :  Entity {
 		}
 	}
 
-	//method to handle when the entity attacks
-	protected override void Attack(){
-
-	}
+	//method to handle when the entity attacks using projectiles
+	// attacking by this enemy is handled in the CollisionHandler as this enemy doesn't use projectiles
+	protected override void Attack(){}
 
 	public float GetAttack(){
 		return attack;
 	}
 
-	public void Rotate(){
+	protected void Rotate(){
 		if (facingLeft == true) {
 			gameObject.GetComponent<SpriteRenderer> ().flipX = true;
 		} 

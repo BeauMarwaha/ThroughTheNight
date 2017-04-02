@@ -1,7 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Represents the Player Object
+/// </summary>
 public class Player : Entity
 {
     //fields
@@ -30,7 +34,6 @@ public class Player : Entity
         timer = coolDown + 1;
         speed = 5;
         attack = 5;
-        Spawn(Vector3.zero, Vector3.zero);
         timerInvul = 0;
         invincible = false;
 
@@ -40,62 +43,58 @@ public class Player : Entity
 	// Update is called once per frame
 	protected override void Update ()
     {
-        //if the player is in the facing left state swap its texture
-        if(pState == PlayerState.FacingLeft)
-        gameObject.GetComponent<SpriteRenderer>().flipX = true;
-        else
-            gameObject.GetComponent<SpriteRenderer>().flipX = false;
-
-        direction = Vector3.zero;//reset direction to zero
-        velocity = Vector3.zero;//reset velocity to zero
-
-        Move();
-
-        //use input to test being damaged
-        if (Input.GetKeyDown(KeyCode.F))
-			TakeDamage(1);
-
-        if(invincible == true)
+        if (GameManager.GM.currentState != State.Message && GameManager.GM.currentState != State.Over && GameManager.GM.currentState != State.Secret)
         {
-            if (timerInvul > invinTime)
-            {
-                invincible = false;
-                timerInvul = 0;
-            }
+            //if the player is in the facing left state swap its texture
+            if (pState == PlayerState.FacingLeft)
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
             else
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
+
+            direction = Vector3.zero;//reset direction to zero
+            velocity = Vector3.zero;//reset velocity to zero
+
+            Move();
+
+            //use input to test being damaged
+            if (Input.GetKeyDown(KeyCode.F))
+                TakeDamage(1);
+
+            if (invincible == true)
             {
-                timerInvul += Time.deltaTime;
+                if (timerInvul > invinTime)
+                {
+                    invincible = false;
+                    timerInvul = 0;
+                }
+                else
+                {
+                    timerInvul += Time.deltaTime;
+                }
             }
+
+
+            //check for if the player's health is gone
+            if (GameManager.GM.healthNum <= 0)
+            {
+                Death();
+            }
+
+            //if the player clicks, fire a projectile at where the mouse is currently
+            if (Input.GetMouseButtonDown(0) && timer > coolDown)
+            {
+                Attack();
+                timer = 0;
+            }
+            //increment timer
+            timer += Time.deltaTime;
         }
-        
-
-        //check for if the player's health is gone
-        if (GameManager.GM.healthNum <= 0)
-        {
-            Death();
-        }
-
-        //if the player clicks, fire a projectile at where the mouse is currently
-        if(Input.GetMouseButtonDown(0) && timer > coolDown)
-        {
-            Attack();
-            timer = 0;
-        }
-        //increment timer
-        timer+= Time.deltaTime;
-    }
-
-    //method to spawn entity into the game
-    public override void Spawn(Vector3 location, Vector3 rotation)
-    {
-
     }
 
     //method to move the entity
     protected override void Move()
     {
-        if(GameManager.GM.currentState != State.Message)
-        {
+        
             if (Input.GetKey(KeyCode.D))
             {
                 direction.x += 1;
@@ -124,7 +123,7 @@ public class Player : Entity
             transform.position = new Vector3(location.x, transform.position.y, transform.position.z);
 
             MoveCamera();
-        }
+        
         
     }
 
@@ -132,7 +131,8 @@ public class Player : Entity
     protected override void Death()
     {
         GameManager.GM.ChangeHealth(0);//set health to zero if it was negative
-        Debug.Log("You ded scrub");
+
+        
     }
 
     //method to handle when the entity is attacked and no facing direction is specified
@@ -173,7 +173,7 @@ public class Player : Entity
     //method to handle when the entity attacks
     protected override void Attack()
     {
-        Debug.Log("pew");
+        //Debug.Log("pew");
 
         //shoot a projectile
         GameObject orb = Instantiate(bulletPrefab, transform.position, Quaternion.Euler(0,0, transform.rotation.z)) as GameObject;
@@ -192,6 +192,7 @@ public class Player : Entity
 
     }
 
+    //applies a pushback on the player depending on which direction they were attacked from
     private void Knockback(bool faceRight)
     {
         if(faceRight)
@@ -202,6 +203,7 @@ public class Player : Entity
         transform.position = new Vector3(transform.position.x + knockback, transform.position.y, transform.position.z);
     }
 
+    //moves the camera with the play but within the room
     private void MoveCamera()
     {
         //maybe offset the location off from the player // player to the left
@@ -218,5 +220,12 @@ public class Player : Entity
         //location = cam.ViewportToWorldPoint(viewportPos);
 
         Camera.main.transform.position = new Vector3(location.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
+    }
+
+    //restore some health to the player
+    public void Restore()
+    {
+        //increase health
+        GameManager.GM.ChangeHealth(2);
     }
 }

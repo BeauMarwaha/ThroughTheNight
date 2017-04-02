@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Manages Enemies in the game
+/// </summary>
 public class EnemyManager : MonoBehaviour {
 	public int enemiesLeft;
 	public GameObject flyingPrefab;

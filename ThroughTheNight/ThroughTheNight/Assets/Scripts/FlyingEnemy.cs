@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a Flying Enemy
+/// </summary>
 public class FlyingEnemy : Entity {
+
+	// variables
 	public GameObject orb;
 	public CollisionHandler ch;
 	private SteeringForces steering;
@@ -24,7 +29,7 @@ public class FlyingEnemy : Entity {
 
 	// Update is called once per frame
 	protected override void Update () {
-        if (GameManager.GM.currentState != State.Message)
+        if (GameManager.GM.currentState != State.Message && GameManager.GM.currentState != State.Over && GameManager.GM.currentState != State.Secret)
         {
             Death();
             Move();
@@ -36,16 +41,6 @@ public class FlyingEnemy : Entity {
             }
             timer += Time.deltaTime;
         }
-	}
-
-	public override void Spawn(Vector3 location, Vector3 rotation){
-
-	}
-
-
-	//method to spawn entity into the game
-	public GameObject Spawn(GameObject prefab, Vector3 location, Vector3 rotation){
-		return (GameObject)Instantiate (prefab, location, Quaternion.Euler(rotation));
 	}
 
 	//method to move the entity
@@ -61,11 +56,12 @@ public class FlyingEnemy : Entity {
 	protected override void Death(){
 		// destroy the game object 
 		if (health <= 0) {
-			// TO-DO: increment player currency
+            // TO-DO: increment player currency
 
 
-			// destroy enemy object
-			Destroy (gameObject);
+            // destroy enemy object
+            GameManager.GM.DefeatEnemy();
+            Destroy (gameObject);
 		}
 	}
 
@@ -81,7 +77,7 @@ public class FlyingEnemy : Entity {
 		}
 	}
 
-	//method to handle when the entity attacks
+	//method to handle when the entity attacks using projectiles 
 	protected override void Attack(){
 		// create bullet
 		GameObject bullet = (GameObject)Instantiate(orb, transform.position,Quaternion.identity);
