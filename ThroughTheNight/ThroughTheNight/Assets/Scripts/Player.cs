@@ -22,6 +22,12 @@ public class Player : Entity
     //player state enum for animations and correct orientation
     private PlayerState pState;
     private Animator animate;
+
+    //timer for flashing red when hit
+    private float redLong = .5f;
+    private float timerColor;
+    private bool red;
+
     private enum PlayerState
     {
         MovingLeft,
@@ -33,6 +39,9 @@ public class Player : Entity
     // Use this for initialization
     protected override void Start ()
     {
+        timerColor = 0;
+        red = false;
+
         animate = this.GetComponent<Animator>();
         //instantiate timer to be higher than cooldown so that you can fire immediately
         timer = coolDown + 1;
@@ -62,6 +71,18 @@ public class Player : Entity
 
             Move();
 
+            if (red)
+            {
+                if (timerColor > redLong)
+                {
+                    timerColor = 0;
+                    red = false;
+                    gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                    return;
+                }
+                timerColor += Time.deltaTime;
+            }
+
             //check if currently invincible
             if (invincible == true)
             {
@@ -76,6 +97,7 @@ public class Player : Entity
                     timerInvul += Time.deltaTime;
                 }
             }
+            
 
 
             //check for if the player's health is gone
@@ -165,6 +187,10 @@ public class Player : Entity
         //apply invincibility
         invincible = true;
 
+        //flash red
+        red = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+
     }
 
     /// <summary>
@@ -185,6 +211,10 @@ public class Player : Entity
 
         //apply invincibility
         invincible = true;
+
+        //flash red
+        red = true;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     /// <summary>
