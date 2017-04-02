@@ -10,6 +10,7 @@ public class CollisionHandler : MonoBehaviour {
 
     //attributes
     private GameObject player;
+    private GameObject secret;
     private GameObject[] enemies;
     private GameObject[] pBullets; //player bullets
     private GameObject[] eBullets; //enemy bullets
@@ -29,6 +30,7 @@ public class CollisionHandler : MonoBehaviour {
     {
         //Update player and enemies refs
         player = GameObject.FindGameObjectWithTag("Player");
+        secret = GameObject.FindGameObjectWithTag("Secret");
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         //Check for collisions between the player and all enemies
@@ -187,7 +189,9 @@ public class CollisionHandler : MonoBehaviour {
 
     }
 
-
+    /// <summary>
+    /// Checks using circle collision whether player and enemy bullets are colliding
+    /// </summary>
     private void PBulletEBulletCollisionCheck()
     {
         //update player bullet list
@@ -212,6 +216,9 @@ public class CollisionHandler : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Checks using AABB collision whether the player is colliding with any hearts
+    /// </summary>
     private void HeartPlayerCollisionCheck()
     {
         //update bullet list
@@ -227,6 +234,18 @@ public class CollisionHandler : MonoBehaviour {
 
                 Destroy(h);
             }
+        }
+    }
+
+    /// <summary>
+    /// Checks using AABB collision whether the player is colliding with the secret, nope, not telling you what it is
+    /// </summary>
+    private void SecretPlayerCollisionCheck()
+    {
+        if (AABBCollision(player, secret) && Input.GetKeyDown(KeyCode.E))
+        {
+            //if colliding and user pressed E activate secret
+            
         }
     }
 
