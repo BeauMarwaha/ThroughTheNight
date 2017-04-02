@@ -21,7 +21,7 @@ public class Player : Entity
     private float timerInvul;
     //player state enum for animations and correct orientation
     private PlayerState pState;
-
+    private Animator animate;
     private enum PlayerState
     {
         MovingLeft,
@@ -33,6 +33,7 @@ public class Player : Entity
     // Use this for initialization
     protected override void Start ()
     {
+        animate = this.GetComponent<Animator>();
         //instantiate timer to be higher than cooldown so that you can fire immediately
         timer = coolDown + 1;
         //set player attributes
@@ -51,7 +52,7 @@ public class Player : Entity
         if (GameManager.GM.currentState != State.Message && GameManager.GM.currentState != State.Over && GameManager.GM.currentState != State.Secret)
         {
             //if the player is in the facing left state swap its texture
-            if (pState == PlayerState.FacingLeft)
+            if (pState == PlayerState.FacingLeft || pState == PlayerState.MovingLeft)
                 gameObject.GetComponent<SpriteRenderer>().flipX = true;
             else
                 gameObject.GetComponent<SpriteRenderer>().flipX = false;
@@ -99,18 +100,24 @@ public class Player : Entity
     /// </summary>
     protected override void Move()
     {
-        //move right
         if (Input.GetKey(KeyCode.D))
         {
             direction.x += 1;
-            pState = PlayerState.FacingRight;
-        }
-
-        //move left
-        if (Input.GetKey(KeyCode.A))
+            pState = PlayerState.MovingRight;
+            animate.SetBool("Moving", true);
+        }else if (Input.GetKey(KeyCode.A))
         {
             direction.x -= 1;
+            pState = PlayerState.MovingLeft;
+            animate.SetBool("Moving", true);
+        }else if (Input.GetKeyUp(KeyCode.D))
+        {
+            pState = PlayerState.FacingRight;
+            animate.SetBool("Moving", false);
+        }else if (Input.GetKeyUp(KeyCode.A))
+        {
             pState = PlayerState.FacingLeft;
+            animate.SetBool("Moving", false);
         }
 
         Vector3 location = transform.position;

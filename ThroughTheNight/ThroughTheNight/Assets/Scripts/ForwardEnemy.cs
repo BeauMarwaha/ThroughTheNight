@@ -12,10 +12,6 @@ public class ForwardEnemy :  Entity {
 	private SteeringForces steering;
 	private Vector3 force; 
 
-	// required for player bullet collision detection
-	public CollisionHandler ch;
-	private GameObject[] pBullets;
-
 	// prefab required to create bullets
 	public GameObject orb;
 
@@ -29,7 +25,6 @@ public class ForwardEnemy :  Entity {
 	// Use this for initialization
 	protected override void Start () {
 		steering = GetComponent<SteeringForces> ();
-		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 50f;
 		attack = 1;
 		health = 10f;
@@ -44,7 +39,6 @@ public class ForwardEnemy :  Entity {
             Death();
             Move();
             Rotate();
-            TakeDamage(1);
             Attack();
         }
 
@@ -78,21 +72,8 @@ public class ForwardEnemy :  Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// get an array of all bullets on the screen at a time
-		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
-
-		// check if the array is empty
-		if (pBullets.Length == 0) return;
-
-		// loop through the player bullet array
-		for (int i = 0; i < pBullets.Length; i++) {
-			// check for collision between player bullet and game object
-			if (ch.AABBCollision (gameObject, pBullets [i])) {
-
-				//decrement health
-				health -= damageTaken;
-			}
-		}
+		//decrement health
+		health -= damageTaken;
 	}
 
 	//method to handle when the entity attacks using projectiles

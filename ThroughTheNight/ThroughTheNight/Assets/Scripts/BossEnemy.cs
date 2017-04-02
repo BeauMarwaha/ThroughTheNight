@@ -12,10 +12,6 @@ public class BossEnemy : Entity {
 	private SteeringForces steering;
 	private Vector3 force; 
 
-	// required for player bullet collision detection
-	public CollisionHandler ch;
-	private GameObject[] pBullets;
-
 	// prefab required to create bullets
 	public GameObject orb;
 
@@ -42,7 +38,6 @@ public class BossEnemy : Entity {
 		projectileTimer = projectileCooldown + 1;
 		switchTimer = 0;
 		steering = GetComponent<SteeringForces> ();
-		ch = GameObject.Find ("GameManager").GetComponent<CollisionHandler> ();
 		speed = 50f;
 		attack = 1;
 		health = 65f;
@@ -58,7 +53,6 @@ public class BossEnemy : Entity {
 			SwitchModes ();
 			Move();
 			Rotate ();
-			TakeDamage(1);
 			if (em == EnemyMode.Tank) {
 				if (projectileTimer > projectileCooldown)
 				{
@@ -108,21 +102,8 @@ public class BossEnemy : Entity {
 
 	//method to handle when the entity is attacked
 	public override void TakeDamage(int damageTaken){
-		// get an array of all bullets on the screen at a time
-		pBullets = GameObject.FindGameObjectsWithTag("pBullet");
-
-		// check if the array is empty
-		if (pBullets.Length == 0) return;
-
-		// loop through the player bullet array
-		for (int i = 0; i < pBullets.Length; i++) {
-			// check for collision between player bullet and game object
-			if (ch.AABBCollision (gameObject, pBullets [i])) {
-
-				//decrement health
-				health -= damageTaken;
-			}
-		}
+		//decrement health
+		health -= damageTaken;
 	}
 
     /// <summary>
